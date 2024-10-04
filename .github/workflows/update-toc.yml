@@ -1,0 +1,26 @@
+name: Update Table of Contents
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.md'
+
+jobs:
+  update-toc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install markdown-toc
+        run: npm install -g markdown-toc
+      - name: Update TOC
+        run: markdown-toc -i README.md
+      - name: Commit changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add README.md
+          git commit -m "Update TOC" || echo "No changes to commit"
+          git push
