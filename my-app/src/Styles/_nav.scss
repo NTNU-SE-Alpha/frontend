@@ -1,0 +1,182 @@
+$black: #000000;
+$white: #ffffff;
+$purple: #433083;
+$light_orange: #ffead8;
+$red: #ff0000;
+$light-blue: #19a6a2;
+$brown: #794221;
+$orange-2: #da5512;
+
+// nav {
+// z-index: 3;
+// position: fixed;
+// width: 100%;
+// // height: 54px;
+// top: 0;
+// left: 0;
+// background: $purple;
+// filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+// // animation-name: banner_animation;
+// // animation-duration: 5s;
+// // animation-iteration-count: infinite;
+// }
+
+.banner_logo {
+  height: 50px;
+  animation-name: logo_spin;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+.home_link {
+  width: 20%;
+  position: relative;
+  align-self: center;
+  margin-left: 16px;
+  // top: 2px;
+  // left: 5px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.nav_ul {
+  list-style: none;
+  margin: auto;
+  padding: 5px 20px;
+  // border-bottom: 2px solid $light_orange;;
+  overflow: hidden;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+
+  li.banner_button {
+    float: right;
+    margin: 0px;
+    position: relative;
+    top: 1px;
+    width: 100px;
+
+    a {
+      background-color: $purple;
+      border-width: 4px;
+      border-style: solid;
+      border-color: $purple;
+      border-radius: 32px;
+      font-size: 16px;
+      font-weight: bold;
+      display: block;
+      padding: 8px 8px;
+      text-align: center;
+      text-decoration: none;
+      color: $white;
+    }
+
+    :hover {
+      border-style: solid;
+      border-color: $light-blue;
+      animation-name: button_animation;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+    }
+
+    :active {
+      border-style: solid;
+      border-color: $light-blue;
+      background-color: $light-blue;
+    }
+  }
+
+  li.banner_button_register {
+    float: right;
+    margin: 0px;
+    position: relative;
+    top: 1px;
+    width: 100px;
+
+    a {
+      background-color: $orange-2;
+      border-width: 4px;
+      border-style: solid;
+      border-color: $purple;
+      border-radius: 32px;
+      font-size: 16px;
+      font-weight: bold;
+      display: block;
+      padding: 8px 8px;
+      text-align: center;
+      text-decoration: none;
+      color: $white;
+    }
+
+    :hover {
+      border-style: solid;
+      border-color: $orange-2;
+      background-color: $purple;
+      animation-name: button_animation;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+    }
+
+    :active {
+      background-color: $orange-2;
+    }
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .nav_ul {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 980px) and (min-height: 900px) {
+  .banner_logo {
+    height: 50px;
+  }
+}
+
+// @keyframes banner_animation {
+//   0% {
+//     background-color: $purple ;
+//   }
+//   50% {
+//     background-color: orange;
+//   }
+//   100% {
+//     background-color: $purple;
+//   }
+// }
+@keyframes button_animation {
+  0% {
+    // background-color: $purple;
+    filter: brightness(1);
+  }
+
+  50% {
+    // background-color: $light-blue;
+    filter: brightness(1.2);
+  }
+
+  100% {
+    // background-color: $purple;
+    filter: brightness(1);
+  }
+}
+
+@keyframes logo_spin {
+  0% {
+    transform: rotate(-30deg);
+  }
+
+  50% {
+    transform: rotate(30deg);
+  }
+
+  100% {
+    transform: rotate(-30deg);
+  }
+}

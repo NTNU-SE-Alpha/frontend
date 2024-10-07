@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 import styled from 'styled-components';
-const LoginContainer = styled.div`
+const ForgetPasswordContainer = styled.div`
 
   display: flex;
   height: 100vh;
@@ -63,7 +63,7 @@ const LoginContainer = styled.div`
         border: none;
         border-radius: 30px;
         color: white;
-        font-size: 2rem;
+        font-size: 1.2rem;
         font-weight: 900;
         cursor: pointer;
         transition: background 0.3s ease;
@@ -97,28 +97,30 @@ const LoginContainer = styled.div`
 
 `;
 
-const Login = () => {
-    return (
-        <LoginContainer>
-            <section className='left'>
-                <img src='images/loginbg.png' alt='pic' />
-            </section>
-            <section className='right'>
-                <h1>登入</h1>
-                <form>
-                <input type='text' placeholder='電子信箱' />
-                <br />
-                <input type='password' placeholder='密碼' />
-                <br />
-                <button className='submit-btn'>→</button>
-                </form>
-                <div className='links'>
-                <a href='/forgetpassword'>忘記密碼?</a>
-                <a href='/register'>註冊→</a>
-                </div>
-            </section>
-        </LoginContainer>
-    );
+const ForgetPassword = () => {
+  return (
+    <ForgetPasswordContainer>
+        <section className='left'>
+            <img src='images/loginbg.png' alt='pic' />
+        </section>
+        <section className='right'>
+            <h1>註冊</h1>
+            <form>
+            <input type='text' placeholder='您的電子信箱' />
+            <br />
+            <input type='password' placeholder='請輸入密碼' />
+            <br />
+            <input type='password' placeholder='再次確認密碼' />
+            <br />
+            <button className='submit-btn'>寄送驗證信 →</button>
+            </form>
+            <div className='links'>
+            <a href='/forgetpassword'>忘記密碼?</a>
+            <a href='/login'>返回登入</a>
+            </div>
+        </section>
+    </ForgetPasswordContainer>
+  )
 }
 
-export default Login;
+export default ForgetPassword
