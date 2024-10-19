@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const CourseCardContainer = styled.div`
-  width: 300px;
-  height: 200px;
   aspect-ratio: calc(263/197);
   
   border-radius: 10px;
@@ -13,7 +11,7 @@ const CourseCardContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 10px;
+  /* margin: 10px; */
 
   svg{
     position: absolute;
@@ -39,10 +37,10 @@ const CourseImage = styled.img`
   border-radius: 10px;
 `;
 
-const CourseTitle = styled.div`
+const CourseTitle = styled.a`
   font-size: 18px;
-  width: 100%;
   text-align: center;
+  width: 100%;
   
   color: #fff;
   padding: 12px;
@@ -51,10 +49,11 @@ const CourseTitle = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  text-decoration: none;
 `;
 
 
-const CourseCard = ({ isFavorite, toggleFavorite }) => {
+const CourseCard = ({ isFavorite, toggleFavorite, image, name, id }) => {
   const [isFilled, setIsFilled] = useState(false);
 
   const StarHandler = () => {
@@ -69,8 +68,8 @@ const CourseCard = ({ isFavorite, toggleFavorite }) => {
         // 空心星星
         <svg onClick={StarHandler} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
       )}
-    <CourseImage src='images/c1.png' alt="課程圖片" />
-      <CourseTitle>軟體工程</CourseTitle>
+    <CourseImage src={image} alt="課程圖片" />
+      <CourseTitle href={`/course/${id}`}>{name}</CourseTitle>
     </CourseCardContainer>
   );
 }

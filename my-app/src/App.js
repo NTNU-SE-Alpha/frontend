@@ -11,7 +11,7 @@ import Course from './Pages/Course';
 function App() {
   return (
     <div className="App">
-      {/* <Nav /> */}
+      <Nav />
       <Routes>
         <Route path="/" element={<Home />} exact />
         <Route path="/login" element={<Login />} exact />

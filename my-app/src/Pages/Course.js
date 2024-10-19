@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import CourseCard from '../Components/CourseCard';
 const FlexCard = styled.div`
-  display: flex;
-  width: 100vw;
+  display: grid;
+  /* width: 70vw; */
+  grid-template-columns: repeat(auto-fit, 263px);
+  gap: 20px;
   justify-content: center;
-  flex-wrap: wrap;
 `; 
 const Searchbar = styled.div`
   margin: 20px;
@@ -51,46 +52,46 @@ const Course = () => {
   const [classes, setClasses] = useState([
     {
       id: 1,
-      name: "Mathematics",
+      name: "軟體工程",
       teacher: "Mr. Chen",
       weekday: "Monday",
       semester: "2024 Spring",
       archive: false,
       isFavorite: false,
-      image: "https://images.unsplash.com/photo-1612838320302-4b3b3b3b3b3b",
+      image: "images/c1.png",
       order: 1
     },
     {
       id: 2,
-      name: "Physics",
+      name: "資訊科技",
       teacher: "Mrs. Wang",
       weekday: "Wednesday",
       semester: "2024 Spring",
       archive: false,
       isFavorite: false,
-      image: "https://images.unsplash.com/photo-1612838320302-4b3b3b3b3b3b",
+      image: "images/c1.png",
       order: 2
     },
     {
       id: 3,
-      name: "Chemistry",
+      name: "化學",
       teacher: "Mr. Li",
       weekday: "Friday",
       semester: "2024 Fall",
       archive: true,
       isFavorite: false,
-      image: "https://images.unsplash.com/photo-1612838320302-4b3b3b3b3b3b",
+      image: "images/loginbg.png",
       order: 3
     },
     {
       id: 4,
-      name: "Biology",
+      name: "生物",
       teacher: "Mrs. Chang",
       weekday: "Tuesday",
       semester: "2024 Fall",
       archive: true,
       isFavorite: false,
-      image: "https://images.unsplash.com/photo-1612838320302-4b3b3b3b3b3b",
+      image: "images/c1.png",
       order: 4
     }
   ]);
@@ -119,6 +120,9 @@ const Course = () => {
               key={id}
               isFavorite={isFavorite}
               toggleFavorite={() => toggleFavorite(index)}
+              image={classes[index].image}
+              name={classes[index].name}
+              id = {classes[index].id}
             />
           ))}
         </FlexCard>
