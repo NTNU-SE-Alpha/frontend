@@ -7,6 +7,7 @@ import Nav from './Components/Nav';
 import Home from './Pages/Home';
 import FileUpload from './Pages/FileUpload';
 import Course from './Pages/Course';
+import Chat from './Pages/Chat';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/register" element={<Register />} exact />
         <Route path="/fileupload" element={<FileUpload />} exact />
         <Route path="/course" element={<Course />} exact />
+        <Route path="/chat" element={<Chat />} exact />
       </Routes>
     </div>
   );
