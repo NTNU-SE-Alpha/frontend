@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const LoginContainer = styled.div`
 
   display: flex;
@@ -98,26 +100,63 @@ const LoginContainer = styled.div`
 `;
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/login', {
+                username: email,
+                password: password
+            });
+            if (response.data.access_token) {
+                // 將 JWT 存儲在 localStorage 或 sessionStorage 中
+                localStorage.setItem('token', response.data.access_token);
+                console.log(response.data)
+                setMessage('登入成功！');
+                navigate('/profile'); 
+            }
+        } catch (error) {
+            const errorMessage = error.response && error.response.data && error.response.data.message 
+              ? error.response.data.message 
+              : error.message;
+
+            console.log('登入失敗：', errorMessage);
+            setMessage(errorMessage);
+          }
+    };
     return (
-        <LoginContainer>
-            <section className='left'>
-                <img src='images/loginbg.png' alt='pic' />
-            </section>
-            <section className='right'>
-                <h1>登入</h1>
-                <form>
-                <input type='text' placeholder='電子信箱' />
-                <br />
-                <input type='password' placeholder='密碼' />
-                <br />
-                <button className='submit-btn'>→</button>
-                </form>
-                <div className='links'>
+      <LoginContainer>
+        <section className='left'>
+            <img src='images/loginbg.png' alt='pic' />
+        </section>
+        <section className='right'>
+            <h1>登入</h1>
+            <form onSubmit={handleLogin}>
+                <input
+                    type='text'
+                    placeholder='電子信箱'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <input
+                    type='password'
+                    placeholder='密碼'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type='submit' className='submit-btn'>→</button>
+            </form>
+            <div className='links'>
                 <a href='/forgetpassword'>忘記密碼?</a>
                 <a href='/register'>註冊→</a>
-                </div>
-            </section>
-        </LoginContainer>
+            </div>
+            <p>{message}</p>
+        </section>
+      </LoginContainer>
     );
 }
 

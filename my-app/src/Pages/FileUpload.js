@@ -25,7 +25,7 @@ const UploadFile = () => {
   const startUpload = () => {
     if (!selectedFile) return;
 
-    const url = 'http://localhost:8080/api/upload'; // 設定你的上傳 URL
+    const url = 'http://localhost:5000/api/upload'; // 設定你的上傳 URL
     const formData = new FormData();
     formData.append('file', selectedFile);
 
