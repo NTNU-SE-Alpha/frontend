@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-const ChatContainer = styled.div`
+const ProfileContainer = styled.div`
 
   display: flex;
   height: 100vh;
@@ -16,7 +16,7 @@ const ChatContainer = styled.div`
     margin: 30px 0px 30px 20px;
     border-radius: 50px;
 
-    .Chatimage {
+    .Profileimage {
       width: 70px;
       height: 70px;
       border: none;
@@ -44,64 +44,35 @@ const ChatContainer = styled.div`
     margin: 30px 30px 30px 130px;
     border-radius: 30px;
 
-    .chat-box {
+    .Profile-box {
       flex: 9;
       display: flex;
       flex-direction: row;
-      width: 80%;
-      height: 100%;
-      background: #D9D9D9;
-      border-radius: 30px;
-    }
-
-    form {
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: 80%;
+      width: 100%;
       height: 100%;
       background: #FFFFFF;
       border-radius: 30px;
-      margin: 20px 0px 0px 0px;
-
-      input {
-        flex: 1;
-        font-size: 16px;
-        width: 100%;
-        padding: 15px;
-        border-radius: 30px;
-        border: none;
-        outline: none;
-      }
     }
 
-    
   }
-
-
-  
 
 `;
 
-const Chat = () => {
+const Profile = () => {
     return (
-      <ChatContainer>
+      <ProfileContainer>
           {/*
           <section className='left'>
-            <button className='Chatimage'> 
+            <button className='Profileimage'> 
               <img src="./images/ntnulogo.png"></img>
             </button>
           </section-->
           */}
           <section className='right'>
-            <div className='chat-box'></div>
-            <form>
-              <input type="text" placeholder="開始討論吧..."></input>
-            </form>
+            <div className='Profile-box'></div>
           </section>
-      </ChatContainer>
+      </ProfileContainer>
     )
   }
   
-  export default Chat
+  export default Profile

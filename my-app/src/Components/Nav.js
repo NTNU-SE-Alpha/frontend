@@ -276,7 +276,7 @@ const Nav = () => {
       <Navbar>
         <ul>
           <li className="first_li">
-            <a href="/" class="first-icon">
+            <a href="/profile" class="first-icon">
               <img width="50px" src="/images/icons/first-logo.png" alt="profile" />
             </a>
           </li>

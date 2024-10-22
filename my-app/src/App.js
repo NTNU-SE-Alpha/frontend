@@ -8,6 +8,8 @@ import Home from './Pages/Home';
 import FileUpload from './Pages/FileUpload';
 import Course from './Pages/Course';
 import Chat from './Pages/Chat';
+import Profile from './Pages/Profile';
+import Software from './Pages/Software';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/fileupload" element={<FileUpload />} exact />
         <Route path="/course" element={<Course />} exact />
         <Route path="/chat" element={<Chat />} exact />
+        <Route path="/profile" element={<Profile />} exact />
+        <Route path="/software" element={<Software />} exact />
       </Routes>
     </div>
   );
