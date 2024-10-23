@@ -31,10 +31,15 @@ const CourseCardContainer = styled.div`
 `;
 
 const CourseImage = styled.img`
+  filter: blur(3px);
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
+  transition: filter 0.2s;
+  &:hover {
+    filter: none;
+  }
 `;
 
 const CourseTitle = styled.a`

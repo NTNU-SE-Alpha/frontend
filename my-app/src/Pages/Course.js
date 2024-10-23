@@ -1,6 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CourseCard from '../Components/CourseCard';
+import { createClient } from 'pexels';
+const client = createClient(process.env.REACT_APP_PEXELS_API);
+
+const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+  margin-left: 120px;
+`;
 const FlexCard = styled.div`
   display: grid;
   /* width: 70vw; */
@@ -93,7 +101,106 @@ const Course = () => {
       isFavorite: false,
       image: "images/c1.png",
       order: 4
-    }
+    },
+    {
+      id: 5,
+      name: "數學",
+      teacher: "Mr. Zhang",
+      weekday: "Thursday",
+      semester: "2024 Spring",
+      archive: false,
+      isFavorite: false,
+      image: "images/c2.png",
+      order: 5
+    },
+    {
+      id: 6,
+      name: "物理",
+      teacher: "Mrs. Liu",
+      weekday: "Monday",
+      semester: "2024 Spring",
+      archive: false,
+      isFavorite: true,
+      image: "images/c3.png",
+      order: 6
+    },
+    {
+      id: 7,
+      name: "地理",
+      teacher: "Mr. Wu",
+      weekday: "Wednesday",
+      semester: "2024 Fall",
+      archive: true,
+      isFavorite: false,
+      image: "images/c4.png",
+      order: 7
+    },
+    {
+      id: 8,
+      name: "歷史",
+      teacher: "Mrs. Lin",
+      weekday: "Friday",
+      semester: "2024 Fall",
+      archive: true,
+      isFavorite: false,
+      image: "images/c5.png",
+      order: 8
+    },
+    {
+      id: 9,
+      name: "英文",
+      teacher: "Mr. Huang",
+      weekday: "Tuesday",
+      semester: "2024 Spring",
+      archive: false,
+      isFavorite: true,
+      image: "images/c6.png",
+      order: 9
+    },
+    {
+      id: 10,
+      name: "體育",
+      teacher: "Mrs. Yang",
+      weekday: "Thursday",
+      semester: "2024 Spring",
+      archive: false,
+      isFavorite: false,
+      image: "images/c7.png",
+      order: 10
+    },
+    {
+      id: 11,
+      name: "美術",
+      teacher: "Mr. Xu",
+      weekday: "Monday",
+      semester: "2024 Fall",
+      archive: true,
+      isFavorite: false,
+      image: "images/c8.png",
+      order: 11
+    },
+    {
+      id: 12,
+      name: "音樂",
+      teacher: "Mrs. Gao",
+      weekday: "Wednesday",
+      semester: "2024 Spring",
+      archive: false,
+      isFavorite: true,
+      image: "images/c9.png",
+      order: 12
+    },
+    {
+      id: 13,
+      name: "編程",
+      teacher: "Mr. Qian",
+      weekday: "Friday",
+      semester: "2024 Fall",
+      archive: true,
+      isFavorite: false,
+      image: "images/c10.png",
+      order: 13
+    },
   ]);
   const toggleFavorite = (index) => {
     setClasses(classes.map((item, i) => {
@@ -103,29 +210,53 @@ const Course = () => {
       return item;
     }));
   };
+  const fetchData = async () => {
+    try {
+      // 遍歷每一個課程，分別進行圖片查詢
+      const updatedClasses = await Promise.all(
+        classes.map(async (item) => {
+          const response = await client.photos.search({ query: item.name, locale: 'zh-TW' });
+          // 若 API 回傳結果包含圖片，則更新圖片，否則保持原圖片
+          const imageUrl = response.photos.length > 0 ? response.photos[0].src.medium : item.image;
+          return { ...item, image: imageUrl };
+        })
+      );
+      // 更新課程資料
+      setClasses(updatedClasses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
   return (
     <div>
         {/* search bar */}
+        <Section className='right'>
         <Searchbar>
-        <div class="search-bar">
-          <span className="material-symbols-outlined search-icon">search</span>
-          <input type="text" placeholder="搜尋課程" />
-          {/* filter */}
-          <svg className='filter-icon' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="6E6E6E"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Z"/></svg>
-        </div>
-        </Searchbar>
-        <FlexCard>
-          {classes.map(({ id, isFavorite, order }, index) => (
-            <CourseCard 
-              key={id}
-              isFavorite={isFavorite}
-              toggleFavorite={() => toggleFavorite(index)}
-              image={classes[index].image}
-              name={classes[index].name}
-              id = {classes[index].id}
-            />
-          ))}
-        </FlexCard>
+          <div class="search-bar">
+            <span className="material-symbols-outlined search-icon">search</span>
+            <input type="text" placeholder="搜尋課程" />
+            {/* filter */}
+            <svg className='filter-icon' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="6E6E6E"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Z"/></svg>
+          </div>
+          </Searchbar>
+          <FlexCard>
+            {classes.map(({ id, isFavorite, order }, index) => (
+              <CourseCard 
+                key={id}
+                isFavorite={isFavorite}
+                toggleFavorite={() => toggleFavorite(index)}
+                image={classes[index].image}
+                name={classes[index].name}
+                id = {classes[index].id}
+              />
+            ))}
+          </FlexCard>
+        </Section>
     </div>
   )
 }
