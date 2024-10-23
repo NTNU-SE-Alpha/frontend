@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const Warning = styled.div`
+  padding: 10px;
+  background: #FF9592;
+  color: #500F1C;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border-radius: 20px;
+`;
 const LoginContainer = styled.div`
 
   display: flex;
@@ -59,7 +67,7 @@ const LoginContainer = styled.div`
 
       .submit-btn {
         width: 100%;
-        padding: 15px;
+        padding: 4px;
         margin: 10px 0;
         background: linear-gradient(90deg, #B2FEE6 0%, #00E8DC 100%);
         border: none;
@@ -68,7 +76,7 @@ const LoginContainer = styled.div`
         font-size: 2rem;
         font-weight: 900;
         cursor: pointer;
-        transition: background 0.3s ease;
+        /* transition: background 0.3s ease; */
 
         &:hover {
           background: linear-gradient(90deg, #00E8DC 0%, #B2FEE6 100%);
@@ -96,7 +104,6 @@ const LoginContainer = styled.div`
       }
     }
   }
-
 `;
 
 const Login = () => {
@@ -105,28 +112,36 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   
-    const handleLogin = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:5000/login', {
-                username: email,
-                password: password
-            });
-            if (response.data.access_token) {
-                // 將 JWT 存儲在 localStorage 或 sessionStorage 中
-                localStorage.setItem('token', response.data.access_token);
-                console.log(response.data)
-                setMessage('登入成功！');
-                navigate('/profile'); 
-            }
-        } catch (error) {
-            const errorMessage = error.response && error.response.data && error.response.data.message 
-              ? error.response.data.message 
-              : error.message;
-
-            console.log('登入失敗：', errorMessage);
-            setMessage(errorMessage);
+  const handleLogin = async (event) => {
+      event.preventDefault();
+      if (email.length <= 0) {
+        setMessage('電子信箱不得為空');
+        return;
+       }
+      if (password.length <= 0) {
+          setMessage('密碼不得為空');
+          return;
+      }
+      try {
+          const response = await axios.post('http://localhost:5000/login', {
+              username: email,
+              password: password
+          });
+          if (response.data.access_token) {
+              // 將 JWT 存儲在 localStorage 或 sessionStorage 中
+              localStorage.setItem('token', response.data.access_token);
+              console.log(response.data)
+              setMessage('登入成功！');
+              navigate('/profile'); 
           }
+      } catch (error) {
+          const errorMessage = error.response && error.response.data && error.response.data.message 
+            ? error.response.data.message 
+            : error.message;
+
+          console.log('登入失敗：', errorMessage);
+          setMessage(errorMessage);
+        }
     };
     return (
       <LoginContainer>
@@ -135,6 +150,7 @@ const Login = () => {
         </section>
         <section className='right'>
             <h1>登入</h1>
+            {message && <Warning className='warning'>{message}</Warning>}
             <form onSubmit={handleLogin}>
                 <input
                     type='text'
@@ -154,7 +170,6 @@ const Login = () => {
                 <a href='/forgetpassword'>忘記密碼?</a>
                 <a href='/register'>註冊→</a>
             </div>
-            <p>{message}</p>
         </section>
       </LoginContainer>
     );
