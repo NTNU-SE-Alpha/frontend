@@ -1,15 +1,52 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from "react-router-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
 import './Styles/style.css';
-import App from './App';
+// import App from './App';
+import Login from './Pages/Login';
+import ForgetPassword from './Pages/ForgetPassword';
+import Register from './Pages/Register';
+import Nav from './Components/Nav';
+import Home from './Pages/Home';
+import FileUpload from './Pages/FileUpload';
+import Course from './Pages/Course';
+import Chat from './Pages/Chat';
+import Profile from './Pages/Profile';
+import Software from './Pages/Software';
+import ErrorPage from "./Pages/NotFoundPage";
 
 const root = document.querySelector("#root");
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Nav/>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/chat",
+    element: <Chat />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/course",
+    element: <Nav />,
+    children: [{
+      path: "/course/:courseId",
+      element: <Software />,
+    }]
+  }
+]);
+
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <RouterProvider router={router}/>
   </React.StrictMode>,
 );

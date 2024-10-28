@@ -3,7 +3,37 @@ import styled from 'styled-components'
 import CourseCard from '../Components/CourseCard';
 import { createClient } from 'pexels';
 const client = createClient(process.env.REACT_APP_PEXELS_API);
-
+const Fliter = styled.div`
+  z-index: 101;
+  /* background-color: #fff; */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  border-radius: 20px;
+  /* border: 1px solid red; */
+  width: fit-content;
+  padding: 10px;
+  position: absolute;
+  top: 70px;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s;
+  &.open{
+    height: fit-content;
+  }
+  a{
+    /* border-radius: 1rem; */
+    background-color: none;
+    border: none;
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px 0px 0 0px;
+    border-bottom: 1px solid #ccc;
+  }
+`;
 const Section = styled.section`
   display: flex;
   flex-direction: column;
@@ -50,6 +80,12 @@ const Searchbar = styled.div`
 
   .filter-icon {
     margin-right: 10px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .filter-open{
+    z-index: 101;
   }
 }
 
@@ -57,6 +93,7 @@ const Searchbar = styled.div`
 
 
 const Course = () => {
+  const [filter, setFilter] = useState(false);
   const [classes, setClasses] = useState([
     {
       id: 1,
@@ -227,7 +264,11 @@ const Course = () => {
       console.error(error);
     }
   };
-  
+  const handlerFilter = (e) => {
+    console.log(e.target.children);
+    e.target.children.classList.toggle('open');
+    setFilter(true);
+  }
   useEffect(() => {
     fetchData();
   }, []);
@@ -241,7 +282,13 @@ const Course = () => {
             <span className="material-symbols-outlined search-icon">search</span>
             <input type="text" placeholder="搜尋課程" />
             {/* filter */}
-            <svg className='filter-icon' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="6E6E6E"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Z"/></svg>
+            <div class="filter-open" onClick={handlerFilter}>
+              <svg className='filter-icon' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="6E6E6E"><path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Z"/></svg>
+            <Fliter>
+                <a>最新到舊</a>
+                <a>星號優先</a>
+                <a>封存</a>
+            </Fliter></div>
           </div>
           </Searchbar>
           <FlexCard>

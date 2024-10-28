@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
+import { Outlet } from "react-router-dom";
 const Navbar = styled.nav`
   width: min-content;
   position: fixed;
@@ -285,7 +286,7 @@ const Nav = () => {
               {item.icon}
               {/* <img width="20px" href="/images/c1.png" alt="setting" /> */}
               <a
-                href={`/#${item.eng_name}`}
+                href={`/${item.eng_name}`}
                 class={`${item.eng_name}_button icon`}
               >
                 {item.name}
@@ -338,6 +339,7 @@ const Nav = () => {
           <span></span>
         </Hamburger> */}
       </Navbar>
+      <Outlet />
     </>
   );
 };
