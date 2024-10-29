@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 // import styled from 'styled-components';
 import axios from 'axios';
 
-
 const UploadFile = () => {
   
   const [selectedFile, setSelectedFile] = useState(null);
-  // const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [uploadStatus, setUploadStatus] = useState('');
-  // const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFiles = (files) => {
     const file = files[0];
