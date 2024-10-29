@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 const SoftwareContainer = styled.div`
 
   display: flex;
@@ -132,10 +133,14 @@ const SoftwareContainer = styled.div`
       }
 
   }
-
+  }
 `;
 
-const Software = () => {
+const Software = ({params}) => {
+  const { courseId } = useParams();
+  const [course, setCourse] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
     return (
       <SoftwareContainer>
 
@@ -147,7 +152,7 @@ const Software = () => {
                     arrow_back
                   </span>
                 </a>
-                &nbsp;&nbsp;軟體工程（星期二 34，四 4）
+                &nbsp;&nbsp;{courseId}
               </h1>
 
               <div class='dropdown'>

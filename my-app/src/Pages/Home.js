@@ -12,7 +12,6 @@ const Home = () => {
   return (
     <div>
       <HomeStyle>
-        <Link to='/fileupload' >fileupload</Link>
       </HomeStyle>
     </div>
   )

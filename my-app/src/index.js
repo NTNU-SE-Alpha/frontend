@@ -12,7 +12,7 @@ import ForgetPassword from './Pages/ForgetPassword';
 import Register from './Pages/Register';
 import Nav from './Components/Nav';
 import Home from './Pages/Home';
-import FileUpload from './Pages/FileUpload';
+// import FileUpload from './Pages/FileUpload';
 import Course from './Pages/Course';
 import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
@@ -26,23 +26,45 @@ const router = createBrowserRouter([
     path: "/",
     element: <Nav/>,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/course",
+        element: <Course />,
+      },
+      {
+        path: "/course/:courseId",
+        element: <Software />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/forgetpassword",
+        element: <ForgetPassword />,
+      },
+    ]
   },
   {
     path: "/chat",
     element: <Chat />,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/softwares",
+    element: <Software />,
   },
-  {
-    path: "/course",
-    element: <Nav />,
-    children: [{
-      path: "/course/:courseId",
-      element: <Software />,
-    }]
-  }
 ]);
 
 ReactDOM.createRoot(root).render(
