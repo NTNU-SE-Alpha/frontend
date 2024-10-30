@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 const ProfileContainer = styled.div`
-
   display: flex;
   height: 100vh;
   background: #FFFFFF;
@@ -25,16 +24,11 @@ const ProfileContainer = styled.div`
       cursor: pointer;
       margin-top: 30px;
     }
-
-    button img {
-        width: 70px;
-        height: 70px;
-    }
   }
 
 
   .right {
-    flex: 9;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,13 +39,27 @@ const ProfileContainer = styled.div`
     border-radius: 30px;
 
     .Profile-box {
-      flex: 9;
+      /* flex: 1; */
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      align-items: center;
       width: 100%;
       height: 100%;
       background: #FFFFFF;
       border-radius: 30px;
+      h1{
+        font-size: 2rem;
+        margin-top: 1.5rem;
+      }
+      div{
+        align-self: flex-start;
+        display: block;
+        margin: 1rem;
+        img{
+          width: 50px;
+          height: 50px;
+        }
+      }
     }
 
   }
@@ -71,6 +79,10 @@ const Profile = () => {
           <section className='right'>
             <div className='Profile-box'>
               <h1>歡迎，User</h1>
+              <div>
+                <img src="/images/profile.png" alt="profile" />
+                <Button>Click me</Button>
+              </div>
             </div>
           </section>
       </ProfileContainer>
