@@ -7,6 +7,7 @@ import {
 
 import './Styles/style.css';
 // import App from './App';
+import RequireAuth from './Components/RequireAuth';
 import Login from './Pages/Login';
 import ForgetPassword from './Pages/ForgetPassword';
 import Register from './Pages/Register';
@@ -65,6 +66,14 @@ const router = createBrowserRouter([
     path: "/softwares",
     element: <Software />,
   },
+  // {
+  //   path: "/chat",
+  //   element: <RequireAuth><Chat /></RequireAuth>,
+  // },
+  // {
+  //   path: "/softwares",
+  //   element: <RequireAuth><Software /></RequireAuth>,
+  // },
   {
     path: "/fileupload",
     element: <FileUpload />,

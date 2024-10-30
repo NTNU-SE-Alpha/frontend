@@ -69,10 +69,12 @@ const Profile = () => {
           </section-->
           */}
           <section className='right'>
-            <div className='Profile-box'></div>
+            <div className='Profile-box'>
+              <h1>歡迎，User</h1>
+            </div>
           </section>
       </ProfileContainer>
     )
   }
   
-  export default Profile
+export default Profile
