@@ -16,8 +16,8 @@ step 1. 請先確認電腦有安裝 node.js
 ```
 node --version
 ```
-
-> 注意：**未安裝者請自行google: `nodejs download`**
+npm 是一個react常用的套件管理工具，在終端機使用下，需要安裝nodejs
+> [官網連結](https://nodejs.org/zh-tw)
 
 <br/>
 
