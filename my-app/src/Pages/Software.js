@@ -41,7 +41,7 @@ const SoftwareContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: #5D5D5D;
+    background: teal;
     margin: 30px 30px 30px 130px;
     border-radius: 30px;
 
@@ -68,10 +68,9 @@ const SoftwareContainer = styled.div`
         justify-content: center;
         align-items: center;
         height: 3rem;
-        margin: 20px 50px 0px 50px;
-        background: #D9D9D9;
+        margin: 1rem 50px 0px 50px;
         border-radius: 10px;
-
+        border: 2px solid teal;
         h2 {
           font-size: 18px;
         }
@@ -87,7 +86,7 @@ const SoftwareContainer = styled.div`
         height: 100%;
         background: #FFFFFF;
         border-radius: 10px;
-        border: 2px solid black; 
+        border: 2px solid teal; 
         padding: 15px;
 
         .頂 {

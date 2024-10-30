@@ -28,7 +28,6 @@ const router = createBrowserRouter([
     element: (
       <React.Fragment>
         <Nav />
-        <Home />
       </React.Fragment>
     ),
     errorElement: <ErrorPage />,

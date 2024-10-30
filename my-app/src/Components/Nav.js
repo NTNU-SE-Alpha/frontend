@@ -9,7 +9,7 @@ const Navbar = styled.nav`
   z-index: 100;
   display: flex;
   height: 90vh;
-  background: #5d5d5d;
+  background: teal;
   border-radius: 50px;
   ul{
     display: flex;
