@@ -76,10 +76,23 @@ const ChatContainer = styled.div`
         outline: none;
       }
     }
-    label{
-      /* margin-left: 1rem; */
-      &:hover{
-        cursor: pointer;
+    form#upload {
+      margin-left: 0.75rem;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:hover {
+        border-radius: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      label{
+        &:hover{
+          cursor: pointer;
+        }
+      }
+      svg{
       }
     }
   }
@@ -140,7 +153,7 @@ const Chat = () => {
         <section className='right'>
           <div className='chat-box'></div>
           <form id='textInput'>
-            <form>
+            <form id='upload'>
               <input
                 type="file"
                 id="fileElem"
