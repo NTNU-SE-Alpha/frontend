@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../Components/Button';
+
 const ProfileContainer = styled.div`
   display: flex;
   height: 100vh;
@@ -81,7 +83,8 @@ const Profile = () => {
               <h1>歡迎，User</h1>
               <div>
                 <img src="/images/profile.png" alt="profile" />
-                <Button>Click me</Button>
+                <Button style="">送出</Button>
+                <Button style="白">返回</Button>
               </div>
             </div>
           </section>

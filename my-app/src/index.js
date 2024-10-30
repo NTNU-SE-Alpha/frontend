@@ -25,7 +25,12 @@ const root = document.querySelector("#root");
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Nav/>,
+    element: (
+      <React.Fragment>
+        <Nav />
+        <Home />
+      </React.Fragment>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
