@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-const SoftwareContainer = styled.div`
+import CourseCard from '../Components/CourseCard';
+import { Pencil, ArrowLeft, ArrowRight } from 'lucide-react';
 
+const SoftwareContainer = styled.div`
+  a#icon{
+    color: black;
+    line-height: 0;
+    border-radius: 1rem;
+    &:hover {
+      background: #D9D9D9;
+    }
+  }
   display: flex;
   height: 100vh;
   background: #FFFFFF;
@@ -36,16 +46,17 @@ const SoftwareContainer = styled.div`
     border-radius: 30px;
 
     .course-box {
-      flex: 9;
+      /* flex: 9;
       display: flex;
-      flex-direction: column;
+      flex-direction: column; */
       width: 100%;
       height: 100%;
       background: #FFFFFF;
       border-radius: 30px;
+      overflow: hidden;
 
-      h1 {
-        margin: 20px;
+      div#h1 {
+        margin: 1rem;
       }
 
       .material-symbols-outlined {
@@ -56,7 +67,7 @@ const SoftwareContainer = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 80px;
+        height: 3rem;
         margin: 20px 50px 0px 50px;
         background: #D9D9D9;
         border-radius: 10px;
@@ -79,18 +90,21 @@ const SoftwareContainer = styled.div`
         border: 2px solid black; 
         padding: 15px;
 
-        h3 {
-          font-size: 18px;
-          display: flex;
+        .頂 {
+          font-size: 1rem;
+          display: grid;
+          grid-template-columns: auto auto auto;
           justify-content: space-between;
           width: 100%; 
           padding-bottom: 10px;
         }
-          
       }
 
-      .left {
-        text-align: left;
+      .頂頂 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
       }
       .center {
         text-align: center;
@@ -100,38 +114,31 @@ const SoftwareContainer = styled.div`
       }          
 
       .scrollable-container {
-        
-        width: 97%;               /* Set the container width */
-        height: 400px;              /* Set the container height */
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
         border-radius: 5px;
-        
-        padding: 15px;              /* Optional: Padding inside container */
-        overflow-y: auto;           /* Enables vertical scrolling */
-        overflow-x: hidden;         /* Disables horizontal scrolling */
+        /* padding: 15px; */
+        overflow-y: auto;           
+        overflow-x: hidden;         
         background-color: #D9D9D9;
       }
 
       .grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
-        gap: 15px;                              /* Space between grid items */
+        grid-template-columns: repeat(auto-fit, 263px);
+        gap: 15px;
+        justify-content: center;
+        width: 100%;
       }
-
       .grid-item {
         background-color: #FFFFFF;
         color: black;
-        padding: 100px;
+        aspect-ratio: 1/1;
         text-align: center;
-        border-radius: 20px;                   
+        border-radius: 20px;
       }
-
-      .left-item {
-        margin-right: 10px;
-      }
-      .right-item {
-        margin-left: 500px; 
-      }
-
   }
   }
 `;
@@ -146,57 +153,52 @@ const Software = ({params}) => {
 
           <section className='right-box'>
             <div className='course-box'>
-              <h1>
-                <a href="/course">
-                  <span class="material-symbols-outlined">
-                    arrow_back
-                  </span>
+              {/* <div id="h1">
+                <a id='icon' href="/course">
+                  <ArrowLeft />
                 </a>
-                &nbsp;&nbsp;{courseId}
-              </h1>
+              </div> */}
 
               <div class='dropdown'>
-                <h2>公告 
-
-                </h2>
+                <a id='icon' href="/course">
+                  <ArrowLeft />
+                </a>
+                <div>{courseId}公告</div>
               </div>
 
               <div class='grid-box'>
-                <h3>
-                  <div class="left">
-                    <a href="/course">
-                      <span class="material-symbols-outlined">
-                        arrow_back
-                      </span>
+                <div class="頂">
+                  <div class="頂頂">
+                    <a id='icon' href="/course">
+                      <ArrowLeft />
                     </a>
-                    &nbsp;&nbsp;上一則
+                    <div>上一則</div>
                   </div>
                   
                   <div class="center">第一週</div>
 
-                  <div class="right">
-                    下一則&nbsp;&nbsp;
-                    <a href="/course">
-                      <span class="material-symbols-outlined">
-                      arrow_forward
-                      </span>
+                  <div class="頂頂">
+                    下一則
+                    <a id='icon' href="/course">
+                      <ArrowRight />
                     </a>
                   </div>       
-                </h3>
+                </div>
 
                 <div class='scrollable-container'>
-                  
-                  <span class="material-symbols-outlined right-item">
-                    edit_square
-                  </span>
-                  
                   <div class="grid">
-                    <div class="grid-item">作業</div>
-                    <div class="grid-item">課程資訊</div>
-                    <div class="grid-item">考試</div>
-                    <div class="grid-item"> </div>
-                    <div class="grid-item"> </div>
-                    <div class="grid-item"> </div>
+                    <CourseCard name="作業"/>
+                    <CourseCard name="課程資訊"/>
+                    <CourseCard name="考試"/>
+                    <CourseCard name="作業"/>
+                    <CourseCard name="課程資訊"/>
+                    <CourseCard name="考試"/>
+                    <CourseCard name="作業"/>
+                    <CourseCard name="課程資訊"/>
+                    <CourseCard name="考試"/>
+                    <CourseCard name="作業"/>
+                    <CourseCard name="課程資訊"/>
+                    <CourseCard name="考試"/>
                   </div>
                 </div>
               </div>
