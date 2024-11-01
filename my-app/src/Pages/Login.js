@@ -23,6 +23,9 @@ const LoginContainer = styled.div`
       height: 100%;
       object-fit: cover;
     }
+    @media (max-width: 768px) {
+      flex: 0;
+    }
   }
 
   .right {

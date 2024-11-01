@@ -11,6 +11,7 @@ const Navbar = styled.nav`
   height: 90vh;
   background: teal;
   border-radius: 50px;
+  
   ul{
     display: flex;
     flex-direction: column;
@@ -78,6 +79,12 @@ const Navbar = styled.nav`
       }
     }
   }
+  /* @media screen and (max-width: 690px) {
+    height: auto;
+    ul{
+      flex-direction: row;
+    }
+  } */
 `
 // const Hamburger = styled.a`
 //   display: none;
@@ -239,8 +246,8 @@ const menuItems = [
       ),
   },
   {
-    name: "登出",
-    eng_name: "logout",
+    name: "登入", 
+    eng_name: "login",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
     ),

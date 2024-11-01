@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ButtonContainer = styled.button`
-    border-radius: 1rem;
+    border-radius: 0.7rem;
     padding: 0.5rem 1rem;
     background-color: #12A594;
     color: #fff;

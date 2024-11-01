@@ -26,9 +26,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <React.Fragment>
+  
         <Nav />
-      </React.Fragment>
+      
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -44,10 +44,7 @@ const router = createBrowserRouter([
         path: "/course/:courseId",
         element: <Software />,
       },
-      {
-        path: "/profile",
-        element: <Profile />,
-      },
+      
       {
         path: "/login",
         element: <Login />,
@@ -60,24 +57,28 @@ const router = createBrowserRouter([
         path: "/forgetpassword",
         element: <ForgetPassword />,
       },
+      {
+        path: "/chat",
+        element: <Chat />,
+      },
     ]
   },
   {
-    path: "/chat",
-    element: <Chat />,
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "/softwares",
     element: <Software />,
   },
-  // {
-  //   path: "/chat",
-  //   element: <RequireAuth><Chat /></RequireAuth>,
-  // },
-  // {
-  //   path: "/softwares",
-  //   element: <RequireAuth><Software /></RequireAuth>,
-  // },
+  {
+    path: "/chat2",
+    element: <RequireAuth><Chat /></RequireAuth>,
+  },
+  {
+    path: "/softwares",
+    element: <RequireAuth><Software /></RequireAuth>,
+  },
   {
     path: "/fileupload",
     element: <FileUpload />,
