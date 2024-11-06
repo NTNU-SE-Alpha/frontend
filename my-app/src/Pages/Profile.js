@@ -42,8 +42,17 @@ const ProfileContainer = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2rem;
+      gap: 1rem;
       height: 100%;
+      li{
+        width: 100%;
+        a{
+          width: 100%;
+          button{
+            width: 100%;
+          }
+        }
+      }
     }
   }
 
@@ -102,12 +111,12 @@ const Profile = () => {
             <p>Teacher</p>
             <></>
             <ul>
-              <li><a href='/profile'>詳細資料</a></li>
-              <li><a href='/profile'>課程</a></li>
-              <li><a href='/profile'>登入活動</a></li>
-              <li><a href='/profile'>LLM History</a></li>
-              <li><a href='/profile'>統計資料</a></li>
-              <li><a href='/profile'>設定</a></li>
+              <li><a href='/profile'><Button style="白">詳細資料</Button></a></li>
+              <li><a href='/profile'><Button style="白">課程</Button></a></li>
+              <li><a href='/profile'><Button style="白">登入活動</Button></a></li>
+              <li><a href='/profile'><Button style="白">LLM History</Button></a></li>
+              <li><a href='/profile'><Button style="白">統計資料</Button></a></li>
+              <li><a href='/profile'><Button style="白">設定</Button></a></li>
             </ul>
           </section>
          
