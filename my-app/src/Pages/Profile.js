@@ -10,7 +10,7 @@ const ProfileContainer = styled.div`
   background: #FFFFFF;
   gap: 2rem;
   .left {
-    width: clamp(200px, 20%, 300px);
+    width: 200px;
     display: flex;
     flex-direction: column;
     justify-content: start;

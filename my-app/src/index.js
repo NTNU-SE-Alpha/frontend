@@ -4,8 +4,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-
-import './Styles/style.css';
+import './Styles/style.scss';
+// import './Styles/style.css';
 // import App from './App';
 import RequireAuth from './Components/RequireAuth';
 import Login from './Pages/Login';
@@ -19,6 +19,7 @@ import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
 import Software from './Pages/Software';
 import ErrorPage from "./Pages/NotFoundPage";
+import Setting from './Pages/Setting';
 
 const root = document.querySelector("#root");
 
@@ -59,12 +60,17 @@ const router = createBrowserRouter([
         path: "/chat",
         element: <Chat />,
       },
+      {
+        path: "/setting",
+        element: <Setting />,
+      },
     ]
   },
   {
     path: "/profile",
     element: <Profile />,
   },
+  
   {
     path: "/softwares",
     element: <Software />,
