@@ -1,16 +1,22 @@
-import Toast from 'react-bootstrap/Toast';
+import { motion } from 'framer-motion';
 
-function BasicExample() {
-  return (
-    <Toast>
-      <Toast.Header>
-        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-        <strong className="me-auto">Bootstrap</strong>
-        <small>11 mins ago</small>
-      </Toast.Header>
-      <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-    </Toast>
+export default function Settings() {
+  return (<>
+    <motion.div 
+    initial={{x: -100}}
+    animate={{x: 100}}
+    transition={{ 
+      type: 'spring', 
+      duration: 0.3,
+      stiffness: 150,
+      }}>
+      Setting Page
+    </motion.div>
+    <motion.div 
+    
+      >
+      content
+    </motion.div>
+      </>
   );
 }
-
-export default BasicExample;

@@ -8,6 +8,7 @@ const ButtonContainer = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none;
     &:hover {
         background-color: rgba(0, 0, 0, 0.1);
     }
