@@ -117,6 +117,7 @@ const SoftwareContainer = styled.div`
         align-items: center;
         flex-direction: column;
         width: 100%;
+        height: 100%;
         border-radius: 5px;
         /* padding: 15px; */
         overflow-y: auto;           
@@ -137,6 +138,12 @@ const SoftwareContainer = styled.div`
         aspect-ratio: 1/1;
         text-align: center;
         border-radius: 20px;
+      }
+
+      .pad {
+        width: 100%; /* Full width */
+        height: 100%; /* Adjust the height as needed */
+        margin: 1rem; 
       }
   }
   }
@@ -185,6 +192,8 @@ const Software = ({params}) => {
                 </div>
 
                 <div class='scrollable-container'>
+                  <div class='pad'/>
+
                   <div class="grid">
                     <CourseCard name="作業"/>
                     <CourseCard name="課程資訊"/>
@@ -199,6 +208,7 @@ const Software = ({params}) => {
                     <CourseCard name="課程資訊"/>
                     <CourseCard name="考試"/>
                   </div>
+                  <div class='pad'/>
                 </div>
               </div>
 
