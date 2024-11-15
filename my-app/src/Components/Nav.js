@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { BotMessageSquare } from "lucide-react";
+import { Settings } from "lucide-react";
+
 const Navbar = styled.nav`
   width: min-content;
   position: fixed;
@@ -213,7 +215,7 @@ const menuItems = [
     name: "聊天",
     eng_name: "chat",
     icon: (
-      <BotMessageSquare  size="24px" fill="#e8eaed" />
+      <BotMessageSquare  color="white" />
       ),
       dropdown: [
       {
@@ -238,6 +240,7 @@ const menuItems = [
           ),
         }
     ],
+    
   },
   {
     name: "上傳",
@@ -248,9 +251,9 @@ const menuItems = [
   },
   {
     name: "登入", 
-    eng_name: "login",
+    eng_name: "setting",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+      <Settings color="white"/>
     ),
   },
 ];
@@ -316,36 +319,6 @@ const Nav = () => {
             </li>
           ))}
         </ul>
-        <Flyout className="flyout">
-          <div>
-            <div class="banner_button_register">
-              <a href="https://camp-app.csie.cool/login" className="login_button">
-                立即報名
-              </a>
-            </div>
-
-            {menuItems.map((item, index) => (
-              <div class="banner_button" key={index}>
-                <a
-                  href={`/#${item.eng_name}`}
-                  class={`${item.eng_name}_button`}
-                >
-                  {item.name}
-                </a>
-              </div>
-            ))}
-          </div>
-          <Star>
-            <span id="stars"></span>
-            <span id="stars2"></span>
-            <span id="stars3"></span>
-          </Star>
-        </Flyout>
-        {/* <Hamburger id="hamburger" onClick={handlerClick}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </Hamburger> */}
       </Navbar>
       <Outlet />
     </>

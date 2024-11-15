@@ -20,6 +20,19 @@ const ButtonContainer = styled.button`
         background-color: rgba(0,0,0,0.05);
     }
     }
+    &.chat {
+        cursor: auto;
+        user-select: text;
+        text-align: left;
+    }
+    &.👀{
+        width: clamp(60%, auto, 100%);
+        align-self: flex-end;
+    }
+    &.🤖{
+        width: clamp(60%, 20rem, 100%);
+        align-self: flex-start;
+    }
 `;
 
 const Button = (props) => {
