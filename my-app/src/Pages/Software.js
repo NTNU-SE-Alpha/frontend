@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import CourseCard from '../Components/CourseCard';
+import Card from '../Components/Card';
+import Button from '../Components/Button';
 import { Pencil, ArrowLeft, ArrowRight } from 'lucide-react';
 
 const SoftwareContainer = styled.div`
@@ -33,7 +34,6 @@ const SoftwareContainer = styled.div`
     }
   }
 
-
   .right-box {
     flex: 9;
     display: flex;
@@ -41,7 +41,7 @@ const SoftwareContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: teal;
+    border: solid 2px teal;
     margin: 30px 30px 30px 130px;
     border-radius: 30px;
 
@@ -80,7 +80,6 @@ const SoftwareContainer = styled.div`
       .grid-box {
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         margin: 20px 50px;
         height: 100%;
@@ -122,13 +121,13 @@ const SoftwareContainer = styled.div`
         /* padding: 15px; */
         overflow-y: auto;           
         overflow-x: hidden;         
-        background-color: #D9D9D9;
       }
 
       .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 263px);
-        gap: 15px;
+        /* display: grid; */
+        /* grid-template-columns: repeat(auto-fit, 263px); */
+        gap: 1rem;
+        display: flex;
         justify-content: center;
         width: 100%;
       }
@@ -190,25 +189,19 @@ const Software = ({params}) => {
                     </a>
                   </div>       
                 </div>
-
-                <div class='scrollable-container'>
-                  <div class='pad'/>
-
-                  <div class="grid">
-                    <CourseCard name="作業"/>
-                    <CourseCard name="課程資訊"/>
-                    <CourseCard name="考試"/>
-                    <CourseCard name="作業"/>
-                    <CourseCard name="課程資訊"/>
-                    <CourseCard name="考試"/>
-                    <CourseCard name="作業"/>
-                    <CourseCard name="課程資訊"/>
-                    <CourseCard name="考試"/>
-                    <CourseCard name="作業"/>
-                    <CourseCard name="課程資訊"/>
-                    <CourseCard name="考試"/>
+                <div class="grid">
+                    <Button >作業</Button>
+                    <Button style="白">課程資訊</Button>
+                    <Button style="白">考試</Button>
+                    <Button style="白">聊天</Button>
                   </div>
-                  <div class='pad'/>
+                <div class='scrollable-container'>
+                  lorem ipsum dolor sit amet
+                  lorem ipsum dolor sit amet
+                  lorem ipsum dolor sit amet
+                  lorem ipsum dolor sit amet
+                  lorem ipsum dolor sit amet
+                  lorem ipsum dolor sit amet
                 </div>
               </div>
 

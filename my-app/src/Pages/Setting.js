@@ -17,6 +17,17 @@ export default function Settings() {
       >
       content
     </motion.div>
+
+
+
+      <motion.div
+      initial={{y: -100}}
+      animate={{y: 100}}
+      
+      >Setting Page</motion.div>
+
+
+
       </>
   );
 }
