@@ -13,8 +13,12 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+import '@applitools/eyes-cypress/commands'
+
+
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
+import "cypress-mochawesome-reporter/register";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

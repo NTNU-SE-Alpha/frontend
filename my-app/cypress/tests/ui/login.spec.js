@@ -133,5 +133,6 @@ describe("登入頁面測試", () => {
 
     // 確認頁面跳轉到個人資料頁面
     cy.url().should("include", "/profile");
+    cy.performVisualCheck("percy", "Login Page");
   });
 });

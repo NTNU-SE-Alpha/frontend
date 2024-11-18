@@ -1,43 +1,63 @@
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
+import "@applitools/eyes-cypress/commands";
+import "@percy/cypress";
+
 Cypress.Commands.add("login", (email, password) => {
   cy.visit("/login");
   cy.get('input[placeholder="電子信箱"]').type(email);
   cy.get('input[placeholder="密碼"]').type(password);
   cy.get(".submit-btn").click();
 });
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+// applitools初始化及關閉
+Cypress.Commands.add("initializeVisualTools", () => {
+  if (Cypress.env("USE_APPLITOOLS")) {
+    cy.eyesOpen({
+      appName: "My App",
+      testName: Cypress.currentTest.title,
+    });
+  } else {
+    cy.log("Applitools is disabled for this test.");
+  }
+});
+
+Cypress.Commands.add("finalizeVisualTools", () => {
+  if (Cypress.env("USE_APPLITOOLS")) {
+    cy.eyesClose();
+  } else {
+    cy.log("Applitools closing skipped.");
+  }
+});
+
+// How to use
+// describe('Visual Testing with Unified Tools', () => {
+//   beforeEach(() => {
+//     cy.initializeVisualTools();
+//   });
+
+//   afterEach(() => {
+//     cy.finalizeVisualTools();
+//   });
+
+//   it('should perform visual checks', () => {
+//     cy.visit('/');
+//     cy.eyesCheckWindow('Homepage');  // Applitools 視覺檢查
+//     cy.percySnapshot('Homepage');   // Percy 視覺檢查
+//   });
+// });
+Cypress.Commands.add("performVisualCheck", (tool, checkName) => {
+  // 獲取環境變數並設置默認值
+  const useApplitools = Cypress.env("USE_APPLITOOLS") ?? false; // 默認為 false
+  const usePercy = Cypress.env("USE_PERCY") ?? false; // 默認為 false
+
+  if (tool === "applitools" && useApplitools) {
+    cy.eyesCheckWindow(checkName);
+  } else if (tool === "percy" && usePercy) {
+    cy.percySnapshot(checkName);
+  } else {
+    cy.log(`${tool} visual testing is disabled.`);
+  }
+});
+// How to use
+// cy.performVisualCheck("applitools", "Homepage"); // 使用 Applitools
+// cy.performVisualCheck("percy", "Homepage"); // 使用 Percy

@@ -28,3 +28,4 @@ cypress/screenshots/
 cypress/videos/
 cypress/fixtures/example.json
 .cypress_cache/
+cypress/reports/
