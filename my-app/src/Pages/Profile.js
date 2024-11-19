@@ -144,16 +144,13 @@ const Profile = () => {
       </section>
 
       <section className="right">
-        <div className="Profile-box">
+        <div class='Profile-box'>
           <h2>歡迎，User</h2>
           <div class='profile-info'>
             <img src="/images/profile.png" alt="profile" />
-            <Button className="">送出</Button>
-            <Button className="白">返回</Button>
-            <ButtonIcon className="">
-              <Rocket />
-            </ButtonIcon>
-            <Rocket></Rocket>
+            <p>姓名：</p>
+            <p>學號：</p>
+            
           </div>
         </div>
       </section>

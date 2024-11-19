@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ButtonIcon from '../Components/ButtonIcon';
+import styled from 'styled-components';
 import axios from 'axios';
 
 const FileUpload = styled.div`
