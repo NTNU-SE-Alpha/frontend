@@ -4,17 +4,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const Warning = styled.div`
   padding: 10px;
-  background: #FF9592;
-  color: #500F1C;
+  background: #ff9592;
+  color: #500f1c;
   font-weight: 600;
   margin-bottom: 20px;
   border-radius: 20px;
 `;
 const LoginContainer = styled.div`
-
   display: flex;
   height: 100vh;
-  background: linear-gradient(180deg, #B2FEE6 0%, #00E8DC 100%);
+  background: linear-gradient(180deg, #b2fee6 0%, #00e8dc 100%);
 
   .left {
     flex: 1;
@@ -35,7 +34,7 @@ const LoginContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: linear-gradient(180deg, #F2FFFB 56%, #ACFFE5 100%);
+    background: linear-gradient(180deg, #f2fffb 56%, #acffe5 100%);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     h1 {
@@ -72,7 +71,7 @@ const LoginContainer = styled.div`
         width: 100%;
         padding: 4px;
         margin: 10px 0;
-        background: linear-gradient(90deg, #B2FEE6 0%, #00E8DC 100%);
+        background: linear-gradient(90deg, #b2fee6 0%, #00e8dc 100%);
         border: none;
         border-radius: 30px;
         color: white;
@@ -82,7 +81,7 @@ const LoginContainer = styled.div`
         /* transition: background 0.3s ease; */
 
         &:hover {
-          background: linear-gradient(90deg, #00E8DC 0%, #B2FEE6 100%);
+          background: linear-gradient(90deg, #00e8dc 0%, #b2fee6 100%);
         }
       }
     }
@@ -114,68 +113,71 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  
-  const handleLogin = async (event) => {
-      event.preventDefault();
-      if (email.length <= 0) {
-        setMessage('電子信箱不得為空');
-        return;
-       }
-      if (password.length <= 0) {
-          setMessage('密碼不得為空');
-          return;
-      }
-      try {
-          const response = await axios.post('http://localhost:5000/login', {
-              username: email,
-              password: password
-          });
-          if (response.data.access_token) {
-              // 將 JWT 存儲在 localStorage 或 sessionStorage 中
-              localStorage.setItem('token', response.data.access_token);
-              console.log(response.data)
-              setMessage('登入成功！');
-              navigate('/profile'); 
-          }
-      } catch (error) {
-          const errorMessage = error.response && error.response.data && error.response.data.message 
-            ? error.response.data.message 
-            : error.message;
 
-          console.log('登入失敗：', errorMessage);
-          setMessage(errorMessage);
-        }
-    };
-    return (
-      <LoginContainer>
-        <section className='left'>
-            <img src='images/loginbg.png' alt='pic' />
-        </section>
-        <section className='right'>
-            <h1>登入</h1>
-            {message && <Warning className='warning'>{message}</Warning>}
-            <form onSubmit={handleLogin}>
-                <input
-                    type='text'
-                    placeholder='電子信箱'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type='password'
-                    placeholder='密碼'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type='submit' className='submit-btn'>→</button>
-            </form>
-            <div className='links'>
-                <a href='/forgetpassword'>忘記密碼?</a>
-                <a href='/register'>註冊→</a>
-            </div>
-        </section>
-      </LoginContainer>
-    );
-}
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    if (email.length <= 0) {
+      setMessage('電子信箱不得為空');
+      return;
+    }
+    if (password.length <= 0) {
+      setMessage('密碼不得為空');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/login', {
+        username: email,
+        password: password,
+      });
+      if (response.data.access_token) {
+        // 將 JWT 存儲在 localStorage 或 sessionStorage 中
+        localStorage.setItem('token', response.data.access_token);
+        console.log(response.data);
+        setMessage('登入成功！');
+        navigate('/profile');
+      }
+    } catch (error) {
+      const errorMessage =
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      console.log('登入失敗：', errorMessage);
+      setMessage(errorMessage);
+    }
+  };
+  return (
+    <LoginContainer>
+      <section className="left">
+        <img src="images/loginbg.png" alt="pic" />
+      </section>
+      <section className="right">
+        <h1>登入</h1>
+        {message && <Warning className="warning">{message}</Warning>}
+        <form onSubmit={handleLogin}>
+          <input
+            type="text"
+            placeholder="電子信箱"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="密碼"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit" className="submit-btn">
+            →
+          </button>
+        </form>
+        <div className="links">
+          <a href="/forgetpassword">忘記密碼?</a>
+          <a href="/register">註冊→</a>
+        </div>
+      </section>
+    </LoginContainer>
+  );
+};
 
 export default Login;

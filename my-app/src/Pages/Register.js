@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 const ForgetPasswordContainer = styled.div`
-
   display: flex;
   height: 100vh;
-  background: linear-gradient(180deg, #B2FEE6 0%, #00E8DC 100%);
+  background: linear-gradient(180deg, #b2fee6 0%, #00e8dc 100%);
 
   .left {
     flex: 1;
@@ -22,7 +21,7 @@ const ForgetPasswordContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: linear-gradient(180deg, #F2FFFB 56%, #ACFFE5 100%);
+    background: linear-gradient(180deg, #f2fffb 56%, #acffe5 100%);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     h1 {
@@ -59,7 +58,7 @@ const ForgetPasswordContainer = styled.div`
         width: 100%;
         padding: 15px;
         margin: 10px 0;
-        background: linear-gradient(90deg, #B2FEE6 0%, #00E8DC 100%);
+        background: linear-gradient(90deg, #b2fee6 0%, #00e8dc 100%);
         border: none;
         border-radius: 30px;
         color: white;
@@ -69,7 +68,7 @@ const ForgetPasswordContainer = styled.div`
         transition: background 0.3s ease;
 
         &:hover {
-          background: linear-gradient(90deg, #00E8DC 0%, #B2FEE6 100%);
+          background: linear-gradient(90deg, #00e8dc 0%, #b2fee6 100%);
         }
       }
     }
@@ -94,33 +93,32 @@ const ForgetPasswordContainer = styled.div`
       }
     }
   }
-
 `;
 
 const ForgetPassword = () => {
   return (
     <ForgetPasswordContainer>
-        <section className='left'>
-            <img src='images/loginbg.png' alt='pic' />
-        </section>
-        <section className='right'>
-            <h1>註冊</h1>
-            <form>
-            <input type='text' placeholder='您的電子信箱' />
-            <br />
-            <input type='password' placeholder='請輸入密碼' />
-            <br />
-            <input type='password' placeholder='再次確認密碼' />
-            <br />
-            <button className='submit-btn'>寄送驗證信 →</button>
-            </form>
-            <div className='links'>
-            <a href='/forgetpassword'>忘記密碼?</a>
-            <a href='/login'>返回登入</a>
-            </div>
-        </section>
+      <section className="left">
+        <img src="images/loginbg.png" alt="pic" />
+      </section>
+      <section className="right">
+        <h1>註冊</h1>
+        <form>
+          <input type="text" placeholder="您的電子信箱" />
+          <br />
+          <input type="password" placeholder="請輸入密碼" />
+          <br />
+          <input type="password" placeholder="再次確認密碼" />
+          <br />
+          <button className="submit-btn">寄送驗證信 →</button>
+        </form>
+        <div className="links">
+          <a href="/forgetpassword">忘記密碼?</a>
+          <a href="/login">返回登入</a>
+        </div>
+      </section>
     </ForgetPasswordContainer>
-  )
-}
+  );
+};
 
-export default ForgetPassword
+export default ForgetPassword;
