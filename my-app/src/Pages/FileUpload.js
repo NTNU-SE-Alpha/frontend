@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import axios from 'axios';
+
+const FileUpload = styled.div`
+
+  .box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align horizontally */
+    align-items: center;   /* Align vertically */
+    height: 100vh;         /* Full height of the viewport */
+    border-radius: 5px;
+  }
+`;
 
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -50,35 +62,37 @@ const UploadFile = () => {
   };
 
   return (
-    <div>
-      <h1>上傳pdf</h1>
-      <form>
-        <input
-          type="file"
-          id="fileElem"
-          accept="application/pdf"
-          style={{ display: 'none' }}
-          onChange={(e) => handleFiles(e.target.files)}
-        />
-        <label class="button" for="fileElem">
-          選擇檔案
-        </label>
-        {/* <button>選擇檔案</button> */}
-      </form>
-      <button
-        display={!selectedFile ? 'block' : 'none'}
-        disabled={!selectedFile || isUploading}
-        onClick={startUpload}
-      >
-        上傳檔案
-      </button>
-      <div>{uploadStatus}</div>
-      {uploadedFileName && (
-        <div>
-          <a href={`/uploads/${uploadedFileName}`}>{uploadedFileName}</a>
-        </div>
-      )}
-    </div>
+    <FileUpload>
+      <div class='box'>
+        <h1>上傳pdf</h1>
+        <form>
+          <input
+            type="file"
+            id="fileElem"
+            accept="application/pdf"
+            style={{ display: 'none' }}
+            onChange={(e) => handleFiles(e.target.files)}
+          />
+          <label class="button" for="fileElem">
+            選擇檔案
+          </label>
+          {/* <button>選擇檔案</button> */}
+        </form>
+        <button
+          display={!selectedFile ? 'block' : 'none'}
+          disabled={!selectedFile || isUploading}
+          onClick={startUpload}
+        >
+          上傳檔案
+        </button>
+        <div>{uploadStatus}</div>
+        {uploadedFileName && (
+          <div>
+            <a href={`/uploads/${uploadedFileName}`}>{uploadedFileName}</a>
+          </div>
+        )}
+      </div>
+    </FileUpload>
   );
 };
 
