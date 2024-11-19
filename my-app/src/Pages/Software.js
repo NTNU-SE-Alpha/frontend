@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Card from '../Components/Card';
 import Button from '../Components/Button';
 import { Pencil, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Reorder } from 'framer-motion';
 
 const SoftwareContainer = styled.div`
   a#icon{
@@ -96,14 +97,20 @@ const SoftwareContainer = styled.div`
           width: 100%; 
           padding-bottom: 10px;
         }
-      }
-
-      .頂頂 {
+        .頂頂 {
         display: flex;
         justify-content: center;
         align-items: center;
-        
       }
+      }
+      ul.tabs {
+        display: flex;
+        gap: 10px;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      
       .center {
         text-align: center;
       }
@@ -147,12 +154,14 @@ const SoftwareContainer = styled.div`
   }
   }
 `;
-
+const initialTabs = ['作業', '課程資訊', '考試', '聊天'];
 const Software = ({params}) => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [tabs, setTabs] = useState(initialTabs);
     return (
       <SoftwareContainer>
 
@@ -189,12 +198,22 @@ const Software = ({params}) => {
                     </a>
                   </div>       
                 </div>
-                <div class="grid">
-                    <Button >作業</Button>
-                    <Button style="白">課程資訊</Button>
-                    <Button style="白">考試</Button>
-                    <Button style="白">聊天</Button>
-                  </div>
+                <Reorder.Group
+                  as="ul"
+                  axis="x"
+                  onReorder={setTabs}
+                  className="tabs"
+                  values={tabs}
+                >
+                
+                  {tabs.map((item) => (
+                    <Reorder.Item key={item} value={item}>
+                      <Button>{item}</Button>
+                    </Reorder.Item>
+                  ))}
+                
+              </Reorder.Group>
+
                 <div class='scrollable-container'>
                   lorem ipsum dolor sit amet
                   lorem ipsum dolor sit amet
@@ -204,7 +223,6 @@ const Software = ({params}) => {
                   lorem ipsum dolor sit amet
                 </div>
               </div>
-
             </div>
           </section>
       </SoftwareContainer>

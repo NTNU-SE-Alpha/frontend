@@ -20,6 +20,7 @@ import Profile from './Pages/Profile';
 import Software from './Pages/Software';
 import ErrorPage from "./Pages/NotFoundPage";
 import Setting from './Pages/Setting';
+import Media from './Pages/MediaRecord';
 
 const root = document.querySelector("#root");
 
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
   {
     path: "/fileupload",
     element: <FileUpload />,
+  },
+  {
+    path: "/media",
+    element: <Media />
   }
 ]);
 

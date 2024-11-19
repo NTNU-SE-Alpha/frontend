@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from "prop-types";
 
 const ButtonContainer = styled.button`
     border-radius: 0.7rem;
@@ -14,12 +15,15 @@ const ButtonContainer = styled.button`
     }
 `;
 
-const ButtonIcon = (props) => {
-    const className = props.style;
-    const { onClick } = props;
+const ButtonIcon = ({ style, onClick, children }) => {
     return (
-      <ButtonContainer className={className} onClick={onClick}>{props.children}</ButtonContainer>
+      <ButtonContainer className={style} onClick={onClick}>{children}</ButtonContainer>
   )
+}
+ButtonIcon.prototype = {
+    style: PropTypes.string,
+    onClick: PropTypes.func,
+    children: PropTypes.node
 }
 
 export default ButtonIcon

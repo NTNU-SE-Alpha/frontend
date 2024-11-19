@@ -127,7 +127,7 @@ const Profile = () => {
                 <img src="/images/profile.png" alt="profile" />
                 <Button style="">送出</Button>
                 <Button style="白">返回</Button>
-                <ButtonIcon style="" onClick={()=>alert('jfn')}><Rocket /></ButtonIcon>
+                <ButtonIcon style="" ><Rocket /></ButtonIcon>
                 <Rocket></Rocket>
               </div>
             </div>
