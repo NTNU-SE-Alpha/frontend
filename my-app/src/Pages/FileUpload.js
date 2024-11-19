@@ -2,6 +2,18 @@ import React, { useState } from 'react';
 import ButtonIcon from '../Components/ButtonIcon';
 import axios from 'axios';
 
+const FileUpload = styled.div`
+
+  .box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align horizontally */
+    align-items: center;   /* Align vertically */
+    height: 100vh;         /* Full height of the viewport */
+    border-radius: 5px;
+  }
+`;
+
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
