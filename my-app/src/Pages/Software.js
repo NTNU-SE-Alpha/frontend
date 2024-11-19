@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import Card from '../Components/Card';
+// import Card from '../Components/Card';
 import Button from '../Components/Button';
 import { Pencil, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Reorder } from 'framer-motion';
@@ -187,7 +187,10 @@ const Software = ({ params }) => {
                 <div>上一則</div>
               </div>
 
-              <div class="center">第一週</div>
+              <div class="center">
+                <span>第一週</span>
+                <Pencil />
+              </div>
 
               <div class="頂頂">
                 下一則

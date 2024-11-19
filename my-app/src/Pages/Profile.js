@@ -110,32 +110,32 @@ const Profile = () => {
         <ul>
           <li>
             <a href="/profile">
-              <Button style="白">詳細資料</Button>
+              <Button className="白">詳細資料</Button>
             </a>
           </li>
           <li>
             <a href="/profile">
-              <Button style="白">課程</Button>
+              <Button className="白">課程</Button>
             </a>
           </li>
           <li>
             <a href="/profile">
-              <Button style="白">登入活動</Button>
+              <Button className="白">登入活動</Button>
             </a>
           </li>
           <li>
             <a href="/profile">
-              <Button style="白">LLM History</Button>
+              <Button className="白">LLM History</Button>
             </a>
           </li>
           <li>
             <a href="/profile">
-              <Button style="白">統計資料</Button>
+              <Button className="白">統計資料</Button>
             </a>
           </li>
           <li>
             <a href="/profile">
-              <Button style="白">設定</Button>
+              <Button className="白">設定</Button>
             </a>
           </li>
         </ul>
@@ -146,9 +146,9 @@ const Profile = () => {
           <h2>歡迎，User</h2>
           <div>
             <img src="/images/profile.png" alt="profile" />
-            <Button style="">送出</Button>
-            <Button style="白">返回</Button>
-            <ButtonIcon style="">
+            <Button className="">送出</Button>
+            <Button className="白">返回</Button>
+            <ButtonIcon className="">
               <Rocket />
             </ButtonIcon>
             <Rocket></Rocket>

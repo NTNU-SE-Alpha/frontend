@@ -15,17 +15,11 @@ const ButtonContainer = styled.button`
   }
 `;
 
-const ButtonIcon = ({ style, onClick, children }) => {
-  return (
-    <ButtonContainer className={style} onClick={onClick}>
-      {children}
-    </ButtonContainer>
-  );
+const ButtonIcon = ({ children, ...rest }) => {
+  return <ButtonContainer {...rest}>{children}</ButtonContainer>;
 };
 ButtonIcon.prototype = {
-  style: PropTypes.string,
-  onClick: PropTypes.func,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export default ButtonIcon;

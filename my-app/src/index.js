@@ -2,6 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './Styles/style.scss';
+
+import 'github-markdown-css';
+
 // import './Styles/style.css';
 // import App from './App';
 import RequireAuth from './Components/RequireAuth';

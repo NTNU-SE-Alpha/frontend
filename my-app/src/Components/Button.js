@@ -35,11 +35,8 @@ const ButtonContainer = styled.button`
   }
 `;
 
-const Button = (props) => {
-  const className = props.style;
-  return (
-    <ButtonContainer className={className}>{props.children}</ButtonContainer>
-  );
+const Button = ({ children, ...rest }) => {
+  return <ButtonContainer {...rest}>{children}</ButtonContainer>;
 };
 
 export default Button;

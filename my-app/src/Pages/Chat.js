@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Button from '../Components/Button';
@@ -143,10 +143,8 @@ const Chat = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <Button style="chat 👀" className="👀">
-            跌倒除了 fall down還有其他說法嗎
-          </Button>
-          <Button style="chat 白 🤖">
+          <Button className="chat 👀">跌倒除了 fall down還有其他說法嗎</Button>
+          <Button className="chat 白 🤖">
             「跌倒」除了用 fall down 表示，還有其他說法可以根據情境使用： Trip -
             通常表示「被絆倒」，比如 "She tripped over a rock." Stumble -
             比較像是「踉蹌、絆了一下」，但未必完全跌倒，例如 "He stumbled on the
@@ -159,7 +157,7 @@ const Chat = () => {
               animate={{ x: 0 }}
               transition={{ type: 'spring', duration: 0.5 }}
             >
-              <Button key={index} style="chat 👀" className="👀">
+              <Button key={index} className="chat 👀">
                 {message.text}
               </Button>
             </motion.div>

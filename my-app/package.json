@@ -10,7 +10,9 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "framer-motion": "^11.11.11",
+    "github-markdown-css": "^5.8.0",
     "lucide-react": "^0.454.0",
+    "marked": "^15.0.1",
     "pexels": "^1.4.0",
     "postcss": "^8.4.47",
     "react": "^18.3.1",
@@ -26,7 +28,8 @@
   "scripts": {
     "build-css": "sass src/Styles:src/Styles --watch",
     "start-react": "react-scripts start",
-    "start": "npm-run-all --parallel build-css start-react",
+    "format": "npx prettier --write .",
+    "start": "npm-run-all --parallel format build-css start-react",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
