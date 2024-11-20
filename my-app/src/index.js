@@ -21,6 +21,7 @@ import Software from './Pages/Software';
 import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
 import Media from './Pages/MediaRecord';
+import Something from './Pages/Something';
 
 const root = document.querySelector('#root');
 
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: '/setting',
         element: <Setting />,
+      },
+      {
+        path: '/something',
+        element: <Something />,
       },
     ],
   },
