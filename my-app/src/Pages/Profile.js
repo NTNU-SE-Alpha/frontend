@@ -87,7 +87,7 @@ const ProfileContainer = styled.div`
         margin-top: 1.5rem;
       }
 
-    .profile-info {
+      .profile-info {
         align-self: flex-start;
         height: 100vh;
         display: block;
@@ -144,13 +144,12 @@ const Profile = () => {
       </section>
 
       <section className="right">
-        <div class='Profile-box'>
+        <div class="Profile-box">
           <h2>歡迎，User</h2>
-          <div class='profile-info'>
+          <div class="profile-info">
             <img src="/images/profile.png" alt="profile" />
             <p>姓名：</p>
             <p>學號：</p>
-            
           </div>
         </div>
       </section>
