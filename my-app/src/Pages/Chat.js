@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
+import MediaRecord from '../Components/MediaRecord';
 import { motion } from 'framer-motion';
 const ChatContainer = styled.div`
   display: flex;
@@ -50,11 +51,12 @@ const ChatContainer = styled.div`
       align-items: center;
       width: 100%;
       height: 100%;
-      background: #ffffff;
+      background: teal;
       border-radius: 30px;
-      border: #5d5d5d solid 2px;
+      /* border: #5d5d5d solid 2px; */
       margin-top: 1rem;
-      padding: 0 0.75rem;
+      padding: 0 0 0 0.75rem;
+      color: #fff;
       input {
         flex: 1;
         font-size: 16px;
@@ -63,6 +65,10 @@ const ChatContainer = styled.div`
         border-radius: 30px;
         border: none;
         outline: none;
+        background-color: inherit;
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.75);
+        }
       }
       button.上 {
         margin-right: 0.75rem;
@@ -189,6 +195,7 @@ const Chat = () => {
               </svg>
             </ButtonIcon>
           </form>
+          {/* <MediaRecord /> */}
           <input
             value={inputText}
             type="text"

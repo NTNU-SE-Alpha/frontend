@@ -4,9 +4,9 @@ import styled from 'styled-components';
 const ButtonContainer = styled.button`
   border-radius: 0.7rem;
   padding: 0.5rem 1rem;
-  background-color: #12a594;
+  background-color: teal;
   color: #fff;
-  border: #12a594 solid 2px;
+  border: teal solid 2px;
   &:hover {
     background-color: #207e73;
     color: #fff;

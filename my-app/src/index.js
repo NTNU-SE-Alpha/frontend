@@ -20,7 +20,7 @@ import Profile from './Pages/Profile';
 import Software from './Pages/Software';
 import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
-import Media from './Pages/MediaRecord';
+import Media from './Components/MediaRecord';
 import Something from './Pages/Something';
 
 const root = document.querySelector('#root');
@@ -69,6 +69,10 @@ const router = createBrowserRouter([
         element: <Something />,
       },
     ],
+  },
+  {
+    path: '/something',
+    element: <Something />,
   },
   {
     path: '/profile',
