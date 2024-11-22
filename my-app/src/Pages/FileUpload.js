@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-// import styled from 'styled-components';
+import ButtonIcon from '../Components/ButtonIcon';
+import styled from 'styled-components';
 import axios from 'axios';
 
+const FileUpload = styled.div`
+  .box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align horizontally */
+    align-items: center; /* Align vertically */
+    height: 100vh; /* Full height of the viewport */
+    border-radius: 5px;
+  }
+`;
+
 const UploadFile = () => {
-  
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadedFileName, setUploadedFileName] = useState('');
@@ -20,7 +31,7 @@ const UploadFile = () => {
       alert('目前只支援 PDF 檔案');
     }
   };
-  
+
   const startUpload = () => {
     if (!selectedFile) return;
 
@@ -28,29 +39,32 @@ const UploadFile = () => {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    axios.post(url, formData, {
+    axios
+      .post(url, formData, {
         headers: {
-            'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
         },
         onUploadProgress: (progressEvent) => {
-            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            setUploadProgress(percent);
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percent);
         },
-    })
-    .then(response => {
+      })
+      .then((response) => {
         setUploadStatus('File uploaded successfully!');
         setUploadedFileName(response.data.filename); // 假設伺服器回應中的 filename 是這樣命名的
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         alert('Error uploading the file.');
         console.log(error);
-    });
-};
-
+      });
+  };
 
   return (
-    <div>
-      <h1>上傳pdf</h1>
+    <FileUpload>
+      <div class="box">
+        <h1>上傳pdf</h1>
         <form>
           <input
             type="file"
@@ -59,25 +73,26 @@ const UploadFile = () => {
             style={{ display: 'none' }}
             onChange={(e) => handleFiles(e.target.files)}
           />
-          <label class="button" for="fileElem">選擇檔案</label>
+          <label class="button" for="fileElem">
+            選擇檔案
+          </label>
           {/* <button>選擇檔案</button> */}
         </form>
         <button
-          display = {!selectedFile ? 'block' : 'none'}
+          display={!selectedFile ? 'block' : 'none'}
           disabled={!selectedFile || isUploading}
           onClick={startUpload}
         >
           上傳檔案
         </button>
-      <div>{uploadStatus}</div>
-      {uploadedFileName && (
-        <div>
-          <a href={`/uploads/${uploadedFileName}`}>
-            {uploadedFileName}
-          </a>
-        </div>
-      )}
-    </div>
+        <div>{uploadStatus}</div>
+        {uploadedFileName && (
+          <div>
+            <a href={`/uploads/${uploadedFileName}`}>{uploadedFileName}</a>
+          </div>
+        )}
+      </div>
+    </FileUpload>
   );
 };
 

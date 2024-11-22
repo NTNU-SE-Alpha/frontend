@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const CourseCardContainer = styled.div`
-  
-  aspect-ratio: calc(16/3);
+  aspect-ratio: calc(16 / 3);
   width: 100%;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -14,7 +13,7 @@ const CourseCardContainer = styled.div`
   position: relative;
   /* margin: 10px; */
 
-  svg{
+  svg {
     position: absolute;
     z-index: 100;
     top: 10px;
@@ -27,7 +26,7 @@ const CourseCardContainer = styled.div`
     }
   }
   .change {
-    fill: #FFFF55;
+    fill: #ffff55;
   }
 `;
 
@@ -35,7 +34,7 @@ const CourseTitle = styled.a`
   font-size: 1rem;
   text-align: center;
   width: 100%;
-  
+
   color: #fff;
   padding: 12px;
   position: absolute;
@@ -51,13 +50,9 @@ const Card = (props) => {
   const name = props.name;
   return (
     <CourseCardContainer>
-      
-      <CourseTitle href={`/course/${props}`}>
-        {name}
-      </CourseTitle>
+      <CourseTitle href={`/course/${props}`}>{name}</CourseTitle>
     </CourseCardContainer>
   );
-}
-
+};
 
 export default Card;

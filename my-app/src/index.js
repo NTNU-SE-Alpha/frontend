@@ -1,10 +1,10 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './Styles/style.scss';
+
+import 'github-markdown-css';
+
 // import './Styles/style.css';
 // import App from './App';
 import RequireAuth from './Components/RequireAuth';
@@ -18,79 +18,95 @@ import Course from './Pages/Course';
 import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
 import Software from './Pages/Software';
-import ErrorPage from "./Pages/NotFoundPage";
+import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
+import Media from './Pages/MediaRecord';
+import Something from './Pages/Something';
 
-const root = document.querySelector("#root");
+const root = document.querySelector('#root');
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-        <Nav />
-    ),
+    path: '/',
+    element: <Nav />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/home",
+        path: '/home',
         element: <Home />,
       },
       {
-        path: "/course",
+        path: '/course',
         element: <Course />,
       },
       {
-        path: "/course/:courseId",
+        path: '/course/:courseId',
         element: <Software />,
       },
-      
+
       {
-        path: "/login",
+        path: '/login',
         element: <Login />,
       },
       {
-        path: "/register",
+        path: '/register',
         element: <Register />,
       },
       {
-        path: "/forgetpassword",
+        path: '/forgetpassword',
         element: <ForgetPassword />,
       },
       {
-        path: "/chat",
+        path: '/chat',
         element: <Chat />,
       },
       {
-        path: "/setting",
+        path: '/setting',
         element: <Setting />,
       },
-    ]
+      {
+        path: '/something',
+        element: <Something />,
+      },
+    ],
   },
   {
-    path: "/profile",
+    path: '/profile',
     element: <Profile />,
   },
-  
+
   {
-    path: "/softwares",
+    path: '/softwares',
     element: <Software />,
   },
   {
-    path: "/chat2",
-    element: <RequireAuth><Chat /></RequireAuth>,
+    path: '/chat2',
+    element: (
+      <RequireAuth>
+        <Chat />
+      </RequireAuth>
+    ),
   },
   {
-    path: "/softwares",
-    element: <RequireAuth><Software /></RequireAuth>,
+    path: '/softwares',
+    element: (
+      <RequireAuth>
+        <Software />
+      </RequireAuth>
+    ),
   },
   {
-    path: "/fileupload",
+    path: '/fileupload',
     element: <FileUpload />,
-  }
+  },
+  {
+    path: '/media',
+    element: <Media />,
+  },
 ]);
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>,
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );

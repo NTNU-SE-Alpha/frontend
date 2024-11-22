@@ -1,12 +1,12 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    font-family: "Noto Sans TC", Arial, sans-serif, system-ui;
-    background-color: #f5f5f5;
+body {
+  font-family: 'Noto Sans TC', Arial, sans-serif, system-ui;
+  background-color: #f5f5f5;
 }
 
 ol,
@@ -47,7 +47,6 @@ select {
   text-transform: none;
 }
 
-
 button,
 input:where([type='button']),
 input:where([type='reset']),
@@ -66,19 +65,18 @@ input:where([type='submit']) {
 }
 
 ::-webkit-file-upload-button {
-    -webkit-appearance: button;
-    /* 1 */
-    font: inherit;
-    /* 2 */
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
 }
 button,
-[role="button"] {
+[role='button'] {
   cursor: pointer;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap');
 // @import 'bootstrap/scss/bootstrap';
-
 
 // @import 'login';
 // @import 'nav';
