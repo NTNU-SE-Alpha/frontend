@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './Styles/style.scss';
 
-import 'github-markdown-css';
+import './Styles/github-markdown-css-light.css';
 
 // import './Styles/style.css';
 // import App from './App';
@@ -20,7 +20,7 @@ import Profile from './Pages/Profile';
 import Software from './Pages/Software';
 import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
-import Media from './Pages/MediaRecord';
+import Media from './Components/MediaRecord';
 import Something from './Pages/Something';
 
 const root = document.querySelector('#root');
@@ -61,6 +61,10 @@ const router = createBrowserRouter([
         element: <Chat />,
       },
       {
+        path: '/chat/:uuid',
+        element: <Chat />,
+      },
+      {
         path: '/setting',
         element: <Setting />,
       },
@@ -69,6 +73,10 @@ const router = createBrowserRouter([
         element: <Something />,
       },
     ],
+  },
+  {
+    path: '/something',
+    element: <Something />,
   },
   {
     path: '/profile',

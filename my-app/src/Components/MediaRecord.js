@@ -1,10 +1,29 @@
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { LiveAudioVisualizer } from 'react-audio-visualize';
-import ButtonIcon from '../Components/ButtonIcon';
+import ButtonIcon from './ButtonIcon';
 import { Mic, MicOff } from 'lucide-react';
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
-const RecordView = () => {
+const MediaContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .rec_container {
+    display: flex;
+    align-items: center;
+    .red_circle {
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background-color: red;
+      margin: 0 0.5rem;
+    }
+  }
+`;
+
+const MediaRecord = () => {
   const [mediaStream, setMediaStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
 
@@ -28,9 +47,7 @@ const RecordView = () => {
     });
 
   return (
-    <div>
-      <p>{status}</p>
-
+    <MediaContainer>
       {(status === 'idle' || status === 'stopped') && (
         <ButtonIcon onClick={startRecording}>
           <Mic />
@@ -38,9 +55,26 @@ const RecordView = () => {
       )}
 
       {status === 'recording' && (
-        <ButtonIcon onClick={stopRecording}>
-          <MicOff />
-        </ButtonIcon>
+        <div className="rec_container">
+          <ButtonIcon onClick={stopRecording}>
+            <MicOff />
+          </ButtonIcon>
+          <motion.div
+            className="red_circle"
+            animate={{
+              type: 'spring',
+              scale: [0, 1, 0],
+            }}
+            transition={{
+              duration: 1,
+              times: [0, 0.5, 1],
+              repeat: Infinity,
+              repeatDelay: 0.5,
+              repeatType: 'loop',
+            }}
+          />
+          <p>{status}</p>
+        </div>
       )}
       {/* 
       {isRecording && mediaStream && (
@@ -54,9 +88,11 @@ const RecordView = () => {
       )} */}
 
       {/* 錄製完成後的音頻播放 */}
-      {mediaBlobUrl && <audio src={mediaBlobUrl} controls />}
-    </div>
+      {(status === 'idle' || status === 'stopped') && mediaBlobUrl && (
+        <audio src={mediaBlobUrl} controls />
+      )}
+    </MediaContainer>
   );
 };
 
-export default RecordView;
+export default MediaRecord;

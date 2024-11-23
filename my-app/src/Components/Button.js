@@ -4,20 +4,20 @@ import styled from 'styled-components';
 const ButtonContainer = styled.button`
   border-radius: 0.7rem;
   padding: 0.5rem 1rem;
-  background-color: #12a594;
+  background-color: teal;
   color: #fff;
-  border: #12a594 solid 2px;
+  border: teal solid 2px;
   &:hover {
-    background-color: #207e73;
+    background-color: #044842;
     color: #fff;
-    border: #207e73 solid 2px;
+    border: #044842 solid 2px;
   }
   &.白 {
     background-color: rgba(0, 0, 0, 0);
     border: #207e73 solid 2px;
     color: #207e73;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+      border: #207e73 solid 2px;
     }
   }
   &.chat {
