@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './Styles/style.scss';
 
-import 'github-markdown-css';
+import './Styles/github-markdown-css-light.css';
 
 // import './Styles/style.css';
 // import App from './App';

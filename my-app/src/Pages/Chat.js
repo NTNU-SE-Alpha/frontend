@@ -7,6 +7,7 @@ import ButtonIcon from '../Components/ButtonIcon';
 import MediaRecord from '../Components/MediaRecord';
 import { Reorder, motion } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { marked } from 'marked';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -240,17 +241,7 @@ const Chat = ({ params }) => {
         </Reorder.Group>
         <motion.div
           className="chat-box-container"
-          // initial={{ opacity: 0, scale: 0.5 }}
-          // animate={{ opacity: 1, scale: 1 }}
-          // transition={{ type: 'spring', duration: 0.5, delay: 0.5 }}
         >
-          {/* <Button className="chat 👀">跌倒除了 fall down還有其他說法嗎</Button>
-          <Button className="chat 白 🤖">
-            「跌倒」除了用 fall down 表示，還有其他說法可以根據情境使用： Trip -
-            通常表示「被絆倒」，比如 "She tripped over a rock." Stumble -
-            比較像是「踉蹌、絆了一下」，但未必完全跌倒，例如 "He stumbled on the
-            stairs." 這些說法可以根據情境選擇最貼切的用法！
-          </Button> */}
           {messages.map((message, index) => (
             <>
               {message.sender === 'user' ? (
@@ -272,7 +263,9 @@ const Chat = ({ params }) => {
                   transition={{ type: 'spring', duration: 0.5 }}
                 >
                   <Button key={index} className="chat 白 🤖">
-                    {message.text}
+                  <div className="markdown-body">
+                    <div dangerouslySetInnerHTML={{ __html: marked(message.text || '') }} />
+                  </div>
                   </Button>
                 </motion.div>
               )}

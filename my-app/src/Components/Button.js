@@ -8,16 +8,16 @@ const ButtonContainer = styled.button`
   color: #fff;
   border: teal solid 2px;
   &:hover {
-    background-color: #207e73;
+    background-color: #044842;
     color: #fff;
-    border: #207e73 solid 2px;
+    border: #044842 solid 2px;
   }
   &.白 {
     background-color: rgba(0, 0, 0, 0);
     border: #207e73 solid 2px;
     color: #207e73;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+      border: #207e73 solid 2px;
     }
   }
   &.chat {
