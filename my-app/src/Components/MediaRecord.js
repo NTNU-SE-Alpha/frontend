@@ -48,7 +48,6 @@ const MediaRecord = () => {
 
   return (
     <MediaContainer>
-      
       {(status === 'idle' || status === 'stopped') && (
         <ButtonIcon onClick={startRecording}>
           <Mic />
@@ -56,7 +55,7 @@ const MediaRecord = () => {
       )}
 
       {status === 'recording' && (
-        <div className='rec_container'>
+        <div className="rec_container">
           <ButtonIcon onClick={stopRecording}>
             <MicOff />
           </ButtonIcon>
@@ -75,7 +74,6 @@ const MediaRecord = () => {
             }}
           />
           <p>{status}</p>
-          
         </div>
       )}
       {/* 
@@ -90,7 +88,9 @@ const MediaRecord = () => {
       )} */}
 
       {/* 錄製完成後的音頻播放 */}
-      {(status === 'idle' || status === 'stopped') && mediaBlobUrl && <audio src={mediaBlobUrl} controls />}
+      {(status === 'idle' || status === 'stopped') && mediaBlobUrl && (
+        <audio src={mediaBlobUrl} controls />
+      )}
     </MediaContainer>
   );
 };

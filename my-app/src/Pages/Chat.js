@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
 import MediaRecord from '../Components/MediaRecord';
 import { Reorder, motion } from 'framer-motion';
-import { Type } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ const ChatContainer = styled.div`
       list-style-type: none;
       padding: 0;
       margin: 0;
+      /* overflow-x: auto; */
     }
     .chat-box-container {
       display: flex;
@@ -85,69 +87,132 @@ const ChatContainer = styled.div`
   }
 `;
 
-const Chat = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadedFileName, setUploadedFileName] = useState('');
-  const [uploadStatus, setUploadStatus] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
+const Chat = ({ params }) => {
+  const { uuid: routeUuid } = useParams();
+  const [uuid, setUuid] = useState(routeUuid || '');
+  const [navigateToUuid, setNavigateToUuid] = useState(null);
+
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
   const [tabs, setTabs] = useState();
   const [conversations, setConversations] = useState([]);
+  const [history, setHistory] = useState([]);
+  const token = localStorage.getItem('token');
+
+  const fetchConversations = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:5000/list_conversations',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { conversations } = response.data;
+      setConversations(conversations);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+    }
+  }, [token]);
+  const startConversation = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:5000/start_conversation',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { uuid: newUuid } = response.data;
+      setUuid(newUuid);
+      setNavigateToUuid(newUuid);
+    } catch (error) {
+      console.error('Error starting conversation:', error);
+    }
+  }, [token]);
+  const getHisory = useCallback(
+    async (uuid) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/history/${uuid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const history = response.data.history;
+        setMessages(
+          history.map((msg) => ({ text: msg.message, sender: msg.sender }))
+        );
+      } catch (error) {
+        console.error('Error fetching history:', error);
+      }
+    },
+    [token]
+  );
 
   useEffect(() => {
-    // 定義一個函式來獲取對話列表
-    const fetchConversations = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.error('No token found in localStorage');
-          return;
-        }
-        const response = await axios.get('http://127.0.0.1:5000/list_conversations', {
-          headers: {
-            Authorization: `Bearer ${token}`, // 添加 Authorization 標頭
-          },
-        });
-        const { conversations } = response.data;
-        setConversations(conversations);
-      } catch (error) {
-        console.error('Error fetching conversations:', error);
-      }
-    };
-
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
+    if (uuid) {
+      getHisory(uuid);
+    }
     fetchConversations();
-  }, []); // 空陣列代表只在第一次渲染時執行
-  const handleSubmit = (e) => {
+  }, [uuid, fetchConversations, getHisory, token]);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (inputText.trim() !== '') {
-      setMessages([...messages, { text: inputText, sender: '👀' }]);
-      setInputText('');
+    if (!inputText.trim()) return;
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: inputText, sender: 'user' },
+    ]);
+    let currentUuid = uuid;
+    if (!currentUuid) {
+      currentUuid = await startConversation();
+      if (!currentUuid) {
+        console.error('Failed to start conversation.');
+        return;
+      }
+    }
+
+    AIChating(currentUuid);
+    setInputText('');
+  };
+  const AIChating = async (uuid) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/chat/${uuid}`,
+        {
+          user_input: inputText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { answer } = response.data;
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: answer, sender: 'assistant' },
+      ]);
+    } catch (error) {
+      console.error('Error sending message:', error);
     }
   };
-
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
-  const handleFiles = (files) => {
-    const file = files[0];
-    if (file && file.type === 'application/pdf') {
-      setSelectedFile(file);
-      setUploadStatus(`已選擇檔案: ${file.name}`);
-      setUploadedFileName('');
-      startUpload();
-    } else {
-      alert('目前只支援 PDF 檔案');
-    }
-  };
-  const startUpload = () => {
-    if (!selectedFile) return;
-    const url = 'http://localhost:5000/api/upload'; // 設定你的上傳 URL
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-  };
+  if (navigateToUuid) {
+    return <Navigate to={`/chat/${navigateToUuid}`} />;
+  }
   return (
     <ChatContainer>
       <section className="chat-room">
@@ -158,35 +223,60 @@ const Chat = () => {
           className="tabs"
           values={conversations}
         >
-          {conversations.map((item) => (
-            <Reorder.Item key={item.uuid} value={item}>
-              <Button>{item.summary}</Button>
-            </Reorder.Item>
-          ))}
+          {conversations.length > 0 ? (
+            conversations
+              .slice(-4)
+              .reverse()
+              .map((item) => (
+                <Reorder.Item key={item.uuid} value={item}>
+                  <a href={`/chat/${item.uuid}`}>
+                    <Button>{item.summary}</Button>
+                  </a>
+                </Reorder.Item>
+              ))
+          ) : (
+            <Button>載入中..</Button>
+          )}
         </Reorder.Group>
         <motion.div
           className="chat-box-container"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
+          // initial={{ opacity: 0, scale: 0.5 }}
+          // animate={{ opacity: 1, scale: 1 }}
+          // transition={{ type: 'spring', duration: 0.5, delay: 0.5 }}
         >
-          <Button className="chat 👀">跌倒除了 fall down還有其他說法嗎</Button>
+          {/* <Button className="chat 👀">跌倒除了 fall down還有其他說法嗎</Button>
           <Button className="chat 白 🤖">
             「跌倒」除了用 fall down 表示，還有其他說法可以根據情境使用： Trip -
             通常表示「被絆倒」，比如 "She tripped over a rock." Stumble -
             比較像是「踉蹌、絆了一下」，但未必完全跌倒，例如 "He stumbled on the
             stairs." 這些說法可以根據情境選擇最貼切的用法！
-          </Button>
+          </Button> */}
           {messages.map((message, index) => (
-            <motion.div
-              key={index}
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              transition={{ type: 'spring', duration: 0.5 }}
-            >
-              <Button key={index} className="chat 👀">
-                {message.text}
-              </Button>
-            </motion.div>
+            <>
+              {message.sender === 'user' ? (
+                <motion.div
+                  key={index}
+                  initial={{ x: '100%' }}
+                  animate={{ x: 0 }}
+                  transition={{ type: 'spring', duration: 0.5 }}
+                >
+                  <Button key={index} className="chat 👀">
+                    {message.text}
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={index}
+                  initial={{ x: '-100%' }}
+                  animate={{ x: 0 }}
+                  transition={{ type: 'spring', duration: 0.5 }}
+                >
+                  <Button key={index} className="chat 白 🤖">
+                    {message.text}
+                  </Button>
+                </motion.div>
+              )}
+            </>
           ))}
         </motion.div>
         {/* <ButtonIcon>
@@ -201,21 +291,7 @@ const Chat = () => {
             onChange={handleInputChange}
           ></input>
           <ButtonIcon className="上" type="submit">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-2xl"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M15.1918 8.90615C15.6381 8.45983 16.3618 8.45983 16.8081 8.90615L21.9509 14.049C22.3972 14.4953 22.3972 15.2189 21.9509 15.6652C21.5046 16.1116 20.781 16.1116 20.3347 15.6652L17.1428 12.4734V22.2857C17.1428 22.9169 16.6311 23.4286 15.9999 23.4286C15.3688 23.4286 14.8571 22.9169 14.8571 22.2857V12.4734L11.6652 15.6652C11.2189 16.1116 10.4953 16.1116 10.049 15.6652C9.60265 15.2189 9.60265 14.4953 10.049 14.049L15.1918 8.90615Z"
-                fill="currentColor"
-              ></path>
-            </svg>
+            <ArrowUp />
           </ButtonIcon>
         </form>
       </section>

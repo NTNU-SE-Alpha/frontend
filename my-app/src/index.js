@@ -61,6 +61,10 @@ const router = createBrowserRouter([
         element: <Chat />,
       },
       {
+        path: '/chat/:uuid',
+        element: <Chat />,
+      },
+      {
         path: '/setting',
         element: <Setting />,
       },
