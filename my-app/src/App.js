@@ -9,7 +9,7 @@ import FileUpload from './Pages/FileUpload';
 import Course from './Pages/Course';
 import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
-import Software from './Pages/Software';
+import Software from './Pages/CourseInfo';
 
 function App() {
   return (

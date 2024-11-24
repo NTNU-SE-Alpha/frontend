@@ -17,7 +17,7 @@ import FileUpload from './Pages/FileUpload';
 import Course from './Pages/Course';
 import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
-import Software from './Pages/Software';
+import Software from './Pages/CourseInfo';
 import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
 import Media from './Components/MediaRecord';
@@ -43,30 +43,29 @@ const router = createBrowserRouter([
         path: '/course/:courseId',
         element: <Software />,
       },
-
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/forgetpassword',
-        element: <ForgetPassword />,
-      },
       {
         path: '/chat',
-        element: <Chat />,
+        element: (
+          <RequireAuth>
+            <Chat />
+          </RequireAuth>
+        ),
       },
       {
         path: '/chat/:uuid',
-        element: <Chat />,
+        element: (
+          <RequireAuth>
+            <Chat />
+          </RequireAuth>
+        ),
       },
       {
         path: '/setting',
-        element: <Setting />,
+        element: (
+          <RequireAuth>
+            <Setting />
+          </RequireAuth>
+        ),
       },
       {
         path: '/something',
@@ -75,8 +74,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/something',
-    element: <Something />,
+    path: '/login',
+    element: <Login />,
   },
   {
     path: '/profile',
@@ -88,7 +87,7 @@ const router = createBrowserRouter([
     element: <Software />,
   },
   {
-    path: '/chat2',
+    path: '/chat-student',
     element: (
       <RequireAuth>
         <Chat />
@@ -113,8 +112,4 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+ReactDOM.createRoot(root).render(<RouterProvider router={router} />);

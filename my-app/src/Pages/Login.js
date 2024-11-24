@@ -22,7 +22,7 @@ const LoginContainer = styled.div`
       height: 100%;
       object-fit: cover;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 1680px) {
       flex: 0;
     }
   }
@@ -132,7 +132,6 @@ const Login = () => {
       if (response.data.access_token) {
         // 將 JWT 存儲在 localStorage 或 sessionStorage 中
         localStorage.setItem('token', response.data.access_token);
-        console.log(response.data);
         setMessage('登入成功！');
         navigate('/profile');
       }
@@ -172,8 +171,8 @@ const Login = () => {
           </button>
         </form>
         <div className="links">
-          <a href="/forgetpassword">忘記密碼?</a>
-          <a href="/register">註冊→</a>
+          {/* <a href="/forgetpassword">忘記密碼?</a>
+          <a href="/register">註冊→</a> */}
         </div>
       </section>
     </LoginContainer>

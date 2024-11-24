@@ -1,7 +1,13 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-import { BotMessageSquare, GraduationCap, Settings } from 'lucide-react';
+import {
+  BotMessageSquare,
+  GraduationCap,
+  Settings,
+  Upload,
+  LogIn,
+} from 'lucide-react';
 const Navbar = styled.nav`
   width: min-content;
   position: fixed;
@@ -174,63 +180,23 @@ const menuItems = [
     name: '聊天',
     eng_name: 'chat',
     icon: <BotMessageSquare />,
-    dropdown: [
-      {
-        name: '創建活動',
-        eng_name: 'create_activity',
-        icon: (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#e8eaed"
-          >
-            <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v200h-80v-40H200v400h280v80H200Zm0-560h560v-80H200v80Zm0 0v-80 80ZM560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-          </svg>
-        ),
-      },
-      {
-        name: '創建課程',
-        eng_name: 'create_course',
-        icon: <GraduationCap />,
-      },
-      {
-        name: '創建社團',
-        eng_name: 'create_club',
-        icon: (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#e8eaed"
-          >
-            <path d="m668-380 152-130 120 10-176 153 52 227-102-62-46-198Zm-94-292-42-98 46-110 92 217-96-9ZM294-287l126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM173-120l65-281L20-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-340Z" />
-          </svg>
-        ),
-      },
-    ],
   },
-  {
-    name: '上傳',
-    eng_name: 'fileupload',
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="24px"
-        fill="#e8eaed"
-      >
-        <path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-      </svg>
-    ),
-  },
+  // {
+  //   name: '上傳',
+  //   eng_name: 'fileupload',
+  //   icon: (
+  //     <Upload />
+  //   ),
+  // },
   {
     name: '登入',
+    eng_name: 'login',
+    icon: <LogIn />,
+  },
+  {
+    name: '設定',
     eng_name: 'setting',
-    icon: <Settings color="white" />,
+    icon: <Settings />,
   },
 ];
 const Nav = () => {
