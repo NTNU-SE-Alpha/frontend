@@ -18,8 +18,8 @@ const SoftwareContainer = styled.div`
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
-    border: solid 2px teal;
-    margin: 30px 30px 30px 130px;
+    border: dashed 2px teal;
+    margin: 30px 30px 1.5rem 130px;
     border-radius: 30px;
 
     .top-area {
@@ -31,33 +31,39 @@ const SoftwareContainer = styled.div`
     }
 
     .title-box {
-      margin-top: 1rem;
+      margin-bottom: 0.75rem;
       display: flex;
       justify-content: space-between;
-      gap: clamp(1rem, 5%, 1rem);
+      gap: clamp(1rem, 0, 1rem);
       width: clamp(60%, 18rem, 100%);
-      div.flexContainer{
-        Button#icon {
-          display: flex;
-          justify-content: center;  
-          &:hover {
-            text-decoration: underline;
-          }
-          &.up::after {
-            content: '上一則';
-          }
-          &.down::before {
-            content: '下一則';
-          }
-          &.mid::before {
-            content: '';
+      div.flexContainer {
+        a {
+          height: 0;
+          text-decoration: none;
+          button#icon {
+            display: flex;
+            justify-content: center;
+            &:hover {
+              text-decoration: underline;
+            }
+            &.up::after {
+              content: '返回';
+              margin-left: 0.3rem;
+            }
+            &.down::after {
+              content: '編輯';
+              margin-left: 0.5rem;
+            }
+            &.mid::before {
+              content: '';
+            }
           }
         }
       }
     }
     ul.tabs {
       display: flex;
-      gap: 10px;
+      gap: clamp(1rem, 1%, 1rem);
       list-style-type: none;
       padding: 0;
       margin: 0;
@@ -72,9 +78,8 @@ const SoftwareContainer = styled.div`
 
     .scrollable-container {
       display: flex;
-      align-items: center;
       flex-direction: column;
-      width: 100%;
+      width: clamp(60%, 18rem, 100%);
       height: 100%;
       border-radius: 5px;
       /* padding: 15px; */
@@ -89,19 +94,28 @@ const CourseInfo = ({ params }) => {
   const { courseId } = useParams();
   const [courseContent, setCourseContent] = useState([]);
   const [currentContent, setCurrentContent] = useState({});
+  const [tabs, setTabs] = useState(initialTabs);
+
   const getSectionData = async (courseId) => {
     try {
-      const response = await axios.get(`/getSections/${courseId}`);
+      const response = await axios.get(
+        `http://localhost:5000/getSections/${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
       const { sections } = response.data;
+      console.log(sections);
       setCourseContent(sections);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getSectionData();
+    getSectionData(courseId);
   }, []);
-  const [tabs, setTabs] = useState(initialTabs);
   return (
     <SoftwareContainer>
       <section className="right-box">
@@ -123,36 +137,47 @@ const CourseInfo = ({ params }) => {
             </Reorder.Item>
           ))}
         </Reorder.Group>
-        <div class="title-box">
-          <div class="flexContainer">
-            <Button id="icon" className='白 up' onClick={getSectionData}>
-              <ArrowLeft />
-            </Button>
-          </div>
-
-          <div class="flexContainer">
-            <Button id="icon" className='白 mid' onClick={getSectionData}>
-              <Pencil />
-            </Button>
-          </div>
-
-          <div class="flexContainer">
-            <Button id="icon" className='白 down' onClick={getSectionData}>
-              <ArrowRight />
-            </Button>
-          </div>
-        </div>
 
         <div class="scrollable-container">
-          {courseContent.map((section) => () => {
+          {courseContent.map((sections) => {
             return (
-              <div
-                key={section.id}
-                title={section.title}
-                content={section.content}
-              />
+              <div key={sections.id}>
+                <div className="markdown-body">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: marked(
+                        `## [${sections.name}](/course/${courseId}/${encodeURIComponent(sections.name)}) \n > ${sections.content} `
+                      ),
+                    }}
+                  />
+                </div>
+              </div>
             );
           })}
+        </div>
+
+        <div class="title-box">
+          <div class="flexContainer">
+            <a href="/course">
+              <Button id="icon" className="白 up" onClick={getSectionData}>
+                <ArrowLeft />
+              </Button>
+            </a>
+          </div>
+
+          {/* <div class="flexContainer">
+            <Button id="icon" className="白 mid" onClick={getSectionData}>
+              <Pencil />
+            </Button>
+          </div> */}
+
+          <div class="flexContainer">
+            <a href="/edit">
+              <Button id="icon" className="白 down" onClick={getSectionData}>
+                <Pencil />
+              </Button>
+            </a>
+          </div>
         </div>
       </section>
     </SoftwareContainer>

@@ -44,6 +44,10 @@ const router = createBrowserRouter([
         element: <CourseInfo />,
       },
       {
+        path: '/course/edit',
+        element: <CourseInfo />,
+      },
+      {
         path: '/chat',
         element: (
           <RequireAuth>
