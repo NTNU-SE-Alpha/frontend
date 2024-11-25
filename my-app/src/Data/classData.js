@@ -29,7 +29,7 @@ const classData = [
     semester: '2024 Fall',
     archive: true,
     isFavorite: false,
-    image: 'images/loginbg.png',
+    image: 'images/c3.png',
     order: 3,
   },
   {

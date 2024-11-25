@@ -61,13 +61,14 @@ const Section = styled.section`
     padding: 0;
     margin: 0 0 1rem 0;
     /* overflow-x: auto; */
-    li{
-      button{
-        div.iconFlex{ 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;}
+    li {
+      button {
+        div.iconFlex {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+        }
       }
     }
   }
@@ -128,7 +129,7 @@ const Course = () => {
 
   const [filter, setFilter] = useState(['最新到舊', '最愛', '封存']);
   const [classes, setClasses] = useState([]);
-  
+
   const markdownContent = marked(`## Teacher 的課程`);
 
   // fetch while clicking
@@ -165,7 +166,7 @@ const Course = () => {
   useEffect(() => {
     getCourseData();
   }, []);
-  
+
   // const toggleFavorite = (index) => {
   //   setClasses(
   //     classes.map((item, i) => {
@@ -221,20 +222,26 @@ const Course = () => {
             </Reorder.Item>
           ))}
         </Reorder.Group> */}
-        <ul className='tabs'>
+        <ul className="tabs">
           <li>
-            <a href='/course'>
-            <Button className='白'>所有課程</Button>
+            <a href="/course">
+              <Button className="白">所有課程</Button>
             </a>
           </li>
           <li>
-            <Button onClick={handlerFavorite} className='白'>
-              <div className='iconFlex'><Star />最愛</div>
+            <Button onClick={handlerFavorite} className="白">
+              <div className="iconFlex">
+                <Star />
+                最愛
+              </div>
             </Button>
           </li>
           <li>
-            <Button className='白'>
-              <div className='iconFlex'><Pen />編輯</div>
+            <Button className="白">
+              <div className="iconFlex">
+                <Pen />
+                編輯
+              </div>
             </Button>
           </li>
         </ul>

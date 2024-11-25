@@ -88,8 +88,7 @@ const CourseCard = ({ is_favorite, name, id, image }) => {
       <div className="star_title">
         <a href={`/course/${id}`}>{name}</a>
         <ButtonIcon onClick={updateFavorite}>
-          <Star className={ isFilled ? 'true' : '' }
-           />
+          <Star className={isFilled ? 'true' : ''} />
         </ButtonIcon>
       </div>
     </CourseCardContainer>
