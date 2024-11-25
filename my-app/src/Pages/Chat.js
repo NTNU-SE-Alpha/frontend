@@ -137,7 +137,7 @@ const Chat = ({ params }) => {
     async (uuid) => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/history/${uuid}`,
+          `http://localhost:5000/conversation/${uuid}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -239,9 +239,7 @@ const Chat = ({ params }) => {
             <Button>載入中..</Button>
           )}
         </Reorder.Group>
-        <motion.div
-          className="chat-box-container"
-        >
+        <motion.div className="chat-box-container">
           {messages.map((message, index) => (
             <>
               {message.sender === 'user' ? (
@@ -263,9 +261,13 @@ const Chat = ({ params }) => {
                   transition={{ type: 'spring', duration: 0.5 }}
                 >
                   <Button key={index} className="chat 白 🤖">
-                  <div className="markdown-body">
-                    <div dangerouslySetInnerHTML={{ __html: marked(message.text || '') }} />
-                  </div>
+                    <div className="markdown-body">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: marked(message.text || ''),
+                        }}
+                      />
+                    </div>
                   </Button>
                 </motion.div>
               )}

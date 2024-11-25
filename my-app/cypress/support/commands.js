@@ -4,9 +4,11 @@ import '@percy/cypress';
 
 Cypress.Commands.add('login', (email, password) => {
   cy.visit('/login');
+  cy.intercept('POST', `${Cypress.env('apiUrl')}/login`).as('loginRequest');
   cy.get('input[placeholder="電子信箱"]').type(email);
   cy.get('input[placeholder="密碼"]').type(password);
   cy.get('.submit-btn').click();
+  cy.wait('@loginRequest');
 });
 
 Cypress.Commands.add('register_api', (user) => {

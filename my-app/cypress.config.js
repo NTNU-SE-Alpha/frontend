@@ -13,11 +13,13 @@ const envConfig = {
     username: 'neokent',
     password: 'securepassword1',
     name: '劑博聞',
+    user_type: 'teacher',
   },
   testStudent: {
     username: '41275006H',
     password: 'studentpass1',
     name: '無待錚',
+    user_type: 'student',
   },
   testCourse: '軟體工程',
 };
