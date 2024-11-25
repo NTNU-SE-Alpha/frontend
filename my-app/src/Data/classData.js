@@ -18,7 +18,7 @@ const classData = [
     semester: '2024 Spring',
     archive: false,
     isFavorite: false,
-    image: 'images/c1.png',
+    image: 'images/c2.png',
     order: 2,
   },
   {
@@ -29,7 +29,7 @@ const classData = [
     semester: '2024 Fall',
     archive: true,
     isFavorite: false,
-    image: 'images/loginbg.png',
+    image: 'images/c3.png',
     order: 3,
   },
   {
@@ -40,7 +40,7 @@ const classData = [
     semester: '2024 Fall',
     archive: true,
     isFavorite: false,
-    image: 'images/loginbg.png',
+    image: 'images/c4.png',
     order: 4,
   },
   {
@@ -51,7 +51,7 @@ const classData = [
     semester: '2024 Spring',
     archive: false,
     isFavorite: false,
-    image: 'images/c2.png',
+    image: 'images/c5.png',
     order: 5,
   },
   {
@@ -62,7 +62,7 @@ const classData = [
     semester: '2024 Spring',
     archive: false,
     isFavorite: true,
-    image: 'images/c3.png',
+    image: 'images/c6.png',
     order: 6,
   },
   {
@@ -73,7 +73,7 @@ const classData = [
     semester: '2024 Fall',
     archive: true,
     isFavorite: false,
-    image: 'images/c4.png',
+    image: 'images/c7.png',
     order: 7,
   },
   {
@@ -84,7 +84,7 @@ const classData = [
     semester: '2024 Fall',
     archive: true,
     isFavorite: false,
-    image: 'images/c5.png',
+    image: 'images/c8.png',
     order: 8,
   },
   {
@@ -95,7 +95,7 @@ const classData = [
     semester: '2024 Spring',
     archive: false,
     isFavorite: true,
-    image: 'images/c6.png',
+    image: 'images/c9.png',
     order: 9,
   },
   {
@@ -106,7 +106,7 @@ const classData = [
     semester: '2024 Spring',
     archive: false,
     isFavorite: false,
-    image: 'images/c7.png',
+    image: 'images/c10.png',
     order: 10,
   },
   {
@@ -117,7 +117,7 @@ const classData = [
     semester: '2024 Fall',
     archive: true,
     isFavorite: false,
-    image: 'images/c8.png',
+    image: 'images/c11.png',
     order: 11,
   },
   {
@@ -128,7 +128,7 @@ const classData = [
     semester: '2024 Spring',
     archive: false,
     isFavorite: true,
-    image: 'images/c9.png',
+    image: 'images/c12.png',
     order: 12,
   },
   {
@@ -139,7 +139,7 @@ const classData = [
     semester: '2024 Fall',
     archive: true,
     isFavorite: false,
-    image: 'images/c10.png',
+    image: 'images/c13.png',
     order: 13,
   },
 ];

@@ -1,5 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const root = css`
+  background: linear-gradient(
+    90deg,
+    #0b959c 0%,
+    #1fc0b1 50%,
+    #6dd5a4 75%,
+    #99ff86 100%
+  );
+`;
 
 const ButtonContainer = styled.button`
   border-radius: 0.7rem;
@@ -32,6 +42,10 @@ const ButtonContainer = styled.button`
   &.🤖 {
     width: clamp(60%, 20rem, 100%);
     align-self: flex-start;
+  }
+  &.🎨 {
+    ${root};
+    border: none;
   }
 `;
 

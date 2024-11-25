@@ -17,7 +17,7 @@ import FileUpload from './Pages/FileUpload';
 import Course from './Pages/Course';
 import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
-import Software from './Pages/Software';
+import CourseInfo from './Pages/CourseInfo';
 import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
 import Media from './Components/MediaRecord';
@@ -28,7 +28,11 @@ const root = document.querySelector('#root');
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Nav />,
+    element: (
+      <RequireAuth>
+        <Nav />
+      </RequireAuth>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -41,32 +45,35 @@ const router = createBrowserRouter([
       },
       {
         path: '/course/:courseId',
-        element: <Software />,
-      },
-
-      {
-        path: '/login',
-        element: <Login />,
+        element: <CourseInfo />,
       },
       {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/forgetpassword',
-        element: <ForgetPassword />,
+        path: '/course/edit',
+        element: <CourseInfo />,
       },
       {
         path: '/chat',
-        element: <Chat />,
+        element: (
+          <RequireAuth>
+            <Chat />
+          </RequireAuth>
+        ),
       },
       {
         path: '/chat/:uuid',
-        element: <Chat />,
+        element: (
+          <RequireAuth>
+            <Chat />
+          </RequireAuth>
+        ),
       },
       {
         path: '/setting',
-        element: <Setting />,
+        element: (
+          <RequireAuth>
+            <Setting />
+          </RequireAuth>
+        ),
       },
       {
         path: '/something',
@@ -75,31 +82,22 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/something',
-    element: <Something />,
+    path: '/login',
+    element: <Login />,
   },
   {
     path: '/profile',
-    element: <Profile />,
-  },
-
-  {
-    path: '/softwares',
-    element: <Software />,
-  },
-  {
-    path: '/chat2',
     element: (
       <RequireAuth>
-        <Chat />
+        <Profile />
       </RequireAuth>
     ),
   },
   {
-    path: '/softwares',
+    path: '/chat-student',
     element: (
       <RequireAuth>
-        <Software />
+        <Chat />
       </RequireAuth>
     ),
   },
@@ -113,8 +111,4 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+ReactDOM.createRoot(root).render(<RouterProvider router={router} />);

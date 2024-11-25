@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CourseCard from '../Components/CourseCard';
 import { motion } from 'framer-motion';
-import classData from '../Data/classData';
+import { Pen, Search } from 'lucide-react';
+import dataClasses from '../Data/classData';
+import axios from 'axios';
+import ButtonIcon from '../Components/ButtonIcon';
+import Button from '../Components/Button';
+import { Reorder } from 'framer-motion';
+import { marked } from 'marked';
+import { Star } from 'lucide-react';
+
 // import { createClient } from 'pexels';
 // const client = createClient(process.env.REACT_APP_PEXELS_API);
 const Fliter = styled.div`
@@ -45,6 +53,25 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
   margin-left: 120px;
+  ul.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+    /* overflow-x: auto; */
+    li {
+      button {
+        div.iconFlex {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+        }
+      }
+    }
+  }
 `;
 const FlexCard = styled.div`
   display: grid;
@@ -98,67 +125,90 @@ const Searchbar = styled.div`
 `;
 
 const Course = () => {
-  const [filter, setFilter] = useState(false);
-  const [classes, setClasses] = useState(classData);
-  const toggleFavorite = (index) => {
-    setClasses(
-      classes.map((item, i) => {
-        if (i === index) {
-          return { ...item, isFavorite: !item.isFavorite };
-        }
-        return item;
-      })
-    );
+  const token = localStorage.getItem('token');
+
+  const [filter, setFilter] = useState(['最新到舊', '最愛', '封存']);
+  const [classes, setClasses] = useState([]);
+  const [user, setUser] = useState({});
+  // fetch while clicking
+  const handlerFavorite = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/favorites', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { favorites } = response.data;
+      setClasses(favorites);
+    } catch (error) {
+      console.error(error);
+    }
   };
-  // const fetchData = async () => {
-  //   try {
-  //     // 遍歷每一個課程，分別進行圖片查詢
-  //     const updatedClasses = await Promise.all(
-  //       classes.map(async (item) => {
-  //         const response = await client.photos.search({ query: item.name, locale: 'zh-TW' });
-  //         // 若 API 回傳結果包含圖片，則更新圖片，否則保持原圖片
-  //         const imageUrl = response.photos.length > 0 ? response.photos[0].src.medium : item.image;
-  //         return { ...item, image: imageUrl };
-  //       })
-  //     );
-  //     // 更新課程資料
-  //     setClasses(updatedClasses);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
+
+  // fetch every time
+  const getUserData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { user } = response.data;
+      console.log(user);
+      setUser(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getCourseData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/courses', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { courses } = response.data;
+      // console.log(courses);
+      setClasses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+    getCourseData();
+  }, []);
+
+  // const toggleFavorite = (index) => {
+  //   setClasses(
+  //     classes.map((item, i) => {
+  //       if (i === index) {
+  //         return { ...item, isFavorite: !item.isFavorite };
+  //       }
+  //       return item;
+  //     })
+  //   );
   // };
-  const handlerFilter = (e) => {
-    console.log(e.currentTarget);
-    e.currentTarget.children[1].classList.toggle('open');
-    setFilter(true);
-  };
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+
+  // const handlerFilter = (e) => {
+  //   console.log(e.currentTarget);
+  //   e.currentTarget.children[1].classList.toggle('open');
+  //   setFilter(true);
+  // };
 
   return (
     <div>
       {/* search bar */}
       <Section className="right">
-        <Searchbar>
-          <div class="search-bar">
-            <span className="material-symbols-outlined search-icon">
-              search
-            </span>
+        {/* <Searchbar> */}
+        {/* <div class="search-bar">
+            <ButtonIcon>
+              <Search />
+            </ButtonIcon>
             <input type="text" placeholder="搜尋課程" />
-            {/* filter */}
             <div class="filter-open" onClick={handlerFilter}>
-              <svg
-                className="filter-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="6E6E6E"
-              >
-                <path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Z" />
-              </svg>
-              <motion.div frame>
+              <motion.div>
                 <Fliter>
                   <a>最新到舊</a>
                   <a>星號優先</a>
@@ -166,17 +216,62 @@ const Course = () => {
                 </Fliter>
               </motion.div>
             </div>
-          </div>
-        </Searchbar>
+          </div> */}
+        {/* </Searchbar> */}
+        <div className="markdown-body">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: marked(
+                `## ${user.username} 的課程 \n > 身份： **${user.user_type}**`
+              ),
+            }}
+          />
+        </div>
+        {/* <Reorder.Group
+          as="ul"
+          axis="x"
+          onReorder={setFilter}
+          className="tabs"
+          values={filter}
+        >
+          {filter.map((item) => (
+            <Reorder.Item key={item} value={item}>
+              (item === '最愛')
+              <Button className="白">{item}</Button>
+            </Reorder.Item>
+          ))}
+        </Reorder.Group> */}
+        <ul className="tabs">
+          <li>
+            <a href="/course">
+              <Button className="白">所有課程</Button>
+            </a>
+          </li>
+          <li>
+            <Button onClick={handlerFavorite} className="白">
+              <div className="iconFlex">
+                <Star />
+                最愛
+              </div>
+            </Button>
+          </li>
+          <li>
+            <Button className="白">
+              <div className="iconFlex">
+                <Pen />
+                編輯
+              </div>
+            </Button>
+          </li>
+        </ul>
         <FlexCard>
-          {classes.map(({ id, isFavorite, order }, index) => (
+          {classes.map(({ id, isFavorite }, index) => (
             <CourseCard
               key={id}
-              isFavorite={isFavorite}
-              toggleFavorite={() => toggleFavorite(index)}
-              image={classes[index].image}
+              is_favorite={classes[index].is_favorite}
               name={classes[index].name}
               id={classes[index].id}
+              image={dataClasses[index].image}
             />
           ))}
         </FlexCard>
