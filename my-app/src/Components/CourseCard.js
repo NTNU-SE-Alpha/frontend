@@ -59,9 +59,9 @@ const CourseCardContainer = styled.div`
 
 const CourseTitle = styled.a``;
 
-const CourseCard = ({ isFavorite, name, id, image }) => {
-  const [isFilled, setIsFilled] = useState(isFavorite);
-
+const CourseCard = ({ is_favorite, name, id, image }) => {
+  const [isFilled, setIsFilled] = useState(is_favorite);
+  console.log(isFilled);
   // const StarHandler = () => {
   //   setIsFilled(!isFilled);
   // };
@@ -88,7 +88,8 @@ const CourseCard = ({ isFavorite, name, id, image }) => {
       <div className="star_title">
         <a href={`/course/${id}`}>{name}</a>
         <ButtonIcon onClick={updateFavorite}>
-          <Star />
+          <Star className={ isFilled ? 'true' : '' }
+           />
         </ButtonIcon>
       </div>
     </CourseCardContainer>

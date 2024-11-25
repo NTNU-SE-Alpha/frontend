@@ -154,7 +154,7 @@ const SoftwareContainer = styled.div`
   }
 `;
 const initialTabs = ['作業', '課程資訊', '考試', '聊天'];
-const Software = ({ params }) => {
+const CourseInfo = ({ params }) => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -225,4 +225,4 @@ const Software = ({ params }) => {
   );
 };
 
-export default Software;
+export default CourseInfo;

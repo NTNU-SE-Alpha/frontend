@@ -17,7 +17,7 @@ import FileUpload from './Pages/FileUpload';
 import Course from './Pages/Course';
 import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
-import Software from './Pages/CourseInfo';
+import CourseInfo from './Pages/CourseInfo';
 import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
 import Media from './Components/MediaRecord';
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/course/:courseId',
-        element: <Software />,
+        element: <CourseInfo />,
       },
       {
         path: '/chat',
@@ -81,24 +81,11 @@ const router = createBrowserRouter([
     path: '/profile',
     element: <Profile />,
   },
-
-  {
-    path: '/softwares',
-    element: <Software />,
-  },
   {
     path: '/chat-student',
     element: (
       <RequireAuth>
         <Chat />
-      </RequireAuth>
-    ),
-  },
-  {
-    path: '/softwares',
-    element: (
-      <RequireAuth>
-        <Software />
       </RequireAuth>
     ),
   },

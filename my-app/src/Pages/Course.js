@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CourseCard from '../Components/CourseCard';
 import { motion } from 'framer-motion';
-import { Search } from 'lucide-react';
+import { Pen, Search } from 'lucide-react';
 import dataClasses from '../Data/classData';
 import axios from 'axios';
 import ButtonIcon from '../Components/ButtonIcon';
 import Button from '../Components/Button';
 import { Reorder } from 'framer-motion';
 import { marked } from 'marked';
+import { Star } from 'lucide-react';
+
 // import { createClient } from 'pexels';
 // const client = createClient(process.env.REACT_APP_PEXELS_API);
 const Fliter = styled.div`
@@ -59,6 +61,15 @@ const Section = styled.section`
     padding: 0;
     margin: 0 0 1rem 0;
     /* overflow-x: auto; */
+    li{
+      button{
+        div.iconFlex{ 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;}
+      }
+    }
   }
 `;
 const FlexCard = styled.div`
@@ -115,11 +126,27 @@ const Searchbar = styled.div`
 const Course = () => {
   const token = localStorage.getItem('token');
 
-  const [filter, setFilter] = useState(['最新到舊', '星號優先', '封存']);
+  const [filter, setFilter] = useState(['最新到舊', '最愛', '封存']);
   const [classes, setClasses] = useState([]);
-
+  
   const markdownContent = marked(`## Teacher 的課程`);
 
+  // fetch while clicking
+  const handlerFavorite = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/favorites', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { favorites } = response.data;
+      setClasses(favorites);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // fetch every time
   const getCourseData = async () => {
     try {
       const response = await axios.get('http://localhost:5000/courses', {
@@ -134,25 +161,27 @@ const Course = () => {
       console.error(error);
     }
   };
+
   useEffect(() => {
     getCourseData();
   }, []);
-  const toggleFavorite = (index) => {
-    setClasses(
-      classes.map((item, i) => {
-        if (i === index) {
-          return { ...item, isFavorite: !item.isFavorite };
-        }
-        return item;
-      })
-    );
-  };
+  
+  // const toggleFavorite = (index) => {
+  //   setClasses(
+  //     classes.map((item, i) => {
+  //       if (i === index) {
+  //         return { ...item, isFavorite: !item.isFavorite };
+  //       }
+  //       return item;
+  //     })
+  //   );
+  // };
 
-  const handlerFilter = (e) => {
-    console.log(e.currentTarget);
-    e.currentTarget.children[1].classList.toggle('open');
-    setFilter(true);
-  };
+  // const handlerFilter = (e) => {
+  //   console.log(e.currentTarget);
+  //   e.currentTarget.children[1].classList.toggle('open');
+  //   setFilter(true);
+  // };
 
   return (
     <div>
@@ -178,7 +207,7 @@ const Course = () => {
         <div className="markdown-body">
           <div dangerouslySetInnerHTML={{ __html: markdownContent }} />
         </div>
-        <Reorder.Group
+        {/* <Reorder.Group
           as="ul"
           axis="x"
           onReorder={setFilter}
@@ -187,16 +216,33 @@ const Course = () => {
         >
           {filter.map((item) => (
             <Reorder.Item key={item} value={item}>
+              (item === '最愛')
               <Button className="白">{item}</Button>
             </Reorder.Item>
           ))}
-        </Reorder.Group>
+        </Reorder.Group> */}
+        <ul className='tabs'>
+          <li>
+            <a href='/course'>
+            <Button className='白'>所有課程</Button>
+            </a>
+          </li>
+          <li>
+            <Button onClick={handlerFavorite} className='白'>
+              <div className='iconFlex'><Star />最愛</div>
+            </Button>
+          </li>
+          <li>
+            <Button className='白'>
+              <div className='iconFlex'><Pen />編輯</div>
+            </Button>
+          </li>
+        </ul>
         <FlexCard>
           {classes.map(({ id, isFavorite }, index) => (
             <CourseCard
               key={id}
-              isFavorite={isFavorite}
-              toggleFavorite={() => toggleFavorite(index)}
+              is_favorite={classes[index].is_favorite}
               name={classes[index].name}
               id={classes[index].id}
               image={dataClasses[index].image}
