@@ -22,6 +22,7 @@ import ErrorPage from './Pages/NotFoundPage';
 import Setting from './Pages/Setting';
 import Media from './Components/MediaRecord';
 import Something from './Pages/Something';
+import LogOut from './Components/LogOut';
 
 const root = document.querySelector('#root');
 
@@ -41,11 +42,19 @@ const router = createBrowserRouter([
       },
       {
         path: '/course',
-        element: <Course />,
+        element: (
+          <RequireAuth>
+            <Course />
+          </RequireAuth>
+        ),
       },
       {
         path: '/course/:courseId',
-        element: <CourseInfo />,
+        element: (
+          <RequireAuth>
+            <CourseInfo />
+          </RequireAuth>
+        ),
       },
       {
         path: '/course/edit',
@@ -84,6 +93,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/logout',
+    element: <LogOut />,
   },
   {
     path: '/profile',
