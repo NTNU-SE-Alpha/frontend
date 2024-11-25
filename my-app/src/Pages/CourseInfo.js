@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 // import Card from '../Components/Card';
 import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
@@ -94,7 +94,7 @@ const CourseInfo = ({ params }) => {
   const { courseId } = useParams();
   const [courseContent, setCourseContent] = useState([]);
   const [currentContent, setCurrentContent] = useState({});
-  const [tabs, setTabs] = useState(initialTabs);
+  const [tabs, setTabs] = useState([]);
 
   const getSectionData = async (courseId) => {
     try {
@@ -109,6 +109,7 @@ const CourseInfo = ({ params }) => {
       const { sections } = response.data;
       console.log(sections);
       setCourseContent(sections);
+      setTabs(sections.map((section) => section.name));
     } catch (error) {
       console.log(error);
     }
@@ -116,6 +117,12 @@ const CourseInfo = ({ params }) => {
   useEffect(() => {
     getSectionData(courseId);
   }, []);
+
+  const scrollToSection = (sectionName) => {
+    const section = document.getElementById(sectionName);
+    if (!section) return;
+    section.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <SoftwareContainer>
       <section className="right-box">
@@ -133,7 +140,11 @@ const CourseInfo = ({ params }) => {
         >
           {tabs.map((item) => (
             <Reorder.Item key={item} value={item}>
-              <Button>{item}</Button>
+              {/* <Link to={`#${encodeURIComponent(item)}`}> */}
+              <Button onClick={() => scrollToSection(encodeURIComponent(item))}>
+                {item}
+              </Button>
+              {/* </Link> */}
             </Reorder.Item>
           ))}
         </Reorder.Group>
@@ -144,9 +155,10 @@ const CourseInfo = ({ params }) => {
               <div key={sections.id}>
                 <div className="markdown-body">
                   <div
+                    id={encodeURIComponent(sections.name)}
                     dangerouslySetInnerHTML={{
                       __html: marked(
-                        `## [${sections.name}](/course/${courseId}/${encodeURIComponent(sections.name)}) \n > ${sections.content} `
+                        `## [${sections.name}](/course/${courseId}/#${encodeURIComponent(sections.name)}) \n > ${sections.content} `
                       ),
                     }}
                   />

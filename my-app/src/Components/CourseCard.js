@@ -61,12 +61,12 @@ const CourseTitle = styled.a``;
 
 const CourseCard = ({ is_favorite, name, id, image }) => {
   const [isFilled, setIsFilled] = useState(is_favorite);
-  console.log(isFilled);
+  // console.log(isFilled);
   // const StarHandler = () => {
   //   setIsFilled(!isFilled);
   // };
   const updateFavorite = (e) => {
-    console.log(e.currentTarget.children[0]);
+    // console.log(e.currentTarget.children[0]);
     e.currentTarget.children[0].classList.toggle('true');
     try {
       const response = axios.put(

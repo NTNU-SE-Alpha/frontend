@@ -52,7 +52,7 @@
 
 .markdown-body a {
   background-color: transparent;
-  color: #0969da;
+  color: #f76b15;
   text-decoration: none;
 }
 
@@ -221,7 +221,7 @@
 .markdown-body [role='button']:focus,
 .markdown-body input[type='radio']:focus,
 .markdown-body input[type='checkbox']:focus {
-  outline: 2px solid #0969da;
+  outline: 2px solid #f76b15;
   outline-offset: -2px;
   box-shadow: none;
 }
@@ -237,7 +237,7 @@
 .markdown-body [role='button']:focus-visible,
 .markdown-body input[type='radio']:focus-visible,
 .markdown-body input[type='checkbox']:focus-visible {
-  outline: 2px solid #0969da;
+  outline: 2px solid #f76b15;
   outline-offset: -2px;
   box-shadow: none;
 }
@@ -845,7 +845,7 @@
   left: calc(1.5rem * -1);
   pointer-events: none;
   content: '';
-  border: 2px solid #0969da;
+  border: 2px solid #f76b15;
   border-radius: 6px;
 }
 
@@ -1082,11 +1082,11 @@
 }
 
 .markdown-body .markdown-alert.markdown-alert-note {
-  border-left-color: #0969da;
+  border-left-color: #f76b15;
 }
 
 .markdown-body .markdown-alert.markdown-alert-note .markdown-alert-title {
-  color: #0969da;
+  color: #f76b15;
 }
 
 .markdown-body .markdown-alert.markdown-alert-important {

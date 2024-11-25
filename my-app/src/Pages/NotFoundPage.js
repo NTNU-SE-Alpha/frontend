@@ -2,7 +2,7 @@ import { Link, useRouteError } from 'react-router-dom';
 import styled from 'styled-components';
 
 const ERR = styled.div`
-  color: #1e7945;
+  color: teal;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,7 +26,7 @@ const ERR = styled.div`
     display: flex;
     align-items: center;
     padding: 0.5rem 1.5rem;
-    background-color: #1e7945;
+    background-color: teal;
     color: white;
     border-radius: 30px;
     text-decoration: none;
@@ -35,7 +35,7 @@ const ERR = styled.div`
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #145c32;
+      background-color: #333;
     }
 
     svg {

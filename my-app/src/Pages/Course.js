@@ -129,9 +129,7 @@ const Course = () => {
 
   const [filter, setFilter] = useState(['最新到舊', '最愛', '封存']);
   const [classes, setClasses] = useState([]);
-
-  const markdownContent = marked(`## Teacher 的課程`);
-
+  const [user, setUser] = useState({});
   // fetch while clicking
   const handlerFavorite = async () => {
     try {
@@ -148,6 +146,20 @@ const Course = () => {
   };
 
   // fetch every time
+  const getUserData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { user } = response.data;
+      console.log(user);
+      setUser(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const getCourseData = async () => {
     try {
       const response = await axios.get('http://localhost:5000/courses', {
@@ -156,7 +168,7 @@ const Course = () => {
         },
       });
       const { courses } = response.data;
-      console.log(courses);
+      // console.log(courses);
       setClasses(courses);
     } catch (error) {
       console.error(error);
@@ -164,6 +176,7 @@ const Course = () => {
   };
 
   useEffect(() => {
+    getUserData();
     getCourseData();
   }, []);
 
@@ -206,7 +219,13 @@ const Course = () => {
           </div> */}
         {/* </Searchbar> */}
         <div className="markdown-body">
-          <div dangerouslySetInnerHTML={{ __html: markdownContent }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: marked(
+                `## ${user.username} 的課程 \n > 身份： **${user.user_type}**`
+              ),
+            }}
+          />
         </div>
         {/* <Reorder.Group
           as="ul"

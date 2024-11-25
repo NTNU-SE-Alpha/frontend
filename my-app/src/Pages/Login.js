@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 const Warning = styled.div`
   padding: 10px;
   background: #ff9592;
@@ -62,7 +63,7 @@ const LoginContainer = styled.div`
 
         &:focus {
           outline: none;
-          border-color: #00e8dc;
+          border: 1px solid #00e8dc;
           box-shadow: 0 0 10px #00e8dc;
         }
       }
@@ -79,10 +80,6 @@ const LoginContainer = styled.div`
         font-weight: 900;
         cursor: pointer;
         /* transition: background 0.3s ease; */
-
-        &:hover {
-          background: linear-gradient(90deg, #00e8dc 0%, #b2fee6 100%);
-        }
       }
     }
 
@@ -133,7 +130,7 @@ const Login = () => {
         // 將 JWT 存儲在 localStorage 或 sessionStorage 中
         localStorage.setItem('token', response.data.access_token);
         setMessage('登入成功！');
-        navigate('/profile');
+        navigate('/course');
       }
     } catch (error) {
       const errorMessage =
@@ -152,7 +149,14 @@ const Login = () => {
       </section>
       <section className="right">
         <h1>登入</h1>
-        {message && <Warning className="warning">{message}</Warning>}
+        {message && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <Warning className="warning">{message}</Warning>
+          </motion.div>
+        )}
         <form onSubmit={handleLogin}>
           <input
             type="text"
@@ -160,15 +164,25 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
+          <motion.input
+            whileFocus={{}}
             type="password"
             placeholder="密碼"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className="submit-btn">
+          <motion.button
+            initial={{
+              background: 'linear-gradient(90deg, #b2fee6 0%, #00e8dc 100%)',
+            }}
+            whileHover={{
+              background: 'linear-gradient(90deg, #00e8dc 0%, #b2fee6 100%)',
+            }}
+            type="submit"
+            className="submit-btn"
+          >
             →
-          </button>
+          </motion.button>
         </form>
         <div className="links">
           {/* <a href="/forgetpassword">忘記密碼?</a>

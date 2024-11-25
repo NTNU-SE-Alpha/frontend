@@ -28,7 +28,11 @@ const root = document.querySelector('#root');
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Nav />,
+    element: (
+      <RequireAuth>
+        <Nav />
+      </RequireAuth>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -83,7 +87,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: <Profile />,
+    element: (
+      <RequireAuth>
+        <Profile />
+      </RequireAuth>
+    ),
   },
   {
     path: '/chat-student',
