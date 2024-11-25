@@ -9,8 +9,7 @@ const Logout = () => {
     if (confirmLogout) {
       localStorage.removeItem('token');
       navigate('/login');
-    }
-    else {
+    } else {
       navigate(-1);
     }
   };

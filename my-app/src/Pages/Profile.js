@@ -140,6 +140,11 @@ const Profile = () => {
               <Button className="白">設定</Button>
             </a>
           </li>
+          <li>
+            <a href="/course">
+              <Button className="白">返回</Button>
+            </a>
+          </li>
         </ul>
       </section>
 

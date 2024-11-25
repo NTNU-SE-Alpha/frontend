@@ -16,14 +16,15 @@ const Navbar = styled.nav`
   z-index: 100;
   display: flex;
   height: 90vh;
-  background: teal;
+  /* background: teal; */
   border-radius: 25px;
 
   ul {
     display: flex;
     flex-direction: column;
     list-style: none;
-
+    border-radius: 50px;
+    background: teal;
     a {
       padding: 0.5rem;
       padding-bottom: 0.7rem;

@@ -23,6 +23,7 @@ import Setting from './Pages/Setting';
 import Media from './Components/MediaRecord';
 import Something from './Pages/Something';
 import LogOut from './Components/LogOut';
+import CourseEdit from './Pages/CourseEdit';
 
 const root = document.querySelector('#root');
 
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <Chat />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: '/edit/',
+        element: (
+          <RequireAuth>
+            <CourseEdit />
           </RequireAuth>
         ),
       },
