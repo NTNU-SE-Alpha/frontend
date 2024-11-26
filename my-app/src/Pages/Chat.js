@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useParams, Navigate } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
 import MediaRecord from '../Components/MediaRecord';
 import { Reorder, motion } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Loader } from 'lucide-react';
 import { marked } from 'marked';
+import Loading from '../Components/Loading';
+import { useForm } from 'react-hook-form';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -21,12 +23,14 @@ const ChatContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 1.25rem;
+    /* width: 100%; */
     /* background: #5D5D5D; */
     border: teal solid 2px;
     margin: 30px 30px 30px 130px;
     border-radius: 30px;
     ul.tabs {
       display: flex;
+      flex-wrap: nowrap;
       gap: 10px;
       list-style-type: none;
       padding: 0;
@@ -89,16 +93,48 @@ const ChatContainer = styled.div`
 `;
 
 const Chat = ({ params }) => {
+  const token = localStorage.getItem('token');
+
   const { uuid: routeUuid } = useParams();
   const [uuid, setUuid] = useState(routeUuid || '');
   const [navigateToUuid, setNavigateToUuid] = useState(null);
 
-  const [inputText, setInputText] = useState('');
+  // const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
-  const [tabs, setTabs] = useState();
   const [conversations, setConversations] = useState([]);
-  const [history, setHistory] = useState([]);
-  const token = localStorage.getItem('token');
+  const [tabs, setTabs] = useState([]);
+  const [chatSummary, setChatSummary] = useState([]);
+  // react hook form
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const { inputText } = data;
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: inputText, sender: 'user' },
+      { text: 'loading', sender: 'assistant' },
+    ]);
+    console.log(messages);
+    let currentUuid = uuid;
+    if (!currentUuid) {
+      currentUuid = await getUUID();
+      if (!currentUuid) {
+        console.error('Failed to start conversation.');
+        return;
+      }
+    }
+    reset();
+
+    await AIChating(currentUuid, inputText);
+  };
+
+  console.log(watch('example'));
 
   const fetchConversations = useCallback(async () => {
     try {
@@ -112,14 +148,20 @@ const Chat = ({ params }) => {
       );
       const { conversations } = response.data;
       setConversations(conversations);
+      setChatSummary(conversations.map((item) => item.summary));
+      console.log(chatSummary);
     } catch (error) {
       console.error('Error fetching conversations:', error);
     }
   }, [token]);
-  const startConversation = useCallback(async () => {
+  const getUUID = async () => {
     try {
       const response = await axios.get(
         'http://localhost:5000/start_conversation',
+        // {
+        //   course_id: '1',
+        //   course_section_id: '1',
+        // },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -128,11 +170,15 @@ const Chat = ({ params }) => {
       );
       const { uuid: newUuid } = response.data;
       setUuid(newUuid);
-      setNavigateToUuid(newUuid);
+      // navigate(`/chat/${newUuid}`);
+      // setNavigateToUuid(newUuid);
+      // setNavigateToUuid(null);
+      await fetchConversations();
+      reset();
     } catch (error) {
       console.error('Error starting conversation:', error);
     }
-  }, [token]);
+  };
   const getHisory = useCallback(
     async (uuid) => {
       try {
@@ -144,7 +190,7 @@ const Chat = ({ params }) => {
             },
           }
         );
-        const history = response.data.history;
+        const { history } = response.data;
         setMessages(
           history.map((msg) => ({ text: msg.message, sender: msg.sender }))
         );
@@ -156,41 +202,21 @@ const Chat = ({ params }) => {
   );
 
   useEffect(() => {
-    if (!token) {
-      console.error('No token found in localStorage');
-      return;
-    }
-    if (uuid) {
+    if (!uuid) {
+      getUUID();
+    } else {
       getHisory(uuid);
     }
     fetchConversations();
-  }, [uuid, fetchConversations, getHisory, token]);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
+  }, [uuid, fetchConversations, getHisory]);
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text: inputText, sender: 'user' },
-    ]);
-    let currentUuid = uuid;
-    if (!currentUuid) {
-      currentUuid = await startConversation();
-      if (!currentUuid) {
-        console.error('Failed to start conversation.');
-        return;
-      }
-    }
-
-    AIChating(currentUuid);
-    setInputText('');
-  };
-  const AIChating = async (uuid) => {
+  const AIChating = async (uuid, userInput) => {
     try {
       const response = await axios.post(
         `http://localhost:5000/chat/${uuid}`,
         {
-          user_input: inputText,
+          file_id: '1',
+          user_input: userInput,
         },
         {
           headers: {
@@ -199,21 +225,28 @@ const Chat = ({ params }) => {
         }
       );
       const { answer } = response.data;
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: answer, sender: 'assistant' },
-      ]);
+      setMessages((prevMessages) => {
+        // 移除最後的 loading 訊息
+        const updatedMessages = prevMessages.filter(
+          (msg) => msg.text !== 'loading'
+        );
+        return [
+          ...updatedMessages,
+          { text: answer, sender: 'assistant' }, // 添加伺服器回應
+        ];
+      });
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
-  const handleInputChange = (e) => {
-    setInputText(e.target.value);
-  };
 
-  if (navigateToUuid) {
-    return <Navigate to={`/chat/${navigateToUuid}`} />;
-  }
+  const navigate = useNavigate();
+  // if (navigateToUuid) {
+  //   navigate(`/chat/${navigateToUuid}`);
+  //   setNavigateToUuid(null);
+  //   fetchConversations();
+  //   reset();
+  // }
   return (
     <ChatContainer>
       <section className="chat-room">
@@ -225,24 +258,27 @@ const Chat = ({ params }) => {
           values={conversations}
         >
           {conversations.length > 0 ? (
-            conversations
-              .slice(-4)
-              .reverse()
-              .map((item) => (
-                <Reorder.Item key={item.uuid} value={item}>
-                  <a href={`/chat/${item.uuid}`}>
-                    <Button>{item.summary}</Button>
-                  </a>
-                </Reorder.Item>
-              ))
+            conversations.map((item) => (
+              <Reorder.Item key={item.uuid} value={item}>
+                <a href={`/chat/${item.uuid}`}>
+                  <Button className="🎨">{item.summary}</Button>
+                </a>
+              </Reorder.Item>
+            ))
           ) : (
-            <Button>載入中..</Button>
+            <Button className="🎨">
+              <Loader></Loader>
+            </Button>
           )}
         </Reorder.Group>
         <motion.div className="chat-box-container">
           {messages.map((message, index) => (
             <>
-              {message.sender === 'user' ? (
+              {message.text === 'loading' ? (
+                <div>
+                  <Loading />
+                </div>
+              ) : message.sender === 'user' ? (
                 <motion.div
                   key={index}
                   initial={{ x: '100%' }}
@@ -277,14 +313,23 @@ const Chat = ({ params }) => {
         {/* <ButtonIcon>
           <Type/>
           </ButtonIcon> */}
-        <MediaRecord />
-        <form id="textInput" onSubmit={handleSubmit}>
+        {/* <MediaRecord /> */}
+        {/* <form>
           <input
-            value={inputText}
+            type="file"
+            id="fileElem"
+            accept="application/pdf"
+            style={{ display: 'none' }}
+            onChange={(e) => handleFiles(e.target.files)}
+          />
+        </form> */}
+        <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
+          <input
+            {...register('inputText', { required: true })}
             type="text"
             placeholder="開始討論吧..."
-            onChange={handleInputChange}
-          ></input>
+          />
+          {errors.inputText && <span>請輸入討論內容！</span>}
           <ButtonIcon className="上" type="submit">
             <ArrowUp />
           </ButtonIcon>

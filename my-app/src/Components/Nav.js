@@ -5,9 +5,9 @@ import {
   BotMessageSquare,
   GraduationCap,
   Settings,
-  Upload,
-  LogIn,
+  LogOut,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 const Navbar = styled.nav`
   width: min-content;
   position: fixed;
@@ -16,59 +16,77 @@ const Navbar = styled.nav`
   z-index: 100;
   display: flex;
   height: 90vh;
-  background: teal;
-  border-radius: 50px;
+  /* background: teal; */
+  border-radius: 25px;
 
   ul {
     display: flex;
     flex-direction: column;
     list-style: none;
-
-    li {
-      /* margin: 1rem 0; */
-      padding: 1rem;
+    border-radius: 50px;
+    background: teal;
+    a {
+      padding: 0.5rem;
+      padding-bottom: 0.7rem;
       text-align: center;
       display: flex;
       justify-content: center;
+      text-decoration: none;
       /* &:first-child {
         border-radius: 50px 50px 0 0;
       } */
       transition: background-color 0.3s;
+      color: #fff;
+
+      a.icon {
+        /* display: none; */
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 0.1rem;
+      }
 
       svg {
         color: #fff;
-        width: 45px;
-        height: 45px;
+        width: 30px;
+        height: 30px;
         &:hover {
           cursor: pointer;
         }
       }
 
-      a.icon {
-        display: none;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 600;
-        letter-spacing: 0.1rem;
-      }
       &.active_text {
         &:hover {
           background-color: #333;
           align-items: center;
           justify-content: space-evenly;
           flex-direction: column;
-        }
-        &:hover a {
-          display: block;
-          position: relative;
-        }
-        &:hover svg {
-          width: 24px;
-          height: 24px;
+          cursor: pointer;
+          &.no1:hover::after {
+            content: '課程';
+          }
+          &.no2:hover::after {
+            content: 'LLM';
+          }
+          &.no3:hover::after {
+            content: '登出';
+          }
+          /* &.no4:hover::after {
+            content: '設定';
+          } */
+          &.no4:hover {
+            background-color: teal;
+            border-radius: 0 0 50px 50px;
+            /* content: '設定'; */
+          }
         }
       }
+      &.no4 {
+        margin-top: auto;
+        transition: none;
+        /* justify-self: flex-end; */
+      }
       /* position: relative; */
-      .dropdown-menu {
+      /* .dropdown-menu {
         display: none;
         overflow: hidden;
         height: 0;
@@ -84,7 +102,7 @@ const Navbar = styled.nav`
             letter-spacing: 0.1rem;
           }
         }
-      }
+      } */
     }
   }
 `;
@@ -155,50 +173,50 @@ const Flyout = styled.div`
   }
 `;
 const Star = styled.div``;
-const menuItems = [
-  {
-    name: '首頁',
-    eng_name: 'home',
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="24px"
-        fill="#e8eaed"
-      >
-        <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
-      </svg>
-    ),
-  },
-  {
-    name: '課程',
-    eng_name: 'course',
-    icon: <GraduationCap />,
-  },
-  {
-    name: '聊天',
-    eng_name: 'chat',
-    icon: <BotMessageSquare />,
-  },
-  // {
-  //   name: '上傳',
-  //   eng_name: 'fileupload',
-  //   icon: (
-  //     <Upload />
-  //   ),
-  // },
-  {
-    name: '登入',
-    eng_name: 'login',
-    icon: <LogIn />,
-  },
-  {
-    name: '設定',
-    eng_name: 'setting',
-    icon: <Settings />,
-  },
-];
+// const menuItems = [
+//   // {
+//   //   name: '首頁',
+//   //   eng_name: 'home',
+//   //   icon: (
+//   //     <svg
+//   //       xmlns="http://www.w3.org/2000/svg"
+//   //       height="24px"
+//   //       viewBox="0 -960 960 960"
+//   //       width="24px"
+//   //       fill="#e8eaed"
+//   //     >
+//   //       <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
+//   //     </svg>
+//   //   ),
+//   // },
+//   {
+//     name: '課程',
+//     eng_name: 'course',
+//     icon: <GraduationCap />,
+//   },
+//   {
+//     name: '聊天',
+//     eng_name: 'chat',
+//     icon: <BotMessageSquare />,
+//   },
+//   // {
+//   //   name: '上傳',
+//   //   eng_name: 'fileupload',
+//   //   icon: (
+//   //     <Upload />
+//   //   ),
+//   // },
+//   {
+//     name: '登出',
+//     eng_name: 'login',
+//     icon: <LogOut />,
+//   },
+//   {
+//     name: '設定',
+//     eng_name: 'setting',
+//     icon: <Settings />,
+//   },
+// ];
 const Nav = () => {
   useEffect(() => {
     function setVhVariable() {
@@ -229,41 +247,35 @@ const Nav = () => {
     <>
       <Navbar>
         <ul>
-          <li className="first_li">
-            <a href="/profile" class="first-icon">
+          <a href="/profile" className="first_li">
+            <a class="first-icon">
               <img
-                width="50px"
+                width="45px"
                 src="/images/icons/first-logo.png"
                 alt="profile"
               />
             </a>
-          </li>
-          {menuItems.map((item, index) => (
-            <li className="active_text" key={index}>
-              {item.icon}
-              {/* <img width="20px" href="/images/c1.png" alt="setting" /> */}
-              <a
-                href={`/${item.eng_name}`}
-                class={`${item.eng_name}_button icon`}
-              >
-                {item.name}
-              </a>
-              {item.dropdown && (
-                <ul className="dropdown-menu">
-                  {item.dropdown.map((subItem, subIndex) => (
-                    <li key={subIndex}>
-                      <a
-                        href={`/#${subItem.eng_name}`}
-                        className={`${subItem.eng_name}_button`}
-                      >
-                        {subItem.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
+          </a>
+          <a href="/course" className="active_text no1">
+            <a class="icon">
+              <GraduationCap />
+            </a>
+          </a>
+          <a href="/chat" className="active_text no2">
+            <a class="icon">
+              <BotMessageSquare />
+            </a>
+          </a>
+          <a href="/logout" className="active_text no3">
+            <a class="icon">
+              <LogOut />
+            </a>
+          </a>
+          <a href="/setting" className="active_text no4">
+            <a class="icon">
+              <Settings />
+            </a>
+          </a>
         </ul>
       </Navbar>
       <Outlet />
