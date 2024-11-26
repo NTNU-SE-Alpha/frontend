@@ -41,7 +41,7 @@ export default function Settings() {
         <motion.div initial={{ y: -100 }} animate={{ y: 100 }}>
           Setting Page
         </motion.div> */}
-        <Loading />
+        {/* <Loading /> */}
       </div>
     </Container>
   );
