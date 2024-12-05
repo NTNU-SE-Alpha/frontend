@@ -28,6 +28,7 @@ describe('註冊功能測試', () => {
         if (response.status !== 201) {
           console.log(response.body.message);
         }
+        cy.log(response.body);
         expect(response.status).to.eq(201);
         expect(response.body).to.have.property(
           'message',
@@ -38,8 +39,8 @@ describe('註冊功能測試', () => {
 
     it('應該成功註冊學生', () => {
       cy.register_api({
-        username: testStudent.username,
-        password: testStudent.password,
+        username: 'student_test',
+        password: 'student_test_password',
         user_type: 'student',
         name: testStudent.name,
         course: testCourse,
@@ -73,7 +74,7 @@ describe('註冊功能測試', () => {
       // 嘗試使用已註冊的教師用戶名
       cy.register_api({
         username: testTeacher.username,
-        password: 12345678,
+        password: '12345678',
         user_type: 'teacher',
         name: testTeacher.name,
         course: testCourse,

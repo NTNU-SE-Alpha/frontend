@@ -31,8 +31,8 @@ describe('課程頁面測試', () => {
       const token = win.localStorage.getItem('token'); // 假設 Token 存在 localStorage 中，鍵為 "token"
       expect(token).to.exist; // 確保 Token 存在
       cy.log(`JWT Token: ${token}`);
-      // 等待課程卡片渲染
-      cy.get('.star_title').should('exist');
+      // // 等待課程卡片渲染
+      // cy.get('.star_title').should('exist');
 
       // 從 API 中獲取課程數據
       cy.request({
@@ -47,14 +47,18 @@ describe('課程頁面測試', () => {
         const courses = response.body.courses;
         console.log(response.body);
         expect(courses).to.be.an('array');
+        if (courses.length === 0) {
+          cy.get('.star_title').should('not.exist');
+        } else if (courses.length > 0) {
+          cy.get('.star_title').should('exist');
+          // 確保課程卡片數量正確
+          cy.get('.star_title').should('have.length', courses.length);
 
-        // 確保課程卡片數量正確
-        cy.get('.star_title').should('have.length', courses.length);
-
-        // 驗證每個課程的名稱是否顯示正確
-        courses.forEach((course, index) => {
-          cy.get('.star_title').eq(index).should('contain.text', course.name);
-        });
+          // 驗證每個課程的名稱是否顯示正確
+          courses.forEach((course, index) => {
+            cy.get('.star_title').eq(index).should('contain.text', course.name);
+          });
+        }
       });
     });
   });
@@ -74,18 +78,24 @@ describe('課程頁面測試', () => {
       }).then((response) => {
         expect(response.status).to.eq(200);
         const favorites = response.body.favorites;
+        if (favorites.length === 0) {
+          cy.get('.lucide.lucide-star.true').should('not.exist');
+          cy.get('.star_title').should('not.exist');
+        } else {
+          // 確保收藏的課程數量正確
+          cy.get('.lucide.lucide-star.true').should(
+            'have.length',
+            favorites.length
+          );
+          cy.get('.star_title').should('have.length', favorites.length); // 確保只有收藏的課程顯示
 
-        // 確保收藏的課程數量正確
-        cy.get('.lucide.lucide-star.true').should(
-          'have.length',
-          favorites.length
-        );
-        cy.get('.star_title').should('have.length', favorites.length); // 確保只有收藏的課程顯示
-
-        // 驗證課程名稱
-        favorites.forEach((favorite, index) => {
-          cy.get('.star_title').eq(index).should('contain.text', favorite.name);
-        });
+          // 驗證課程名稱
+          favorites.forEach((favorite, index) => {
+            cy.get('.star_title')
+              .eq(index)
+              .should('contain.text', favorite.name);
+          });
+        }
       });
     });
   });

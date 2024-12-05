@@ -2,31 +2,31 @@ describe('測試 /user API', () => {
   const testUser = Cypress.env('testTeacher');
 
   it('應成功獲取使用者資料 (GET /user)', () => {
-    cy.intercept('POST', `${Cypress.env('apiUrl')}/login`).as('loginRequest');
+    // cy.intercept('POST', `${Cypress.env('apiUrl')}/login`).as('loginRequest');
     cy.login(testUser.username, testUser.password);
-    cy.wait('@loginRequest').then(() => {
-      cy.window().then((win) => {
-        const token = win.localStorage.getItem('token'); // 假設 Token 存在 localStorage 中，鍵為 "token"
-        expect(token).to.exist; // 確保 Token 存在
-        cy.log(`JWT Token: ${token}`);
-        cy.request({
-          method: 'GET',
-          url: `${Cypress.env('apiUrl')}/user`, // API 路徑
-          headers: {
-            Authorization: `Bearer ${token}`, // 帶入 JWT Token
-          },
-        }).then((response) => {
-          expect(response.status).to.eq(200); // 驗證狀態碼
-          expect(response.body).to.have.property('user'); // 確認回應有使用者資訊
-          expect(response.body.user).to.have.property('id'); // 驗證 ID
-          expect(response.body.user).to.have.property('name', testUser.name); // 驗證名稱
-          expect(response.body.user).to.have.property(
-            'username',
-            testUser.username
-          ); // 驗證帳號
-        });
+    // cy.wait('@loginRequest').then(() => {
+    cy.window().then((win) => {
+      const token = win.localStorage.getItem('token'); // 假設 Token 存在 localStorage 中，鍵為 "token"
+      expect(token).to.exist; // 確保 Token 存在
+      cy.log(`JWT Token: ${token}`);
+      cy.request({
+        method: 'GET',
+        url: `${Cypress.env('apiUrl')}/user`, // API 路徑
+        headers: {
+          Authorization: `Bearer ${token}`, // 帶入 JWT Token
+        },
+      }).then((response) => {
+        expect(response.status).to.eq(200); // 驗證狀態碼
+        expect(response.body).to.have.property('user'); // 確認回應有使用者資訊
+        expect(response.body.user).to.have.property('id'); // 驗證 ID
+        expect(response.body.user).to.have.property('name', testUser.name); // 驗證名稱
+        expect(response.body.user).to.have.property(
+          'username',
+          testUser.username
+        ); // 驗證帳號
       });
     });
+    // });
   });
 
   it('應成功更新密碼，並確認舊密碼無法登入', () => {
@@ -47,7 +47,8 @@ describe('測試 /user API', () => {
             Authorization: `Bearer ${token}`, // 使用取得的 JWT Token
           },
           body: {
-            password: newPassword,
+            old_password: oldPassword,
+            new_password: newPassword,
           },
         }).then((response) => {
           // 驗證更新請求是否成功
@@ -103,7 +104,8 @@ describe('測試 /user API', () => {
           Authorization: `Bearer ${token}`, // 使用取得的 JWT Token
         },
         body: {
-          password: oldPassword,
+          old_password: newPassword,
+          new_password: oldPassword,
         },
       }).then((response) => {
         // 驗證更新請求是否成功
