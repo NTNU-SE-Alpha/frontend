@@ -313,7 +313,7 @@ const Chat = ({ params }) => {
         {/* <ButtonIcon>
           <Type/>
           </ButtonIcon> */}
-        {/* <MediaRecord /> */}
+        <MediaRecord />
         {/* <form>
           <input
             type="file"

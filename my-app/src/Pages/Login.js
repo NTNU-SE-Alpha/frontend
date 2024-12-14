@@ -160,7 +160,7 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           <input
             type="text"
-            placeholder="電子信箱"
+            placeholder="電子信箱或使用者名稱"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
