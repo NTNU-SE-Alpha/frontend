@@ -10,9 +10,15 @@ const MediaContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+
+  button {
+    color: white;
+  }
   .rec_container {
     display: flex;
     align-items: center;
+
     .red_circle {
       width: 1rem;
       height: 1rem;
@@ -48,17 +54,18 @@ const MediaRecord = () => {
 
   return (
     <MediaContainer>
-      {(status === 'idle' || status === 'stopped') && (
+      {status === 'idle' || status === 'stopped' ? (
         <ButtonIcon onClick={startRecording}>
           <Mic />
+        </ButtonIcon>
+      ) : (
+        <ButtonIcon onClick={stopRecording}>
+          <MicOff />
         </ButtonIcon>
       )}
 
       {status === 'recording' && (
         <div className="rec_container">
-          <ButtonIcon onClick={stopRecording}>
-            <MicOff />
-          </ButtonIcon>
           <motion.div
             className="red_circle"
             animate={{

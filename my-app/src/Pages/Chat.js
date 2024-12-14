@@ -6,7 +6,7 @@ import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
 import MediaRecord from '../Components/MediaRecord';
 import { Reorder, motion } from 'framer-motion';
-import { ArrowUp, Loader } from 'lucide-react';
+import { ArrowUp, Loader, Mic } from 'lucide-react';
 import { marked } from 'marked';
 import Loading from '../Components/Loading';
 import { useForm } from 'react-hook-form';
@@ -58,35 +58,40 @@ const ChatContainer = styled.div`
         align-self: flex-start;
       }
     }
-
-    form#textInput {
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: 100%;
-      height: 100%;
+    div#Input {
       background: teal;
+      width: 100%;
       border-radius: 30px;
-      /* border: #5d5d5d solid 2px; */
+      display: flex;
       margin-top: 1rem;
-      padding: 0 0 0 0.75rem;
-      color: #fff;
-      input {
+      padding: 0.75rem;
+      form#textInput {
         flex: 1;
-        font-size: 16px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         width: 100%;
-        padding: 15px;
-        border-radius: 30px;
-        border: none;
-        outline: none;
-        background-color: inherit;
-        &::placeholder {
-          color: rgba(255, 255, 255, 0.75);
+        height: 100%;
+
+        /* border: #5d5d5d solid 2px; */
+        padding: 0 0 0 0.75rem;
+        color: #fff;
+        input {
+          flex: 1;
+          font-size: 16px;
+          width: 100%;
+
+          border-radius: 30px;
+          border: none;
+          outline: none;
+          background-color: inherit;
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.75);
+          }
         }
-      }
-      button.上 {
-        margin-right: 0.75rem;
+        button.上 {
+          margin-right: 0.75rem;
+        }
       }
     }
   }
@@ -104,6 +109,8 @@ const Chat = ({ params }) => {
   const [conversations, setConversations] = useState([]);
   const [tabs, setTabs] = useState([]);
   const [chatSummary, setChatSummary] = useState([]);
+
+  const [mediaRecording, setMediaRecording] = useState(false);
   // react hook form
   const {
     register,
@@ -313,7 +320,7 @@ const Chat = ({ params }) => {
         {/* <ButtonIcon>
           <Type/>
           </ButtonIcon> */}
-        <MediaRecord />
+
         {/* <form>
           <input
             type="file"
@@ -323,17 +330,27 @@ const Chat = ({ params }) => {
             onChange={(e) => handleFiles(e.target.files)}
           />
         </form> */}
-        <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
-          <input
-            {...register('inputText', { required: true })}
-            type="text"
-            placeholder="開始討論吧..."
-          />
-          {errors.inputText && <span>請輸入討論內容！</span>}
-          <ButtonIcon className="上" type="submit">
-            <ArrowUp />
-          </ButtonIcon>
-        </form>
+        <div id="Input">
+          {mediaRecording ? (
+            <MediaRecord />
+          ) : (
+            <>
+            <ButtonIcon onClick={()=>setMediaRecording(true)}>
+              <Mic />
+            </ButtonIcon>
+            <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
+              <input
+                {...register('inputText', { required: true })}
+                type="text"
+                placeholder="開始討論吧..."
+              />
+              {errors.inputText && <span>請輸入討論內容！</span>}
+              <ButtonIcon className="上" type="submit">
+                <ArrowUp />
+              </ButtonIcon>
+            </form></>
+          )}
+        </div>
       </section>
     </ChatContainer>
   );
