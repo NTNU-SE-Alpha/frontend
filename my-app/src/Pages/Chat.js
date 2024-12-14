@@ -335,20 +335,21 @@ const Chat = ({ params }) => {
             <MediaRecord />
           ) : (
             <>
-            <ButtonIcon onClick={()=>setMediaRecording(true)}>
-              <Mic />
-            </ButtonIcon>
-            <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
-              <input
-                {...register('inputText', { required: true })}
-                type="text"
-                placeholder="開始討論吧..."
-              />
-              {errors.inputText && <span>請輸入討論內容！</span>}
-              <ButtonIcon className="上" type="submit">
-                <ArrowUp />
+              <ButtonIcon onClick={() => setMediaRecording(true)}>
+                <Mic />
               </ButtonIcon>
-            </form></>
+              <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
+                <input
+                  {...register('inputText', { required: true })}
+                  type="text"
+                  placeholder="開始討論吧..."
+                />
+                {errors.inputText && <span>請輸入討論內容！</span>}
+                <ButtonIcon className="上" type="submit">
+                  <ArrowUp />
+                </ButtonIcon>
+              </form>
+            </>
           )}
         </div>
       </section>
