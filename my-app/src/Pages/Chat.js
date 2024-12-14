@@ -80,8 +80,6 @@ const ChatContainer = styled.div`
           flex: 1;
           font-size: 16px;
           width: 100%;
-
-          border-radius: 30px;
           border: none;
           outline: none;
           background-color: inherit;
@@ -332,11 +330,11 @@ const Chat = ({ params }) => {
         </form> */}
         <div id="Input">
           {mediaRecording ? (
-            <MediaRecord />
+            <MediaRecord updateState={() => setMediaRecording(false)} />
           ) : (
             <>
               <ButtonIcon onClick={() => setMediaRecording(true)}>
-                <Mic />
+                <Mic color='#fff' />
               </ButtonIcon>
               <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
                 <input

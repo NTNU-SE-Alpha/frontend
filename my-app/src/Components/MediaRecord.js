@@ -1,24 +1,29 @@
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { LiveAudioVisualizer } from 'react-audio-visualize';
 import ButtonIcon from './ButtonIcon';
-import { Mic, MicOff } from 'lucide-react';
+import { Mic, MicOff, ArrowLeft, ArrowUp } from 'lucide-react';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 const MediaContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 
   button {
     color: white;
+    &.⬅️ {
+    }
+    &.⬆️ {
+      /* margin-right: auto; */
+    }
   }
   .rec_container {
     display: flex;
     align-items: center;
-
+    justify-content: center;
     .red_circle {
       width: 1rem;
       height: 1rem;
@@ -29,10 +34,9 @@ const MediaContainer = styled.div`
   }
 `;
 
-const MediaRecord = () => {
+const MediaRecord = ({ updateState }) => {
   const [mediaStream, setMediaStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-
   const { status, startRecording, stopRecording, mediaBlobUrl } =
     useReactMediaRecorder({
       audio: true,
@@ -54,36 +58,41 @@ const MediaRecord = () => {
 
   return (
     <MediaContainer>
-      {status === 'idle' || status === 'stopped' ? (
-        <ButtonIcon onClick={startRecording}>
-          <Mic />
-        </ButtonIcon>
-      ) : (
-        <ButtonIcon onClick={stopRecording}>
-          <MicOff />
-        </ButtonIcon>
-      )}
+      <ButtonIcon onClick={updateState} className="⬅️">
+        <ArrowLeft />
+      </ButtonIcon>
+      <div className="rec_container">
+        {status === 'idle' || status === 'stopped' ? (
+          <ButtonIcon onClick={startRecording}>
+            <Mic />
+          </ButtonIcon>
+        ) : (
+          <ButtonIcon onClick={stopRecording}>
+            <MicOff />
+          </ButtonIcon>
+        )}
 
-      {status === 'recording' && (
-        <div className="rec_container">
-          <motion.div
-            className="red_circle"
-            animate={{
-              type: 'spring',
-              scale: [0, 1, 0],
-            }}
-            transition={{
-              duration: 1,
-              times: [0, 0.5, 1],
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              repeatType: 'loop',
-            }}
-          />
-          <p>{status}</p>
-        </div>
-      )}
-      {/* 
+        {status === 'recording' && (
+          <>
+            <motion.div
+              className="red_circle"
+              animate={{
+                type: 'spring',
+                scale: [0, 1, 0],
+              }}
+              transition={{
+                duration: 1,
+                times: [0, 0.5, 1],
+                repeat: Infinity,
+                repeatDelay: 0.5,
+                repeatType: 'loop',
+              }}
+            />
+            <p>{status}</p>
+          </>
+        )}
+
+        {/* 
       {isRecording && mediaStream && (
         <LiveAudioVisualizer
           mediaStream={mediaStream}
@@ -94,9 +103,17 @@ const MediaRecord = () => {
         />
       )} */}
 
-      {/* 錄製完成後的音頻播放 */}
-      {(status === 'idle' || status === 'stopped') && mediaBlobUrl && (
-        <audio src={mediaBlobUrl} controls />
+        {/* 錄製完成後的音頻播放 */}
+        {(status === 'idle' || status === 'stopped') && mediaBlobUrl && (
+          <audio src={mediaBlobUrl} controls />
+        )}
+      </div>
+      {(status === 'idle' || status === 'stopped') && mediaBlobUrl ? (
+        <ButtonIcon className="⬆️">
+          <ArrowUp />
+        </ButtonIcon>
+      ) : (
+        <ButtonIcon />
       )}
     </MediaContainer>
   );
