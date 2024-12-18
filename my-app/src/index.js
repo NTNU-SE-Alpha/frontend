@@ -94,8 +94,12 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/something',
-        element: <Something />,
+        path: '/profile',
+        element: (
+          <RequireAuth>
+            <Profile />
+          </RequireAuth>
+        ),
       },
     ],
   },
@@ -106,14 +110,6 @@ const router = createBrowserRouter([
   {
     path: '/logout',
     element: <LogOut />,
-  },
-  {
-    path: '/profile',
-    element: (
-      <RequireAuth>
-        <Profile />
-      </RequireAuth>
-    ),
   },
   {
     path: '/chat-student',

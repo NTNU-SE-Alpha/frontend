@@ -330,11 +330,12 @@ const Chat = ({ params }) => {
         </form> */}
         <div id="Input">
           {mediaRecording ? (
-            <MediaRecord updateState={() => setMediaRecording(false)} />
+           
+                <MediaRecord updateState={() => setMediaRecording(false)} />
           ) : (
             <>
               <ButtonIcon onClick={() => setMediaRecording(true)}>
-                <Mic color='#fff' />
+                <Mic color="#fff" />
               </ButtonIcon>
               <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
                 <input

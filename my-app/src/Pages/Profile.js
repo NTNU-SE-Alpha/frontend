@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
@@ -8,7 +9,7 @@ const ProfileContainer = styled.div`
   display: flex;
   height: 100vh;
   background: #ffffff;
-  gap: 2rem;
+  gap: 1rem;
   .left {
     width: 200px;
     display: flex;
@@ -17,7 +18,7 @@ const ProfileContainer = styled.div`
     align-items: center;
     border: #5d5d5d solid 2px;
     margin: 2rem 0;
-    margin-left: 2rem;
+    margin-left: 8rem;
     border-radius: 50px;
     h2 {
       width: 100%;
@@ -44,6 +45,7 @@ const ProfileContainer = styled.div`
       align-items: center;
       gap: 1rem;
       height: 100%;
+      margin-bottom: 1rem;
       li {
         width: 100%;
         a {
@@ -51,6 +53,9 @@ const ProfileContainer = styled.div`
           button {
             width: 100%;
           }
+        }
+        &.end {
+          margin-top: auto;
         }
       }
     }
@@ -63,8 +68,8 @@ const ProfileContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px;
-    margin: 2rem 0;
-    background: #5d5d5d;
+    margin: 2rem 1rem;
+    background: teal;
     border-radius: 30px;
 
     h2 {
@@ -102,13 +107,32 @@ const ProfileContainer = styled.div`
 `;
 
 const Profile = () => {
+  const [user, setUser] = useState({});
+  const token = localStorage.getItem('token');
+
+  const getUserData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { user } = response.data;
+      console.log(user);
+      setUser(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);
   return (
     <ProfileContainer>
       <section className="left">
         <img src="images/profile.png" alt="profile" />
-        <h2>User 1</h2>
-        <p>Teacher</p>
-        <></>
+        <h2>{user.username}</h2>
+        <p>{user.user_type}</p>
         <ul>
           <li>
             <a href="/profile">
@@ -135,12 +159,7 @@ const Profile = () => {
               <Button className="白">統計資料</Button>
             </a>
           </li>
-          <li>
-            <a href="/profile">
-              <Button className="白">設定</Button>
-            </a>
-          </li>
-          <li>
+          <li className="end">
             <a href="/course">
               <Button className="白">返回</Button>
             </a>
@@ -150,11 +169,13 @@ const Profile = () => {
 
       <section className="right">
         <div class="Profile-box">
-          <h2>歡迎，User</h2>
+          <h2>歡迎 {user.username}</h2>
           <div class="profile-info">
-            <img src="/images/profile.png" alt="profile" />
-            <p>姓名：</p>
-            <p>學號：</p>
+            {/* <img src="/images/profile.png" alt="profile" /> */}
+            <p>累計使用llm次數：</p>
+            <p>剩餘使用llm次數：</p>
+            <p>上次造訪：</p>
+
           </div>
         </div>
       </section>

@@ -3,7 +3,7 @@ import { LiveAudioVisualizer } from 'react-audio-visualize';
 import ButtonIcon from './ButtonIcon';
 import { Mic, MicOff, ArrowLeft, ArrowUp } from 'lucide-react';
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 
 const MediaContainer = styled.div`
@@ -30,6 +30,9 @@ const MediaContainer = styled.div`
       border-radius: 50%;
       background-color: red;
       margin: 0 0.5rem;
+    }
+    p {
+      color: white;
     }
   }
 `;
@@ -61,7 +64,9 @@ const MediaRecord = ({ updateState }) => {
       <ButtonIcon onClick={updateState} className="⬅️">
         <ArrowLeft />
       </ButtonIcon>
-      <div className="rec_container">
+      <div
+        className="rec_container"
+      >
         {status === 'idle' || status === 'stopped' ? (
           <ButtonIcon onClick={startRecording}>
             <Mic />

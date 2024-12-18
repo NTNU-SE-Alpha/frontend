@@ -79,6 +79,15 @@ const FlexCard = styled.div`
   grid-template-columns: repeat(auto-fit, 263px);
   gap: 20px;
   justify-content: center;
+  div.noClass {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    color: teal;
+    border: 2px solid teal;
+    padding: 5rem;
+    border-radius: 1rem;
+  }
 `;
 const Searchbar = styled.div`
   margin: 20px;
@@ -265,15 +274,19 @@ const Course = () => {
           </li>
         </ul>
         <FlexCard>
-          {classes.map(({ id, isFavorite }, index) => (
-            <CourseCard
-              key={id}
-              is_favorite={classes[index].is_favorite}
-              name={classes[index].name}
-              id={classes[index].id}
-              image={dataClasses[index].image}
-            />
-          ))}
+          {classes.length === 0 ? (
+            <div className="noClass">目前暫無課程</div>
+          ) : (
+            classes.map(({ id, isFavorite }, index) => (
+              <CourseCard
+                key={id}
+                is_favorite={classes[index].is_favorite}
+                name={classes[index].name}
+                id={classes[index].id}
+                image={dataClasses[index].image}
+              />
+            ))
+          )}
         </FlexCard>
       </Section>
     </div>
