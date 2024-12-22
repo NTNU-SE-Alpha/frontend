@@ -6,8 +6,8 @@ import {
   GraduationCap,
   Settings,
   LogOut,
+  Wrench,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 const Navbar = styled.nav`
   width: min-content;
   position: fixed;
@@ -70,17 +70,17 @@ const Navbar = styled.nav`
           &.no3:hover::after {
             content: '登出';
           }
-          /* &.no4:hover::after {
-            content: '設定';
-          } */
-          &.no4:hover {
+          &.no4:hover::after {
+            content: '分組';
+          }
+          &.nox:hover {
             background-color: teal;
             border-radius: 0 0 50px 50px;
             /* content: '設定'; */
           }
         }
       }
-      &.no4 {
+      &.nox {
         margin-top: auto;
         transition: none;
         /* justify-self: flex-end; */
@@ -271,7 +271,12 @@ const Nav = () => {
               <LogOut />
             </a>
           </a>
-          <a href="/setting" className="active_text no4">
+          <a href="/student-list" className="active_text no4">
+            <a class="icon">
+              <Wrench />
+            </a>
+          </a>
+          <a href="/setting" className="active_text nox">
             <a class="icon">
               <Settings />
             </a>

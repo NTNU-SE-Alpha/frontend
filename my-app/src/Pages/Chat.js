@@ -330,8 +330,7 @@ const Chat = ({ params }) => {
         </form> */}
         <div id="Input">
           {mediaRecording ? (
-           
-                <MediaRecord updateState={() => setMediaRecording(false)} />
+            <MediaRecord updateState={() => setMediaRecording(false)} />
           ) : (
             <>
               <ButtonIcon onClick={() => setMediaRecording(true)}>

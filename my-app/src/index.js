@@ -24,6 +24,7 @@ import Media from './Components/MediaRecord';
 import Something from './Pages/Something';
 import LogOut from './Components/LogOut';
 import CourseEdit from './Pages/CourseEdit';
+import StudentList from './Pages/StudentList';
 
 const root = document.querySelector('#root');
 
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <Setting />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: '/student-list',
+        element: (
+          <RequireAuth>
+            <StudentList />
           </RequireAuth>
         ),
       },

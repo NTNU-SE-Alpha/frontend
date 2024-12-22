@@ -64,9 +64,7 @@ const MediaRecord = ({ updateState }) => {
       <ButtonIcon onClick={updateState} className="⬅️">
         <ArrowLeft />
       </ButtonIcon>
-      <div
-        className="rec_container"
-      >
+      <div className="rec_container">
         {status === 'idle' || status === 'stopped' ? (
           <ButtonIcon onClick={startRecording}>
             <Mic />
