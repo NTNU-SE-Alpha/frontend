@@ -99,7 +99,7 @@ const CourseInfo = ({ params }) => {
   const getSectionData = async (courseId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getSections/${courseId}`,
+        `http://se.bitx.tw:5000/getSections/${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

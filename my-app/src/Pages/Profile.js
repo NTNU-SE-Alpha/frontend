@@ -112,7 +112,7 @@ const Profile = () => {
 
   const getUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/user', {
+      const response = await axios.get('http://se.bitx.tw:5000/user', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

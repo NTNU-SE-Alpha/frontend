@@ -142,7 +142,7 @@ const Course = () => {
   // fetch while clicking
   const handlerFavorite = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/favorites', {
+      const response = await axios.get('http://se.bitx.tw:5000/favorites', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -157,7 +157,7 @@ const Course = () => {
   // fetch every time
   const getUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/user', {
+      const response = await axios.get('http://se.bitx.tw:5000/user', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -171,7 +171,7 @@ const Course = () => {
   };
   const getCourseData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/courses', {
+      const response = await axios.get('http://se.bitx.tw:5000/courses', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

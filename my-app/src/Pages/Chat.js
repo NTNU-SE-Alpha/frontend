@@ -144,7 +144,7 @@ const Chat = ({ params }) => {
   const fetchConversations = useCallback(async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/list_conversations',
+        'http://se.bitx.tw:5000/list_conversations',
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -162,7 +162,7 @@ const Chat = ({ params }) => {
   const getUUID = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/start_conversation',
+        'http://se.bitx.tw:5000/start_conversation',
         // {
         //   course_id: '1',
         //   course_section_id: '1',
@@ -188,7 +188,7 @@ const Chat = ({ params }) => {
     async (uuid) => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/conversation/${uuid}`,
+          `http://se.bitx.tw:5000/conversation/${uuid}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -218,7 +218,7 @@ const Chat = ({ params }) => {
   const AIChating = async (uuid, userInput) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/chat/${uuid}`,
+        `http://se.bitx.tw:5000/chat/${uuid}`,
         {
           file_id: '1',
           user_input: userInput,

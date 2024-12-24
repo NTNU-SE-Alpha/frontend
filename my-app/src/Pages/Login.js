@@ -122,7 +122,7 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('http://se.bitx.tw:5000/login', {
         username: email,
         password: password,
       });

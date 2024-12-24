@@ -39,7 +39,7 @@ const UploadFile = () => {
       return;
     }
 
-    const url = 'http://localhost:5000/api/upload'; // 設定你的上傳 URL
+    const url = 'http://se.bitx.tw:5000/api/upload'; // 設定你的上傳 URL
     const formData = new FormData();
     formData.append('file', file);
 

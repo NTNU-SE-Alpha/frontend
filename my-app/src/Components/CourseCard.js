@@ -70,7 +70,7 @@ const CourseCard = ({ is_favorite, name, id, image }) => {
     e.currentTarget.children[0].classList.toggle('true');
     try {
       const response = axios.put(
-        `http://localhost:5000/toggle_favorite/${id}`,
+        `http://se.bitx.tw:5000/toggle_favorite/${id}`,
         {},
         {
           headers: {
