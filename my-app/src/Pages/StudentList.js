@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { marked } from 'marked';
+import { marked, use } from 'marked';
+import { set, useForm } from 'react-hook-form';
+import Button from '../Components/Button';
 const HomeStyle = styled.div`
   margin-top: 1rem;
   margin-left: 100px;
@@ -20,23 +22,11 @@ const HomeStyle = styled.div`
   }
   div {
     table {
-      width: 100%;
+      /* width: 100%; */
       border-collapse: collapse;
-      text-align: left;
+      text-align: center;
       margin: 20px 0;
 
-      th,
-      td {
-        padding: 10px;
-        border: 1px solid #ddd;
-      }
-      th {
-        background-color: #f4f4f4;
-        font-weight: bold;
-      }
-    }
-
-    table {
       tr {
         &.bg-gray-50 {
           background-color: #dffdff;
@@ -49,6 +39,35 @@ const HomeStyle = styled.div`
           font-weight: bold;
         }
         td {
+        }
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        input {
+          padding: 0 0.5rem;
+          text-align: center;
+          width: 100px;
+          border: none;
+          background: inherit;
+          &:focus {
+            border-radius: 0.5rem;
+          }
+        }
+      }
+      form {
+        button.blank {
+          padding: 0 0.5rem;
+          background: inherit;
+          width: 100%;
+          border: none;
+          border-radius: 0.5rem;
+          &:hover{
+            cursor: pointer;
+            background-color: #f4f4f4;
+          }
         }
       }
     }
@@ -98,6 +117,38 @@ const students = [
 ];
 
 const StudentList = () => {
+  const [group, setgroup] = useState({});
+  const [editIndex, seteditIndex] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data, index) => {
+    const { inputText } = data;
+    setgroup((prev) => ({
+      ...prev,
+      [index]: inputText,
+    }));
+    console.log(inputText);
+  };
+  const handleButtonClick = (index) => {
+    seteditIndex(index);
+  };
+  const handleInputChange = (e, index) => {
+    const { value } = e.target;
+    console.log(value);
+    setgroup((prev) => ({
+      ...prev,
+      [index]: value,
+    }));
+  };
+  useEffect(() => {
+    
+  }, []);
   return (
     <div>
       <HomeStyle>
@@ -114,9 +165,9 @@ const StudentList = () => {
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr className="bg-gray-100">
-                <th className="px-4 py-2 border-b">學號/姓名</th>
-                <th className="px-4 py-2 border-b">角色</th>
-                <th className="px-4 py-2 border-b">分組</th>
+                <th>學號/姓名</th>
+                <th>角色</th>
+                <th>分組</th>
               </tr>
             </thead>
             <tbody>
@@ -128,21 +179,41 @@ const StudentList = () => {
                   <td className="px-4 py-2 border-b">
                     {student.id} {student.name}
                   </td>
-                  <td className="px-4 py-2 border-b">{student.email}</td>
                   <td className="px-4 py-2 border-b">{student.role}</td>
                   <td className="px-4 py-2 border-b">
-                    <input
-                      list="group"
-                      id="ice-cream-choice"
-                      name="ice-cream-choice"
-                    />
-                    <datalist id="group">
-                      <option value="1"></option>
-                      <option value="2"></option>
-                      <option value="3"></option>
-                      <option value="4"></option>
-                      <option value="None"></option>
-                    </datalist>
+                    <form onSubmit={handleSubmit(onSubmit, index)}>
+                      {editIndex === index ? (
+                        <input
+                          type="text"
+                          value={group[index]}
+                          onChange={(e) => handleInputChange(e, index)}
+                          onBlur={() => seteditIndex(null)}
+                          autoFocus
+                          {...register('inputText', {
+                            required: '這是必填欄位',
+                          })}
+                          list="group"
+                          id={`ice-cream-choice-${index}`}
+                          name={`ice-cream-choice-${index}`}
+                        />
+                      ) : (
+                        <button
+                          className="白 blank"
+                          onClick={() => handleButtonClick(index)}
+                          title="雙擊以編輯"
+                        >
+                          {group[index] || student.group}
+                        </button>
+                      )}
+
+                      <datalist id="group">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                        <option value="None"></option>
+                      </datalist>
+                    </form>
                   </td>
                 </tr>
               ))}
