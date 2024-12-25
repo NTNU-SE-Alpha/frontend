@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { marked, use } from 'marked';
 import { set, useForm } from 'react-hook-form';
 import Button from '../Components/Button';
+import DropdownWrapper from '../Components/DropdownWrapper';
 import { Pen } from 'lucide-react';
 import ButtonIcon from '../Components/ButtonIcon';
 const HomeStyle = styled.div`
@@ -192,11 +193,31 @@ const StudentList = () => {
   const handleAddGroupInput = (e) => {
     setaddgroup(e.target.value);
   };
-  useEffect(() => {}, []);
+
+  // 使用 DropdownWrapper Component
+  const [selectedRole, setSelectedRole] = useState('學生'); // 預設選項
+  const roles = ['', '', '']; // 選項列表
+
+  const handleRoleSelect = (role) => {
+    setSelectedRole(role);
+    console.log('選擇的角色:', role);
+  };
+  /////////////////////////////
+
+  const getCourseData = async () => {
+  };
+  useEffect(() => {
+    getCourseData();
+  }, []);
   return (
     <div>
       <HomeStyle>
         <p className="title">課程分組名單</p>
+        <DropdownWrapper
+          options={roles}
+          selectedOption={selectedRole}
+          onOptionSelect={handleRoleSelect}
+        />
         <div className="flex">
           {/* <div className="markdown-body">
             <div

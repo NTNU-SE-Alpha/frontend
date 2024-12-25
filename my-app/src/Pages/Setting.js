@@ -70,15 +70,16 @@ export default function Settings() {
   const markdownText = `
   # 設定
   `;
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [dropdownRole, setDropdownRole] = useState(['學生', '老師']);
-  const [selectRole, setSelectRole] = useState('老師');
-  const markdownContent = marked(markdownText);
   const dropdownRef = useRef(null);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const selectRoleAction = (role) => {
     setSelectRole(role);
     setDropdownVisible(false);
   };
+
+  const [dropdownRole, setDropdownRole] = useState(['學生', '老師']);
+  const [selectRole, setSelectRole] = useState('老師');
+  const markdownContent = marked(markdownText);
 
   useEffect(() => {
     // Handle outside click
