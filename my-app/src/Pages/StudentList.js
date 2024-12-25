@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { marked, use } from 'marked';
 import { set, useForm } from 'react-hook-form';
 import Button from '../Components/Button';
+import { Pen } from 'lucide-react';
+import ButtonIcon from '../Components/ButtonIcon';
 const HomeStyle = styled.div`
   margin-top: 1rem;
   margin-left: 100px;
@@ -14,31 +16,34 @@ const HomeStyle = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
   }
-  .flex {
+  div.flex {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
-  }
-  div {
+
     table {
       /* width: 100%; */
-      border-collapse: collapse;
       text-align: center;
+      border-spacing: 0;
       margin: 20px 0;
-
-      tr {
-        &.bg-gray-50 {
-          background-color: #dffdff;
-        }
-        &.bg-white {
-          background-color: #fff;
-        }
-        th {
-          background-color: #f4f4f4;
-          font-weight: bold;
-        }
-        td {
+      border: teal solid 2px;
+      border-radius: 14px;
+      tbody,
+      thead {
+        tr {
+          &.bg-teal-50 {
+            background-color: #f6f8fa;
+          }
+          &.bg-white {
+            background-color: #fff;
+          }
+          th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+          }
+          td {
+          }
         }
       }
 
@@ -48,7 +53,7 @@ const HomeStyle = styled.div`
         border: 1px solid #ddd;
         input {
           padding: 0 0.5rem;
-          text-align: center;
+          /* text-align: center; */
           width: 100px;
           border: none;
           background: inherit;
@@ -64,37 +69,69 @@ const HomeStyle = styled.div`
           width: 100%;
           border: none;
           border-radius: 0.5rem;
-          &:hover{
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          &:hover {
             cursor: pointer;
-            background-color: #f4f4f4;
+            /* background-color: #f4f4f4; */
+          }
+
+          button {
+            margin-left: 0.5rem;
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
           }
         }
       }
     }
   }
+  [titleR] {
+    position: relative;
+  }
+
+  [titleR]:hover::after {
+    content: attr(titleR);
+    position: absolute;
+
+    left: 150%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 1000;
+  }
 `;
 
-const studentList = `
-| 學號/姓名       | 角色                  | 分組      |
-|----------------|-----------------------|----------|
-| 60315017e Pei | 學生                  | 沒有群組 |
-| stu01 stu01    | 學生                  | 沒有群組 |
-| stu02 stu02    | 學生                  | A        |
-| stu03 stu03    | 學生                  | A        |
-| stu04 stu04    | 學生                  | B        |
-| stu05 stu05    | 學生                  | B        |
-| stu06 stu06    | 學生                  | 沒有群組 |
-| stu06 stu06    | 學生                  | 沒有群組 |
-| stu06 stu06    | 學生                  | 沒有群組 |
-| stu06 stu06    | 學生                  | 沒有群組 |
-| stu06 stu06    | 學生                  | 沒有群組 |
-| stu06 stu06    | 學生                  | 沒有群組 |
-| stu07 stu07    | 學生                  | 沒有群組 |
-| stu08 stu08    | 教學助理 (權限同教師) | 沒有群組 |
-| tea01_ac tea01_name | 教師               | 沒有群組 |
-| tea02 tea02    | 教師                  | 沒有群組 |
-| wenwyltw WYL   | 教師                  | 沒有群組 |
-`;
+// const studentList = `
+// | 學號/姓名       | 角色                  | 分組      |
+// |----------------|-----------------------|----------|
+// | 60315017e Pei | 學生                  | 沒有群組 |
+// | stu01 stu01    | 學生                  | 沒有群組 |
+// | stu02 stu02    | 學生                  | A        |
+// | stu03 stu03    | 學生                  | A        |
+// | stu04 stu04    | 學生                  | B        |
+// | stu05 stu05    | 學生                  | B        |
+// | stu06 stu06    | 學生                  | 沒有群組 |
+// | stu06 stu06    | 學生                  | 沒有群組 |
+// | stu06 stu06    | 學生                  | 沒有群組 |
+// | stu06 stu06    | 學生                  | 沒有群組 |
+// | stu06 stu06    | 學生                  | 沒有群組 |
+// | stu06 stu06    | 學生                  | 沒有群組 |
+// | stu07 stu07    | 學生                  | 沒有群組 |
+// | stu08 stu08    | 教學助理 (權限同教師) | 沒有群組 |
+// | tea01_ac tea01_name | 教師               | 沒有群組 |
+// | tea02 tea02    | 教師                  | 沒有群組 |
+// | wenwyltw WYL   | 教師                  | 沒有群組 |
+// `;
 
 const students = [
   { id: '60315017e', name: 'Pei', role: '學生', group: '沒有群組' },
@@ -116,8 +153,11 @@ const students = [
   { id: 'wenwyltw', name: 'WYL', role: '教師', group: '沒有群組' },
 ];
 
+const mygroupList = ['1', '2', '3', '4', 'None'];
 const StudentList = () => {
   const [group, setgroup] = useState({});
+  const [addgroup, setaddgroup] = useState('');
+  const [groupList, setgroupList] = useState(mygroupList);
   const [editIndex, seteditIndex] = useState(null);
   const {
     register,
@@ -146,25 +186,28 @@ const StudentList = () => {
       [index]: value,
     }));
   };
-  useEffect(() => {
-    
-  }, []);
+  const handleAddGroupClick = () => {
+    setgroupList((prev) => [...prev, addgroup]);
+  };
+  const handleAddGroupInput = (e) => {
+    setaddgroup(e.target.value);
+  };
+  useEffect(() => {}, []);
   return (
     <div>
       <HomeStyle>
-        <p className="title">學生列表</p>
+        <p className="title">課程分組名單</p>
         <div className="flex">
-          <div className="markdown-body">
+          {/* <div className="markdown-body">
             <div
               dangerouslySetInnerHTML={{
                 __html: marked(studentList || ''),
               }}
             />
-          </div>
-
-          <table className="min-w-full bg-white border border-gray-300">
+          </div> */}
+          <table>
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="tr-title">
                 <th>學號/姓名</th>
                 <th>角色</th>
                 <th>分組</th>
@@ -174,7 +217,7 @@ const StudentList = () => {
               {students.map((student, index) => (
                 <tr
                   key={index}
-                  className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
+                  className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
                 >
                   <td className="px-4 py-2 border-b">
                     {student.id} {student.name}
@@ -200,18 +243,19 @@ const StudentList = () => {
                         <button
                           className="白 blank"
                           onClick={() => handleButtonClick(index)}
-                          title="雙擊以編輯"
+                          titleR="點擊以編輯"
                         >
                           {group[index] || student.group}
+                          <ButtonIcon>
+                            <Pen />
+                          </ButtonIcon>
                         </button>
                       )}
 
                       <datalist id="group">
-                        <option value="1"></option>
-                        <option value="2"></option>
-                        <option value="3"></option>
-                        <option value="4"></option>
-                        <option value="None"></option>
+                        {groupList.map((group, index) => (
+                          <option key={index} value={group} />
+                        ))}
                       </datalist>
                     </form>
                   </td>
@@ -219,6 +263,26 @@ const StudentList = () => {
               ))}
             </tbody>
           </table>
+          <div>
+            <p className="title">設定分組</p>
+            <form>
+              <div>
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    handleAddGroupInput(e);
+                  }}
+                />
+                <button onClick={() => handleAddGroupClick}>新增分組</button>
+              </div>
+            </form>
+            <p>目前組別</p>
+            <ul>
+              {groupList.map((group, index) => (
+                <li key={index}>{group}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </HomeStyle>
     </div>

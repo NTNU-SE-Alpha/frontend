@@ -266,14 +266,14 @@ const Nav = () => {
               <BotMessageSquare />
             </a>
           </a>
-          <a href="/logout" className="active_text no3">
-            <a class="icon">
-              <LogOut />
-            </a>
-          </a>
           <a href="/student-list" className="active_text no4">
             <a class="icon">
               <Wrench />
+            </a>
+          </a>
+          <a href="/logout" className="active_text no3">
+            <a class="icon">
+              <LogOut />
             </a>
           </a>
           <a href="/setting" className="active_text nox">
