@@ -7,6 +7,7 @@ import {
   Settings,
   LogOut,
   Wrench,
+  SquareActivity,
 } from 'lucide-react';
 const Navbar = styled.nav`
   width: min-content;
@@ -68,10 +69,13 @@ const Navbar = styled.nav`
             content: 'LLM';
           }
           &.no3:hover::after {
-            content: '登出';
+            content: '分組';
           }
           &.no4:hover::after {
-            content: '分組';
+            content: '回饋';
+          }
+          &.no5:hover::after {
+            content: '登出';
           }
           &.nox:hover {
             background-color: teal;
@@ -266,12 +270,17 @@ const Nav = () => {
               <BotMessageSquare />
             </a>
           </a>
-          <a href="/student-list" className="active_text no4">
+          <a href="/student-list" className="active_text no3">
             <a class="icon">
               <Wrench />
             </a>
           </a>
-          <a href="/logout" className="active_text no3">
+          <a href="/feeback" className="active_text no4">
+            <a class="icon">
+              <SquareActivity />
+            </a>
+          </a>
+          <a href="/logout" className="active_text no5">
             <a class="icon">
               <LogOut />
             </a>

@@ -74,7 +74,7 @@ const HomeStyle = styled.div`
           align-items: center;
           justify-content: space-between;
 
-          &:hover  {
+          &:hover {
             cursor: pointer;
             /* background-color: #f4f4f4; */
           }

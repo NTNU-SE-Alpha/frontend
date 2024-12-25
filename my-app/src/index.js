@@ -118,7 +118,7 @@ const router = createBrowserRouter([
             <Feedback />
           </RequireAuth>
         ),
-      }
+      },
     ],
   },
   {
