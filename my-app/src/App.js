@@ -23,7 +23,7 @@ function App() {
         <Route path="/register" element={<Register />} exact />
         <Route path="/fileupload" element={<FileUpload />} exact />
         <Route path="/course" element={<Course />} exact />
-        <Route path="/course/feedback" element={<Feedback />} exact />
+        <Route path="/feedback" element={<Feedback />} exact />
         <Route path="/chat" element={<Chat />} exact />
         <Route path="/profile" element={<Profile />} exact />
         <Route path="/software" element={<Software />} exact />
