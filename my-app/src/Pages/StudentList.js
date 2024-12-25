@@ -64,7 +64,7 @@ const HomeStyle = styled.div`
           width: 100%;
           border: none;
           border-radius: 0.5rem;
-          &:hover{
+          &:hover {
             cursor: pointer;
             background-color: #f4f4f4;
           }
@@ -146,9 +146,7 @@ const StudentList = () => {
       [index]: value,
     }));
   };
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div>
       <HomeStyle>
