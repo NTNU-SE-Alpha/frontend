@@ -383,7 +383,7 @@ const FeedBackDialog = styled.div`
   border-radius: 20px;
   padding: 1rem;
   font-size: 1.3rem;
-  width: ${(props) => (props.isSingle ? "42vw" : "25vw")};
+  width: ${(props) => (props.isSingle ? '42vw' : '25vw')};
   & > div {
     margin-top: 1rem;
     margin-bottom: 2rem;
@@ -391,6 +391,7 @@ const FeedBackDialog = styled.div`
   & > div:last-child {
     margin-bottom: 1rem;
   }
+  
   h2 {
     font-size: 1.3rem;
     font-weight: normal;
@@ -403,6 +404,27 @@ const FeedBackDialog = styled.div`
     font-size: 1rem;
     border-radius: 20px;
     color: inherit;
+  }
+`;
+const GroupTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 10vw; 
+  & > div:first-child {
+    font-size: 1.5rem;
+  }
+`;
+const GroupRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const NameList = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  & > div{
+    margin-right: 0.5rem;
+    margin-top: 0.3rem;
   }
 `;
 const TableContainer = styled.div`
@@ -444,38 +466,33 @@ const Th = styled.th`
   position: sticky;
   top: 0;
   height: 5rem;
-  & > div{
+  & > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     font-size: 1.3rem;
     height: 3rem;
     border-radius: 20px;
-    background-color: ${(props) => (props.isHead ? "inherit" : "#ffffff")};
-    width: ${(props) => (props.isHead ? "6vw" : "auto")};
-  };
+    background-color: ${(props) => (props.isHead ? 'inherit' : '#ffffff')};
+    width: ${(props) => (props.isHead ? '6vw' : 'auto')};
+  }
 `;
 
 const Td = styled.td`
   padding: 1rem 1.3rem;
-  text-align: ${(props) => (props.isHead ? "center" : "left")};
+  text-align: ${(props) => (props.isHead ? 'center' : 'left')};
   border: 1px solid #ccc;
   white-space: nowrap; /* Prevent text wrapping */
 `;
 
-const RowPlatte = [
-  "#99babe",
-  "#bee3db",
-  "#faf9f9",
-  "#ffd6ba",
-]
+const RowPlatte = ['#99babe', '#bee3db', '#faf9f9', '#ffd6ba'];
 const TableRow = styled.tr`
   & > td:first-child {
     // group
-    background-color: #007D87;
+    background-color: #007d87;
     font-weight: bold;
     color: #fff;
-  };
+  }
   &:nth-child(4n + 2) {
     background-color: ${RowPlatte[0]};
   }
@@ -520,7 +537,7 @@ const Feedback = ({ params }) => {
       for (let i = 0; i < feedbackdata.length; i++) {
         if (feedbackdata[i].name === userName) {
           return (
-            <FeedBackBox>
+            <FeedBackBox isStudentView>
               <FeedBackDialog isSingle>
                 <h2>回饋</h2>
                 <div>{feedbackdata[i].feedback}</div>
@@ -555,45 +572,72 @@ const Feedback = ({ params }) => {
       for (let i = 0; i < groupfeedbackdata.length; i++) {
         if (groupfeedbackdata[i].namelist.includes(userName)) {
           return (
-            <FeedBackBox isScrolling>
-              <div>第 {groupfeedbackdata[i].group} 組</div>
-              <div>組員 : {groupfeedbackdata[i].namelist}</div>
-              {groupfeedbackdata[i].feedbacklist.map((feed, index) => (
-                <FeedBackDialog key={index}>
-                  {feed.section}
-                  <div>{feed.feedback}</div>
-                </FeedBackDialog>
-              ))}
+            <FeedBackBox>
+              <GroupTitle>
+                <div>第 {groupfeedbackdata[i].group} 組</div>
+                <NameList>{groupfeedbackdata[i].namelist.map((name)=>(
+                  <div>{name}</div>
+                ))}</NameList>
+              </GroupTitle>
+              <FeedBackDialog isSingle>
+                <h2>回饋</h2>
+                <div>{groupfeedbackdata[i].feedbacklist[0].feedback}</div>
+                <h2>重點延伸思考方式以及建議</h2>
+                <div>{groupfeedbackdata[i].feedbacklist[1].feedback}</div>
+              </FeedBackDialog>
             </FeedBackBox>
           );
         }
       }
     } else {
       return (
-        <TableContainer>
-          <ScrollableTable>
-            <ScrollableInnerTable>
-              <thead>
-                <tr>
-                  <Th isHead><div></div></Th>
-                  {groupfeedbackdata[0].feedbacklist.map((feed, index) => (
-                    <Th key={index}><div>{feed.section}</div></Th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {groupfeedbackdata.map((group, index) => (
-                  <TableRow key={index}>
-                    <Td isHead>第 {group.group} 組</Td>
-                    {group.feedbacklist.map((feed, index) => (
-                      <Td key={index}>{feed.feedback}</Td>
-                    ))}
-                  </TableRow>
-                ))}
-              </tbody>
-            </ScrollableInnerTable>
-          </ScrollableTable>
-        </TableContainer>
+        <FeedBackBox isScrolling>
+        {groupfeedbackdata.map((group, index) => (
+          <GroupRow>
+              <GroupTitle>
+                <div>第 {group.group} 組</div>
+                <NameList>{group.namelist.map((name)=>(
+                  <div>{name}</div>
+                ))}</NameList>
+              </GroupTitle>
+              <FeedBackDialog>
+                <h2>回饋</h2>
+                <div>{group.feedbacklist[0].feedback}</div>
+                <h2>重點延伸思考方式以及建議</h2>
+                <div>{group.feedbacklist[1].feedback}</div>
+              </FeedBackDialog>
+          </GroupRow>
+        ))}
+        </FeedBackBox>
+        // Old version
+        // <TableContainer>
+        //   <ScrollableTable>
+        //     <ScrollableInnerTable>
+        //       <thead>
+        //         <tr>
+        //           <Th isHead>
+        //             <div></div>
+        //           </Th>
+        //           {groupfeedbackdata[0].feedbacklist.map((feed, index) => (
+        //             <Th key={index}>
+        //               <div>{feed.section}</div>
+        //             </Th>
+        //           ))}
+        //         </tr>
+        //       </thead>
+        //       <tbody>
+        //         {groupfeedbackdata.map((group, index) => (
+        //           <TableRow key={index}>
+        //             <Td isHead>第 {group.group} 組</Td>
+        //             {group.feedbacklist.map((feed, index) => (
+        //               <Td key={index}>{feed.feedback}</Td>
+        //             ))}
+        //           </TableRow>
+        //         ))}
+        //       </tbody>
+        //     </ScrollableInnerTable>
+        //   </ScrollableTable>
+        // </TableContainer>
       );
     }
   };
