@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { marked, use } from 'marked';
 import { set, useForm } from 'react-hook-form';
 import Button from '../Components/Button';
 import DropdownWrapper from '../Components/DropdownWrapper';
-import { Pen } from 'lucide-react';
+import { Pen, Plus, Trash2 } from 'lucide-react';
 import ButtonIcon from '../Components/ButtonIcon';
-const HomeStyle = styled.div`
+const Container = styled.div`
   margin-top: 1rem;
   margin-left: 100px;
   display: flex;
@@ -20,10 +19,17 @@ const HomeStyle = styled.div`
   div.flex {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     gap: 1.5rem;
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      table{
+        order: 2;
+      }
+    }
 
     table {
+      margin-right: 1rem;
       /* width: 100%; */
       text-align: center;
       border-spacing: 0;
@@ -87,6 +93,33 @@ const HomeStyle = styled.div`
               width: 20px;
               height: 20px;
             }
+          }
+        }
+      }
+    }
+    div.setForm {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      form {
+        div {
+          display: flex;
+          width: 100%;
+          gap: 1rem;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+
+          input,
+          select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: .25rem;
+          }
+          button {
+            display: flex;
+            align-items: center;
           }
         }
       }
@@ -158,6 +191,7 @@ const mygroupList = ['1', '2', '3', '4', 'None'];
 const StudentList = () => {
   const [group, setgroup] = useState({});
   const [addgroup, setaddgroup] = useState('');
+  const [newGroup, setNewGroup] = useState('');
   const [groupList, setgroupList] = useState(mygroupList);
   const [editIndex, seteditIndex] = useState(null);
   const {
@@ -187,16 +221,19 @@ const StudentList = () => {
       [index]: value,
     }));
   };
-  const handleAddGroupClick = () => {
-    setgroupList((prev) => [...prev, addgroup]);
+  const handleRemoveGroup = (group) => {
+    setgroupList((prev) => prev.filter((g) => g !== group));
   };
-  const handleAddGroupInput = (e) => {
-    setaddgroup(e.target.value);
+  const handleAddGroup = (e) => {
+    e.preventDefault();
+    if (newGroup && !groupList.includes(newGroup)) {
+      setgroupList([...groupList, newGroup]);
+      setNewGroup('');
+    }
   };
-
   // 使用 DropdownWrapper Component
-  const [selectedRole, setSelectedRole] = useState('學生'); // 預設選項
-  const roles = ['', '', '']; // 選項列表
+  const roles = ['基礎電子學', '軟體工程', '資料探勘']; // 選項列表
+  const [selectedRole, setSelectedRole] = useState(roles[0]); // 預設選項
 
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
@@ -204,109 +241,121 @@ const StudentList = () => {
   };
   /////////////////////////////
 
-  const getCourseData = async () => {
-  };
+  const getCourseData = async () => {};
   useEffect(() => {
     getCourseData();
   }, []);
   return (
-    <div>
-      <HomeStyle>
-        <p className="title">課程分組名單</p>
-        <DropdownWrapper
-          options={roles}
-          selectedOption={selectedRole}
-          onOptionSelect={handleRoleSelect}
-        />
-        <div className="flex">
-          {/* <div className="markdown-body">
+    <Container>
+      <p className="title">課程分組名單</p>
+      <DropdownWrapper
+        options={roles}
+        selectedOption={selectedRole}
+        onOptionSelect={handleRoleSelect}
+      />
+      <div className="flex">
+        {/* <div className="markdown-body">
             <div
               dangerouslySetInnerHTML={{
                 __html: marked(studentList || ''),
               }}
             />
           </div> */}
-          <table>
-            <thead>
-              <tr className="tr-title">
-                <th>學號/姓名</th>
-                <th>角色</th>
-                <th>分組</th>
+        <table>
+          <thead>
+            <tr className="tr-title">
+              <th>學號/姓名</th>
+              <th>角色</th>
+              <th>分組</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((student, index) => (
+              <tr
+                key={index}
+                className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
+              >
+                <td className="px-4 py-2 border-b">
+                  {student.id} {student.name}
+                </td>
+                <td className="px-4 py-2 border-b">{student.role}</td>
+                <td className="px-4 py-2 border-b">
+                  <form onSubmit={handleSubmit(onSubmit, index)}>
+                    {editIndex === index ? (
+                      <input
+                        type="text"
+                        value={group[index]}
+                        onChange={(e) => handleInputChange(e, index)}
+                        onBlur={() => seteditIndex(null)}
+                        autoFocus
+                        {...register('inputText', {
+                          required: '這是必填欄位',
+                        })}
+                        list="group"
+                        id={`ice-cream-choice-${index}`}
+                        name={`ice-cream-choice-${index}`}
+                      />
+                    ) : (
+                      <button
+                        className="白 blank"
+                        onClick={() => handleButtonClick(index)}
+                        titleR="點擊以編輯"
+                      >
+                        {group[index] || student.group}
+                        <ButtonIcon>
+                          <Pen />
+                        </ButtonIcon>
+                      </button>
+                    )}
+
+                    <datalist id="group">
+                      {groupList.map((group, index) => (
+                        <option key={index} value={group} />
+                      ))}
+                    </datalist>
+                  </form>
+                </td>
               </tr>
-            </thead>
+            ))}
+          </tbody>
+        </table>
+        <div className="setForm">
+          <p className="title">設定分組</p>
+          <form onSubmit={handleAddGroup}>
+            <div>
+              <input
+                value={newGroup}
+                type="text"
+                onChange={(e) => setNewGroup(e.target.value)}
+                placeholder="新增分組"
+              />
+              <Button>
+                <Plus size={20} />
+                新增分組
+              </Button>
+            </div>
+          </form>
+          <p>目前組別</p>
+          <table>
             <tbody>
-              {students.map((student, index) => (
+              {groupList.map((group, index) => (
                 <tr
                   key={index}
                   className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
                 >
-                  <td className="px-4 py-2 border-b">
-                    {student.id} {student.name}
-                  </td>
-                  <td className="px-4 py-2 border-b">{student.role}</td>
-                  <td className="px-4 py-2 border-b">
-                    <form onSubmit={handleSubmit(onSubmit, index)}>
-                      {editIndex === index ? (
-                        <input
-                          type="text"
-                          value={group[index]}
-                          onChange={(e) => handleInputChange(e, index)}
-                          onBlur={() => seteditIndex(null)}
-                          autoFocus
-                          {...register('inputText', {
-                            required: '這是必填欄位',
-                          })}
-                          list="group"
-                          id={`ice-cream-choice-${index}`}
-                          name={`ice-cream-choice-${index}`}
-                        />
-                      ) : (
-                        <button
-                          className="白 blank"
-                          onClick={() => handleButtonClick(index)}
-                          titleR="點擊以編輯"
-                        >
-                          {group[index] || student.group}
-                          <ButtonIcon>
-                            <Pen />
-                          </ButtonIcon>
-                        </button>
-                      )}
-
-                      <datalist id="group">
-                        {groupList.map((group, index) => (
-                          <option key={index} value={group} />
-                        ))}
-                      </datalist>
-                    </form>
+                  <td>{group}</td>
+                  <td>
+                    <ButtonIcon onClick={() => handleRemoveGroup(group)}>
+                      <Trash2 />
+                    </ButtonIcon>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div>
-            <p className="title">設定分組</p>
-            <form>
-              <div>
-                <input
-                  type="text"
-                  onChange={(e) => {
-                    handleAddGroupInput(e);
-                  }}
-                />
-                <button onClick={() => handleAddGroupClick}>新增分組</button>
-              </div>
-            </form>
-            <p>目前組別</p>
-            <ul>
-              {groupList.map((group, index) => (
-                <li key={index}>{group}</li>
-              ))}
-            </ul>
-          </div>
         </div>
-      </HomeStyle>
-    </div>
+      </div>
+    </Container>
   );
 };
 
