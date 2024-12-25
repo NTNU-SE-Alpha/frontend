@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { set, useForm } from 'react-hook-form';
 import Button from '../Components/Button';
 import DropdownWrapper from '../Components/DropdownWrapper';
-import { Pen, Plus, Trash2 } from 'lucide-react';
+import { Pen, Plus, Trash2, Settings2 } from 'lucide-react';
 import ButtonIcon from '../Components/ButtonIcon';
+import Modal from '../Components/Modal';
+import { color } from 'framer-motion';
 const Container = styled.div`
   margin-top: 1rem;
   margin-left: 100px;
@@ -16,6 +18,11 @@ const Container = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
   }
+  div.bar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
   div.flex {
     display: flex;
     justify-content: center;
@@ -23,7 +30,7 @@ const Container = styled.div`
     gap: 1.5rem;
     @media (max-width: 1024px) {
       flex-direction: column;
-      table{
+      table {
         order: 2;
       }
     }
@@ -115,7 +122,7 @@ const Container = styled.div`
           select {
             padding: 8px;
             border: 1px solid #ccc;
-            border-radius: .25rem;
+            border-radius: 0.25rem;
           }
           button {
             display: flex;
@@ -190,7 +197,6 @@ const students = [
 const mygroupList = ['1', '2', '3', '4', 'None'];
 const StudentList = () => {
   const [group, setgroup] = useState({});
-  const [addgroup, setaddgroup] = useState('');
   const [newGroup, setNewGroup] = useState('');
   const [groupList, setgroupList] = useState(mygroupList);
   const [editIndex, seteditIndex] = useState(null);
@@ -241,6 +247,12 @@ const StudentList = () => {
   };
   /////////////////////////////
 
+  // 使用 Modal Component
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  /////////////////////////////
+
   const getCourseData = async () => {};
   useEffect(() => {
     getCourseData();
@@ -248,11 +260,18 @@ const StudentList = () => {
   return (
     <Container>
       <p className="title">課程分組名單</p>
-      <DropdownWrapper
-        options={roles}
-        selectedOption={selectedRole}
-        onOptionSelect={handleRoleSelect}
-      />
+      <div className="bar">
+        <DropdownWrapper
+          options={roles}
+          selectedOption={selectedRole}
+          onOptionSelect={handleRoleSelect}
+        />
+        <div className="setting" >
+          <ButtonIcon onClick={openModal} titleR="設定分組">
+            <Settings2 />
+          </ButtonIcon>
+        </div>
+      </div>
       <div className="flex">
         {/* <div className="markdown-body">
             <div
@@ -319,41 +338,51 @@ const StudentList = () => {
             ))}
           </tbody>
         </table>
-        <div className="setForm">
-          <p className="title">設定分組</p>
-          <form onSubmit={handleAddGroup}>
-            <div>
-              <input
-                value={newGroup}
-                type="text"
-                onChange={(e) => setNewGroup(e.target.value)}
-                placeholder="新增分組"
-              />
-              <Button>
-                <Plus size={20} />
-                新增分組
-              </Button>
-            </div>
-          </form>
-          <p>目前組別</p>
-          <table>
-            <tbody>
-              {groupList.map((group, index) => (
-                <tr
-                  key={index}
-                  className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
-                >
-                  <td>{group}</td>
-                  <td>
-                    <ButtonIcon onClick={() => handleRemoveGroup(group)}>
-                      <Trash2 />
-                    </ButtonIcon>
-                  </td>
+        {/* 彈出視窗 */}
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="setForm">
+            <p className="title">設定分組</p>
+            <form onSubmit={handleAddGroup}>
+              <div>
+                <input
+                  value={newGroup}
+                  type="text"
+                  onChange={(e) => setNewGroup(e.target.value)}
+                  placeholder="新增分組"
+                />
+                <Button>
+                  <Plus size={20} />
+                  新增分組
+                </Button>
+              </div>
+            </form>
+            <table>
+              <thead>
+                <tr>
+                  <th colSpan={2}>目前分組</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {groupList.map((group, index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
+                  >
+                    <td>{group}</td>
+                    <td>
+                      <ButtonIcon
+                        style={{ background: '#EF4444' }}
+                        onClick={() => handleRemoveGroup(group)}
+                      >
+                        <Trash2 color="white" />
+                      </ButtonIcon>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Modal>
       </div>
     </Container>
   );
