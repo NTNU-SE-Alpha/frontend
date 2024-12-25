@@ -25,6 +25,7 @@ import Something from './Pages/Something';
 import LogOut from './Components/LogOut';
 import CourseEdit from './Pages/CourseEdit';
 import StudentList from './Pages/StudentList';
+import Feedback from './Pages/Feedback';
 
 const root = document.querySelector('#root');
 
@@ -110,6 +111,14 @@ const router = createBrowserRouter([
           </RequireAuth>
         ),
       },
+      {
+        path: '/feeback',
+        element: (
+          <RequireAuth>
+            <Feedback />
+          </RequireAuth>
+        ),
+      }
     ],
   },
   {
