@@ -6,7 +6,7 @@ import DropdownWrapper from '../Components/DropdownWrapper';
 import { Pen, Plus, Trash2, Settings2 } from 'lucide-react';
 import ButtonIcon from '../Components/ButtonIcon';
 import Modal from '../Components/Modal';
-import { color } from 'framer-motion';
+import axios from 'axios';
 const Container = styled.div`
   margin-top: 1rem;
   margin-left: 100px;
@@ -140,8 +140,7 @@ const Container = styled.div`
     content: attr(titleR);
     position: absolute;
 
-    left: 150%;
-    transform: translateX(-50%);
+    left: 120%;
     background-color: black;
     color: white;
     padding: 5px 10px;
@@ -174,32 +173,37 @@ const Container = styled.div`
 // | wenwyltw WYL   | 教師                  | 沒有群組 |
 // `;
 
-const students = [
-  { id: '60315017e', name: 'Pei', role: '學生', group: '沒有群組' },
-  { id: 'stu01', name: 'stu01', role: '學生', group: '沒有群組' },
-  { id: 'stu02', name: 'stu02', role: '學生', group: 'A' },
-  { id: 'stu03', name: 'stu03', role: '學生', group: 'A' },
-  { id: 'stu04', name: 'stu04', role: '學生', group: 'B' },
-  { id: 'stu05', name: 'stu05', role: '學生', group: 'B' },
-  { id: 'stu06', name: 'stu06', role: '學生', group: '沒有群組' },
-  { id: 'stu07', name: 'stu07', role: '學生', group: '沒有群組' },
-  {
-    id: 'stu08',
-    name: 'stu08',
-    role: '教學助理 (權限同教師)',
-    group: '沒有群組',
-  },
-  { id: 'tea01_ac', name: 'tea01_name', role: '教師', group: '沒有群組' },
-  { id: 'tea02', name: 'tea02', role: '教師', group: '沒有群組' },
-  { id: 'wenwyltw', name: 'WYL', role: '教師', group: '沒有群組' },
-];
+// const students = [
+//   { id: '60315017e', name: 'Pei', role: '學生', group: '沒有群組' },
+//   { id: 'stu01', name: 'stu01', role: '學生', group: '沒有群組' },
+//   { id: 'stu02', name: 'stu02', role: '學生', group: 'A' },
+//   { id: 'stu03', name: 'stu03', role: '學生', group: 'A' },
+//   { id: 'stu04', name: 'stu04', role: '學生', group: 'B' },
+//   { id: 'stu05', name: 'stu05', role: '學生', group: 'B' },
+//   { id: 'stu06', name: 'stu06', role: '學生', group: '沒有群組' },
+//   { id: 'stu07', name: 'stu07', role: '學生', group: '沒有群組' },
+//   {
+//     id: 'stu08',
+//     name: 'stu08',
+//     role: '教學助理 (權限同教師)',
+//     group: '沒有群組',
+//   },
+//   { id: 'tea01_ac', name: 'tea01_name', role: '教師', group: '沒有群組' },
+//   { id: 'tea02', name: 'tea02', role: '教師', group: '沒有群組' },
+//   { id: 'wenwyltw', name: 'WYL', role: '教師', group: '沒有群組' },
+// ];
 
 const mygroupList = ['1', '2', '3', '4', 'None'];
+
 const StudentList = () => {
-  const [group, setgroup] = useState({});
-  const [newGroup, setNewGroup] = useState('');
-  const [groupList, setgroupList] = useState(mygroupList);
-  const [editIndex, seteditIndex] = useState(null);
+  const token = localStorage.getItem('token');
+
+  const [group, setgroup] = useState({}); // 所有學生的分組
+  const [newGroup, setNewGroup] = useState(''); // 新的分組
+  const [groupList, setgroupList] = useState(mygroupList); // 組別設定的選項
+  const [editIndex, seteditIndex] = useState(null); // 目前編輯的 index
+  const [classes, setClasses] = useState([]); // 所在的課程
+  const [students, setStudents] = useState([]); // 所有學生資料表
   const {
     register,
     handleSubmit,
@@ -227,9 +231,6 @@ const StudentList = () => {
       [index]: value,
     }));
   };
-  const handleRemoveGroup = (group) => {
-    setgroupList((prev) => prev.filter((g) => g !== group));
-  };
   const handleAddGroup = (e) => {
     e.preventDefault();
     if (newGroup && !groupList.includes(newGroup)) {
@@ -237,13 +238,17 @@ const StudentList = () => {
       setNewGroup('');
     }
   };
-  // 使用 DropdownWrapper Component
-  const roles = ['基礎電子學', '軟體工程', '資料探勘']; // 選項列表
-  const [selectedRole, setSelectedRole] = useState(roles[0]); // 預設選項
+  const handleRemoveGroup = (group) => {
+    setgroupList((prev) => prev.filter((g) => g !== group));
+  };
 
+  // 使用 DropdownWrapper Component
+  const [roles, setroles] = useState([]); // 選項列表
+  const [selectedRole, setSelectedRole] = useState('載入中...'); // 預設選項
+  const [currentCourseId, setcuurentCourseId] = useState(''); // 目前課程 ID
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
-    console.log('選擇的角色:', role);
+    setcuurentCourseId(classes.find((course) => course.name === role).id);
   };
   /////////////////////////////
 
@@ -253,10 +258,51 @@ const StudentList = () => {
   const closeModal = () => setIsModalOpen(false);
   /////////////////////////////
 
-  const getCourseData = async () => {};
+  const getCourseData = async () => {
+    try {
+      const response = await axios.get('http://se.bitx.tw:5000/courses', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { courses } = response.data;
+      setClasses(courses);
+      if (courses.length > 0) {
+        setroles(courses.map((course) => course.name));
+        setcuurentCourseId(courses[0].id); // 默認設置為第一門課程
+        setSelectedRole(courses[0].name);
+      }
+      setcuurentCourseId(courses[0].id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getStudentData = async (courseId) => {
+    if (!courseId) return;
+    try {
+      const response = await axios.get(
+        `http://se.bitx.tw:5000/getStudents/${courseId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const { students } = response.data;
+      console.log(students);
+      setStudents(students);
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    }
+  };
+
   useEffect(() => {
     getCourseData();
   }, []);
+
+  useEffect(() => {
+    getStudentData(currentCourseId);
+  }, [currentCourseId]);
+
   return (
     <Container>
       <p className="title">課程分組名單</p>
@@ -266,20 +312,13 @@ const StudentList = () => {
           selectedOption={selectedRole}
           onOptionSelect={handleRoleSelect}
         />
-        <div className="setting" >
+        <div className="setting">
           <ButtonIcon onClick={openModal} titleR="設定分組">
             <Settings2 />
           </ButtonIcon>
         </div>
       </div>
       <div className="flex">
-        {/* <div className="markdown-body">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: marked(studentList || ''),
-              }}
-            />
-          </div> */}
         <table>
           <thead>
             <tr className="tr-title">
@@ -297,13 +336,13 @@ const StudentList = () => {
                 <td className="px-4 py-2 border-b">
                   {student.id} {student.name}
                 </td>
-                <td className="px-4 py-2 border-b">{student.role}</td>
+                <td className="px-4 py-2 border-b">學生</td>
                 <td className="px-4 py-2 border-b">
                   <form onSubmit={handleSubmit(onSubmit, index)}>
                     {editIndex === index ? (
                       <input
                         type="text"
-                        value={group[index]}
+                        value={student.group}
                         onChange={(e) => handleInputChange(e, index)}
                         onBlur={() => seteditIndex(null)}
                         autoFocus
