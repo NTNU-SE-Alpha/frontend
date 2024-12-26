@@ -16,7 +16,7 @@ const Hamberger = styled.div`
   @media screen and (max-width: 690px) {
     display: block;
     position: fixed;
-    top: 1rem;
+    top: 0.2rem;
     left: 1rem;
     z-index: 1001;
 
@@ -139,21 +139,24 @@ const Nav = () => {
     setIsOpen((prevState) => !prevState);
   };
   useEffect(() => {
-    function setVhVariable() {
-      // 將視窗的高度乘以 0.01 並設置為 --vh 變數的值
-      let vh_set = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh_set}px`);
-    }
+    // 定義視窗尺寸變化處理函數
+    const handleResize = () => {
+      if (window.matchMedia('(min-width: 690px)').matches) {
+        setIsOpen(true); // 視窗大於 690px 時自動打開 nav
+      } else {
+        setIsOpen(false); // 視窗小於或等於 690px 時關閉 nav
+      }
+    };
 
-    // 頁面加載時初始化 --vh 變數
-    setVhVariable();
+    // 初始化
+    handleResize();
 
-    // 視窗大小改變時重新計算 --vh 變數的值
-    window.addEventListener('resize', setVhVariable);
+    // 添加監聽器
+    window.addEventListener('resize', handleResize);
 
-    // 組件卸載時移除事件監聽器
+    // 移除監聽器
     return () => {
-      window.removeEventListener('resize', setVhVariable);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 

@@ -22,121 +22,112 @@ const Container = styled.main`
     align-items: center;
     gap: 2rem;
   }
-  div.flex {
+
+  div.table-contianer {
     display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    width: 100%;
-    margin: 1rem;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    overflow-x: auto;
 
-    gap: 1.5rem;
-    @media (max-width: 690px) {
-      flex-direction: column;
-      /* table {
-        order: 2;
-      } */
-    }
-    div.table-contianer {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 1rem;
-
-      table {
-        margin-right: 1rem;
-        /* width: 100%; */
-        text-align: center;
-        border-spacing: 0;
-        margin: 20px 0;
-        border: teal solid 2px;
-        border-radius: 14px;
-        tbody,
-        thead {
-          tr {
-            &.bg-teal-50 {
-              background-color: #f6f8fa;
-            }
-            &.bg-white {
-              background-color: #fff;
-            }
-            th {
-              background-color: #f4f4f4;
-              font-weight: bold;
-            }
-            td {
-            }
+    table {
+      margin-right: 1rem;
+      /* width: 100%; */
+      text-align: center;
+      border-spacing: 0;
+      margin: 20px 0;
+      border: teal solid 2px;
+      border-radius: 14px;
+      tbody,
+      thead {
+        tr {
+          &.bg-teal-50 {
+            background-color: #f6f8fa;
+          }
+          &.bg-white {
+            background-color: #fff;
+          }
+          th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+          }
+          td {
           }
         }
+      }
 
-        th,
-        td {
-          padding: 10px;
-          border: 1px solid #ddd;
-          input {
-            padding: 0 0.5rem;
-            /* text-align: center; */
-            width: 100px;
-            border: none;
-            background: inherit;
-            &:focus {
-              border-radius: 0.5rem;
-            }
-          }
-          white-space: nowrap; /* 不允許內容自動換行 */
-        }
-        form {
-          button.blank {
-            padding: 0 0.5rem;
-            background: inherit;
-            width: 100%;
-            border: none;
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        input {
+          padding: 0 0.5rem;
+          /* text-align: center; */
+          width: 100px;
+          border: none;
+          background: inherit;
+          &:focus {
             border-radius: 0.5rem;
+          }
+        }
+        white-space: nowrap; /* 不允許內容自動換行 */
+      }
+      form {
+        button.blank {
+          padding: 0 0.5rem;
+          background: inherit;
+          width: 100%;
+          border: none;
+          border-radius: 0.5rem;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
 
-            &:hover {
-              cursor: pointer;
-              /* background-color: #f4f4f4; */
-            }
+          &:hover {
+            cursor: pointer;
+            /* background-color: #f4f4f4; */
+          }
 
-            button {
-              margin-left: 0.5rem;
+          button {
+            margin-left: 0.5rem;
 
-              svg {
-                width: 20px;
-                height: 20px;
-              }
+            svg {
+              width: 20px;
+              height: 20px;
             }
           }
         }
       }
-      div.setForm {
+    }
+    @media (max-width: 690px) {
+      flex-direction: column;
+      overflow-x: auto;
+    }
+  }
+  div.setForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+
+    form {
+      div {
         display: flex;
-        flex-direction: column;
+        width: 100%;
         gap: 1rem;
+        justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
 
-        form {
-          div {
-            display: flex;
-            width: 100%;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-
-            input,
-            select {
-              padding: 8px;
-              border: 1px solid #ccc;
-              border-radius: 0.25rem;
-            }
-            button {
-              display: flex;
-              align-items: center;
-            }
-          }
+        input,
+        select {
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 0.25rem;
+        }
+        button {
+          display: flex;
+          align-items: center;
         }
       }
     }
@@ -289,108 +280,106 @@ const StudentList = () => {
 
       {/* 彈出視窗 */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="flex">
-          <div className="setForm">
-            <p className="title">設定分組</p>
-            <form onSubmit={handleAddGroup}>
-              <div>
-                <input
-                  value={newGroup}
-                  type="text"
-                  onChange={(e) => setNewGroup(e.target.value)}
-                  placeholder="新增分組"
-                />
-                <Button>
-                  <Plus size={20} />
-                  新增分組
-                </Button>
-              </div>
-            </form>
-            <div className="table-contianer">
-              <table>
-                <thead>
-                  <tr className="tr-title">
-                    <th>學號/姓名</th>
-                    <th>角色</th>
-                    <th>分組</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {students.map((student, index) => (
-                    <tr
-                      key={index}
-                      className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
-                    >
-                      <td className="px-4 py-2 border-b">
-                        {student.id} {student.name}
-                      </td>
-                      <td className="px-4 py-2 border-b">學生</td>
-                      <td className="px-4 py-2 border-b">
-                        <form>
-                          {editIndex === index ? (
-                            <select
-                              value={group[index] || ''}
-                              onChange={(e) => handleInputChange(e, index)}
-                              onBlur={() => handleInputBlur(student.id, index)}
-                              id={`group-choice-${index}`}
-                              name={`group-choice-${index}`}
-                            >
-                              {groupList.map((group, idx) => (
-                                <option key={idx} value={group}>
-                                  {group}
-                                </option>
-                              ))}
-                            </select>
-                          ) : (
-                            <button
-                              className="白 blank"
-                              onClick={() => handleButtonClick(index)}
-                              titleR="點擊以編輯"
-                            >
-                              {group[index] || student.group}
-                              <ButtonIcon>
-                                <Pen />
-                              </ButtonIcon>
-                            </button>
-                          )}
+        <div className="setForm">
+          <p className="title">設定分組</p>
+          <form onSubmit={handleAddGroup}>
+            <div>
+              <input
+                value={newGroup}
+                type="text"
+                onChange={(e) => setNewGroup(e.target.value)}
+                placeholder="新增分組"
+              />
+              <Button>
+                <Plus size={20} />
+                新增分組
+              </Button>
+            </div>
+          </form>
+          <div className="table-contianer">
+            <table>
+              <thead>
+                <tr className="tr-title">
+                  <th>學號/姓名</th>
+                  <th>角色</th>
+                  <th>分組</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student, index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
+                  >
+                    <td className="px-4 py-2 border-b">
+                      {student.id} {student.name}
+                    </td>
+                    <td className="px-4 py-2 border-b">學生</td>
+                    <td className="px-4 py-2 border-b">
+                      <form>
+                        {editIndex === index ? (
+                          <select
+                            value={group[index] || ''}
+                            onChange={(e) => handleInputChange(e, index)}
+                            onBlur={() => handleInputBlur(student.id, index)}
+                            id={`group-choice-${index}`}
+                            name={`group-choice-${index}`}
+                          >
+                            {groupList.map((group, idx) => (
+                              <option key={idx} value={group}>
+                                {group}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <button
+                            className="白 blank"
+                            onClick={() => handleButtonClick(index)}
+                            titleR="點擊以編輯"
+                          >
+                            {group[index] || student.group}
+                            <ButtonIcon>
+                              <Pen />
+                            </ButtonIcon>
+                          </button>
+                        )}
 
-                          {/* <datalist id="group">
+                        {/* <datalist id="group">
                             {groupList.map((group, index) => (
                               <option key={index} value={group} />
                             ))}
                           </datalist> */}
-                        </form>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <table>
-                <thead>
-                  <tr>
-                    <th colSpan={2}>目前分組</th>
+                      </form>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {groupList.map((group, index) => (
-                    <tr
-                      key={index}
-                      className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
-                    >
-                      <td>{group}</td>
-                      <td>
-                        <ButtonIcon
-                          style={{ background: '#EF4444' }}
-                          onClick={() => handleRemoveGroup(group)}
-                        >
-                          <Trash2 color="white" />
-                        </ButtonIcon>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
+            <table>
+              <thead>
+                <tr>
+                  <th colSpan={2}>目前分組</th>
+                </tr>
+              </thead>
+              <tbody>
+                {groupList.map((group, index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? 'bg-teal-50' : 'bg-white'}
+                  >
+                    <td>{group}</td>
+                    <td>
+                      <ButtonIcon
+                        style={{ background: '#EF4444' }}
+                        onClick={() => handleRemoveGroup(group)}
+                      >
+                        <Trash2 color="white" />
+                      </ButtonIcon>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </Modal>

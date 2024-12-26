@@ -23,6 +23,8 @@ const Container = styled.div`
     max-width: 400px;
     width: 100%;
 
+    max-height: 80vh;
+
     button.X {
       position: absolute;
       top: 8px;
