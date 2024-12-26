@@ -36,6 +36,11 @@ const ChatContainer = styled.main`
     margin: 2rem 0;
     border-radius: 30px;
 
+    div.topContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
     .chat-box-container {
       display: flex;
       flex-direction: column;
@@ -91,31 +96,30 @@ const ChatContainer = styled.main`
       }
     }
   }
-  .modal2 {
-    ul.tabs {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 10px;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      li {
-        position: relative;
-        button.delete {
-          display: none;
-          position: absolute;
-          top: 0;
-          right: 0;
-          background-color: rgba(255, 0, 0, 0.5);
-          padding: 0.25rem;
+  ul.tabs {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    li {
+      position: relative;
+      button.delete {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: rgba(255, 0, 0, 0.5);
+        padding: 0.25rem;
+      }
+      &:hover {
+        a {
+          text-decoration: none;
         }
-        &:hover {
-          a {
-            text-decoration: none;
-          }
-          button {
-            display: block;
-          }
+        button {
+          display: block;
         }
       }
     }
@@ -244,7 +248,7 @@ const Chat = ({ params }) => {
   const closeModal2 = () => setIsModal2Open(false);
   /////////////////////////////
   // delete conversation
-  const deleteConversation = async (uuid) => {
+  const handleDeleteConversation = async (uuid) => {
     try {
       // 呼叫 DELETE API
       await axios.delete(`http://se.bitx.tw:5000/conversation/${uuid}`, {
@@ -254,6 +258,10 @@ const Chat = ({ params }) => {
       });
 
       setConversations((prev) => prev.filter((conv) => conv.uuid !== uuid));
+      // if (uuid === routeUuid) {
+      //   navigate('/chat');
+      // }
+      // closeModal2();
     } catch (error) {
       console.error('刪除失敗:', error);
       alert('無法刪除此對話，請稍後再試。');
@@ -262,6 +270,7 @@ const Chat = ({ params }) => {
   const updateFileId = (newFileId) => {
     setCurrentFileId(newFileId);
   };
+
   useEffect(() => {
     if (!uuid) {
       getUUID();
@@ -312,9 +321,11 @@ const Chat = ({ params }) => {
   return (
     <ChatContainer>
       <section className="chat-room">
-        <ButtonIcon onClick={openModal2}>
-          <AlignJustify />
-        </ButtonIcon>
+        <div className="topContainer">
+          <ButtonIcon onClick={openModal2}>
+            <AlignJustify />
+          </ButtonIcon>
+        </div>
         <motion.div className="chat-box-container">
           {messages.map((message, index) => (
             <>
@@ -411,18 +422,14 @@ const Chat = ({ params }) => {
           {conversations.length > 0 ? (
             conversations.map((item) => (
               <Reorder.Item key={item.uuid} value={item}>
-                <a href={`/chat/${item.uuid}`}>
-                  <Dialog className="">{item.summary}</Dialog>
-                </a>
-                <ButtonIcon
-                  className="delete"
-                  title="刪除"
-                  onClick={() => {
-                    deleteConversation(item.uuid);
-                  }}
+                <a
+                  style={{ color: 'black', textDecoration: 'none' }}
+                  href={`/chat/${item.uuid}`}
                 >
-                  <X color="white" />
-                </ButtonIcon>
+                  <Dialog onDelete={handleDeleteConversation} uuid={item.uuid}>
+                    {item.summary}
+                  </Dialog>
+                </a>
               </Reorder.Item>
             ))
           ) : (

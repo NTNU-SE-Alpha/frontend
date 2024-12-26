@@ -144,9 +144,9 @@ const UploadFile = ({ currentFileId, onFileIdUpdate }) => {
     }
 
     // 檢查檔案大小
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       // 5MB 限制
-      alert('檔案大小超過限制 (最大 5MB)');
+      alert('檔案大小超過限制 (最大 100MB)');
       return;
     }
 

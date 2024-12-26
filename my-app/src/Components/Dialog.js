@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import ButtonIcon from './ButtonIcon';
 import { Ellipsis } from 'lucide-react';
@@ -8,8 +8,8 @@ const Container = styled.div`
   gap: 1rem;
   max-width: 600px;
   margin: 0 auto;
-  padding: 1rem;
-  background-color: #f0f0f0;
+  padding: 0.5rem;
+  background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
@@ -17,14 +17,13 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background-color: white;
     border-radius: 8px;
     padding: 0.8rem;
     transition: background-color 0.2s ease;
-
+    /* 
     &:hover {
       background-color: #f8f8f8;
-    }
+    } */
 
     .children {
       flex-grow: 1;
@@ -36,6 +35,7 @@ const Container = styled.div`
     }
 
     .dropdown {
+      display: ${(props) => (props.isOpen ? 'flex' : 'none')}; // 根據狀態顯示
       position: absolute;
       right: 0;
       top: 100%;
@@ -43,7 +43,7 @@ const Container = styled.div`
       border: 1px solid #e0e0e0;
       border-radius: 4px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      display: none;
+
       flex-direction: column;
       z-index: 10;
 
@@ -59,26 +59,59 @@ const Container = styled.div`
         }
       }
     }
+  }
+`;
+const DropdownMenu = styled.div`
+  /* position: absolute;
+  top: 100%;
+  left: 0; */
 
-    &:hover .dropdown {
-      display: flex;
+  /* margin-top: 5px; */
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+  width: 100%; /* Match button width */
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+  flex-direction: column;
+  border: 1px solid #ccc;
+
+  div {
+    color: #000000;
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f0f0f0;
     }
   }
 `;
 
-const Dialog = ({ children, onDelete, onSummary, ...rest }) => {
+const Dialog = ({ children, onDelete, uuid, onSummary, ...rest }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleDropdown = (e) => {
+    e.preventDefault();
+    setIsOpen((prev) => !prev);
+  };
+  const handleDelete = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onDelete && uuid) {
+      onDelete(uuid); // 傳遞 uuid 到刪除函數
+    }
+    setIsOpen(false); // 關閉下拉選單
+  };
   return (
-    <Container {...rest}>
+    <Container isOpen={isOpen} {...rest}>
       <div className="message">
         <div className="children">{children}</div>
         <div className="actions">
-          <ButtonIcon>
+          <ButtonIcon onClick={(e) => handleDropdown(e)}>
             <Ellipsis />
           </ButtonIcon>
-          <div className="dropdown">
-            <button onClick={onDelete}>Delete</button>
-            <button onClick={onSummary}>Summary</button>
-          </div>
+          <DropdownMenu className="dropdown">
+            <button onClick={handleDelete}>刪除</button>
+            <button onClick={(e) => onSummary(e)}>發布此對話</button>
+          </DropdownMenu>
         </div>
       </div>
     </Container>
