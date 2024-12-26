@@ -176,6 +176,7 @@ const StudentList = () => {
   const [editIndex, seteditIndex] = useState(null); // 目前編輯的 index
   const [classes, setClasses] = useState([]); // 所在的課程
   const [students, setStudents] = useState([]); // 所有學生資料表
+  const [topic, setTopic] = useState([]); // 所有主題資料
   const {
     register,
     handleSubmit,
@@ -224,7 +225,22 @@ const StudentList = () => {
     setcuurentCourseId(classes.find((course) => course.name === role).id);
   };
   /////////////////////////////
-
+  // 使用 DropdownWrapper2 Component
+  const [roles2, setroles2] = useState([]); // 選項列表
+  const [selectedRole2, setSelectedRole2] = useState('載入中...'); // 預設選項
+  const [currentCourseId2, setcuurentCourseId2] = useState(''); // 目前課程 ID
+  const handleRole2Select = (role) => {
+    if (topic && topic.length > 0) {
+      console.log(topic);
+      const selectedTopic = topic.find((section) => section === role);
+      if (selectedTopic) {
+        setSelectedRole2(selectedTopic);
+      }
+    }
+    setSelectedRole2(role);
+    setcuurentCourseId2(topic.find((course) => course.name === role).id);
+  };
+  /////////////////////////////
   // 使用 Modal Component
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -243,9 +259,29 @@ const StudentList = () => {
       if (courses.length > 0) {
         setroles(courses.map((course) => course.name));
         setcuurentCourseId(courses[0].id); // 默認設置為第一門課程
-        setSelectedRole(courses[0].name);
+        setSelectedRole(courses[0].name); // 更新課程選擇
       }
       setcuurentCourseId(courses[0].id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getTopic = async () => {
+    try {
+      const response = await axios.get(
+        `http://se.bitx.tw:5000/getSections/${currentCourseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { sections } = response.data;
+      setTopic(sections.map((section) => section.name));
+      if (sections && sections.length > 0) {
+        setroles2(sections.map((section) => section.name));
+        setSelectedRole2();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -271,6 +307,12 @@ const StudentList = () => {
   useEffect(() => {
     getCourseData();
   }, []);
+  useEffect(() => {
+    // 當選擇的課程 (currentCourseId) 改變時，獲取對應的主題資料
+    if (currentCourseId) {
+      getTopic();
+    }
+  }, [currentCourseId]);
 
   useEffect(() => {
     getStudentData(currentCourseId);
@@ -280,10 +322,17 @@ const StudentList = () => {
     <Container>
       <p className="title">小組互動</p>
       <div className="bar">
+        {/* 選擇課程 */}
         <DropdownWrapper
           options={roles}
           selectedOption={selectedRole}
           onOptionSelect={handleRoleSelect}
+        />
+        {/* 選擇主題 */}
+        <DropdownWrapper
+          options={roles2}
+          selectedOption={selectedRole2}
+          onOptionSelect={handleRole2Select}
         />
         <div className="setting">
           <ButtonIcon onClick={openModal} titleR="設定分組">
