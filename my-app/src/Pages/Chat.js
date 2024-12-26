@@ -39,7 +39,16 @@ const ChatContainer = styled.main`
     div.topContainer {
       width: 100%;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 0 0.5rem 0;
+      a.title {
+        font-size: 1.2rem;
+        button {
+          width: fit-content;
+          padding: 0.5rem;
+        }
+      }
     }
     .chat-box-container {
       display: flex;
@@ -141,6 +150,7 @@ const Chat = ({ params }) => {
 
   const [mediaRecording, setMediaRecording] = useState(false);
   const [currentFileId, setCurrentFileId] = useState(1);
+  const [currentDialog, setCurrentDialog] = useState('開始新對話');
   // react hook form
   const {
     register,
@@ -325,6 +335,9 @@ const Chat = ({ params }) => {
           <ButtonIcon onClick={openModal2}>
             <AlignJustify />
           </ButtonIcon>
+          <a className="title">
+            <ButtonIcon>{currentDialog}</ButtonIcon>
+          </a>
         </div>
         <motion.div className="chat-box-container">
           {messages.map((message, index) => (

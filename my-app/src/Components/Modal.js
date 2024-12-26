@@ -36,6 +36,7 @@ const Container = styled.div`
       /* border: none; */
       /* color: #6b7280; */
       cursor: pointer;
+      z-index: 10;
     }
   }
 `;
