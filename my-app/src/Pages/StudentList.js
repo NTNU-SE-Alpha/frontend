@@ -238,7 +238,6 @@ const StudentList = () => {
       }
     }
     setSelectedRole2(role);
-    setcuurentCourseId2(topic.find((course) => course.name === role).id);
   };
   /////////////////////////////
   // 使用 Modal Component

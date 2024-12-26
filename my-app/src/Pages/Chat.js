@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -13,6 +13,8 @@ import {
   CloudUpload,
   X,
   AlignJustify,
+  ChevronRight,
+  ChevronDown,
 } from 'lucide-react';
 import { marked } from 'marked';
 import Loading from '../Components/Loading';
@@ -20,7 +22,9 @@ import { useForm } from 'react-hook-form';
 import Modal from '../Components/Modal';
 import FileUpload from '../Components/FileUpload';
 import Dialog from '../Components/Dialog';
+import DropdownWrapper from '../Components/DropdownWrapper';
 
+///////////////////////////
 const ChatContainer = styled.main`
   display: flex;
   height: 100vh;
@@ -43,6 +47,8 @@ const ChatContainer = styled.main`
       gap: 1rem;
       padding: 0 0 0.5rem 0;
       a.title {
+        text-decoration: none;
+        color: black;
         font-size: 1.2rem;
         button {
           width: fit-content;
@@ -151,6 +157,19 @@ const Chat = ({ params }) => {
   const [mediaRecording, setMediaRecording] = useState(false);
   const [currentFileId, setCurrentFileId] = useState(1);
   const [currentDialog, setCurrentDialog] = useState('開始新對話');
+  const [dropdownRole, setDropdownRole] = useState(['學生', '老師']);
+  const [selectRole, setSelectRole] = useState('老師');
+  // 使用 DropdownWrapper Component
+  const [roles, setroles] = useState(['學生', '老師']); // 選項列表
+  const [selectedRole, setSelectedRole] = useState('老師'); // 預設選項
+  const [currentCourseId, setcuurentCourseId] = useState(''); // 目前課程 ID
+
+  const handleRoleSelect = (role) => {
+    setSelectedRole(role);
+  };
+
+  /////////////////////////////
+
   // react hook form
   const {
     register,
@@ -295,8 +314,8 @@ const Chat = ({ params }) => {
         {
           file_id: currentFileId,
           user_input: userInput,
-          course_id: '1',
-          course_section_id: '1',
+          course_id: 1,
+          course_section_id: 1,
         },
         {
           headers: {
@@ -334,9 +353,29 @@ const Chat = ({ params }) => {
           <ButtonIcon onClick={openModal2}>
             <AlignJustify />
           </ButtonIcon>
-          <a className="title">
+          <a href="/chat" className="title">
             <ButtonIcon>{currentDialog}</ButtonIcon>
           </a>
+
+          <ButtonIcon>
+            <ChevronRight />
+          </ButtonIcon>
+          {/* 選擇角色 */}
+          {/* <ButtonIcon>
+         <DropdownWrapper
+          options={roles}
+          selectedOption={selectedRole}
+          onOptionSelect={handleRoleSelect}
+        />
+          </ButtonIcon>
+          <ButtonIcon><ChevronRight/></ButtonIcon>
+          <ButtonIcon>
+          <DropdownWrapper
+          options={roles}
+          selectedOption={selectedRole}
+          onOptionSelect={handleRoleSelect}
+        />
+          </ButtonIcon> */}
         </div>
         <motion.div className="chat-box-container">
           {messages.map((message, index) => (
