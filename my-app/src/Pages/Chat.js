@@ -6,7 +6,7 @@ import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
 import MediaRecord from '../Components/MediaRecord';
 import { Reorder, motion } from 'framer-motion';
-import { ArrowUp, Loader, Mic, CloudUpload } from 'lucide-react';
+import { ArrowUp, Loader, Mic, CloudUpload, X } from 'lucide-react';
 import { marked } from 'marked';
 import Loading from '../Components/Loading';
 import { useForm } from 'react-hook-form';
@@ -34,7 +34,25 @@ const ChatContainer = styled.main`
       list-style-type: none;
       padding: 0;
       margin: 0;
-      /* overflow-x: auto; */
+      li {
+        position: relative;
+        button.delete {
+          display: none;
+          position: absolute;
+          top: 0;
+          right: 0;
+          background-color: rgba(255, 0, 0, 0.5);
+          padding: 0.25rem;
+        }
+        &:hover {
+          a {
+            text-decoration: none;
+          }
+          button {
+            display: block;
+          }
+        }
+      }
     }
     .chat-box-container {
       display: flex;
@@ -208,6 +226,23 @@ const Chat = ({ params }) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   /////////////////////////////
+
+  // delete conversation
+  const deleteConversation = async (uuid) => {
+    try {
+      // 呼叫 DELETE API
+      await axios.delete(`http://se.bitx.tw:5000/conversation/${uuid}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setConversations((prev) => prev.filter((conv) => conv.uuid !== uuid));
+    } catch (error) {
+      console.error('刪除失敗:', error);
+      alert('無法刪除此對話，請稍後再試。');
+    }
+  };
   useEffect(() => {
     if (!uuid) {
       getUUID();
@@ -270,11 +305,20 @@ const Chat = ({ params }) => {
                 <a href={`/chat/${item.uuid}`}>
                   <Button className="🎨">{item.summary}</Button>
                 </a>
+                <ButtonIcon
+                  className="delete"
+                  title="刪除"
+                  onClick={() => {
+                    deleteConversation(item.uuid);
+                  }}
+                >
+                  <X color="white" />
+                </ButtonIcon>
               </Reorder.Item>
             ))
           ) : (
             <Button className="🎨">
-              <Loader></Loader>
+              <Loader />
             </Button>
           )}
         </Reorder.Group>
