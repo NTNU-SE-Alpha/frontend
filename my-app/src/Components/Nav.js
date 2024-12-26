@@ -109,23 +109,26 @@ const Navbar = styled.nav`
       } */
     }
   }
+  @media screen and (max-width: 690px) {
+    display: none;
+  }
 `;
-
+const OutletContainer = styled.div`
+  @media screen and (max-width: 690px) {
+    div {
+      /* margin-left: 0; */
+    }
+  }
+`;
 const Flyout = styled.div`
   position: fixed;
-  top: 0px;
+  bottom: 0px;
   left: 0;
   width: 100vw;
   max-height: 0;
   transition: max-height 0.15s ease-out;
-  overflow: hidden;
-  background: linear-gradient(
-    180deg,
-    rgba(39, 27, 78, 1) 0%,
-    rgba(40, 29, 79, 1) 35%,
-    rgba(27, 19, 54, 1) 70%,
-    rgba(11, 0, 23, 1) 100%
-  );
+  /* overflow: hidden; */
+  background: teal;
   div {
     height: 100%;
     height: 100vh;
@@ -176,51 +179,7 @@ const Flyout = styled.div`
     }
   }
 `;
-const Star = styled.div``;
-// const menuItems = [
-//   // {
-//   //   name: '首頁',
-//   //   eng_name: 'home',
-//   //   icon: (
-//   //     <svg
-//   //       xmlns="http://www.w3.org/2000/svg"
-//   //       height="24px"
-//   //       viewBox="0 -960 960 960"
-//   //       width="24px"
-//   //       fill="#e8eaed"
-//   //     >
-//   //       <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
-//   //     </svg>
-//   //   ),
-//   // },
-//   {
-//     name: '課程',
-//     eng_name: 'course',
-//     icon: <GraduationCap />,
-//   },
-//   {
-//     name: '聊天',
-//     eng_name: 'chat',
-//     icon: <BotMessageSquare />,
-//   },
-//   // {
-//   //   name: '上傳',
-//   //   eng_name: 'fileupload',
-//   //   icon: (
-//   //     <Upload />
-//   //   ),
-//   // },
-//   {
-//     name: '登出',
-//     eng_name: 'login',
-//     icon: <LogOut />,
-//   },
-//   {
-//     name: '設定',
-//     eng_name: 'setting',
-//     icon: <Settings />,
-//   },
-// ];
+
 const Nav = () => {
   useEffect(() => {
     function setVhVariable() {
@@ -292,7 +251,20 @@ const Nav = () => {
           </a>
         </ul>
       </Navbar>
-      <Outlet />
+      <Flyout className="flyout">
+        <div>
+          <a href="/course">課程</a>
+          <a href="/chat">LLM</a>
+          <a href="/student-list">分組</a>
+          <a href="/feeback">回饋</a>
+          <a href="/logout" className="login_button">
+            登出
+          </a>
+        </div>
+      </Flyout>
+      <OutletContainer>
+        <Outlet />
+      </OutletContainer>
     </>
   );
 };

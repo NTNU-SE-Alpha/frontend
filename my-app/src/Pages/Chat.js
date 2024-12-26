@@ -6,10 +6,12 @@ import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
 import MediaRecord from '../Components/MediaRecord';
 import { Reorder, motion } from 'framer-motion';
-import { ArrowUp, Loader, Mic } from 'lucide-react';
+import { ArrowUp, Loader, Mic, CloudUpload } from 'lucide-react';
 import { marked } from 'marked';
 import Loading from '../Components/Loading';
 import { useForm } from 'react-hook-form';
+import Modal from '../Components/Modal';
+import FileUpload from '../Components/FileUpload';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -205,7 +207,11 @@ const Chat = ({ params }) => {
     },
     [token]
   );
-
+  // 使用 Modal Component
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  /////////////////////////////
   useEffect(() => {
     if (!uuid) {
       getUUID();
@@ -315,26 +321,22 @@ const Chat = ({ params }) => {
             </>
           ))}
         </motion.div>
-        {/* <ButtonIcon>
-          <Type/>
-          </ButtonIcon> */}
 
-        {/* <form>
-          <input
-            type="file"
-            id="fileElem"
-            accept="application/pdf"
-            style={{ display: 'none' }}
-            onChange={(e) => handleFiles(e.target.files)}
-          />
-        </form> */}
         <div id="Input">
           {mediaRecording ? (
             <MediaRecord updateState={() => setMediaRecording(false)} />
           ) : (
             <>
-              <ButtonIcon onClick={() => setMediaRecording(true)}>
+              <ButtonIcon title="錄音" onClick={() => setMediaRecording(true)}>
                 <Mic color="#fff" />
+              </ButtonIcon>
+              <ButtonIcon
+                title="上傳檔案"
+                onClick={() => {
+                  openModal();
+                }}
+              >
+                <CloudUpload color="white" />
               </ButtonIcon>
               <form id="textInput" onSubmit={handleSubmit(onSubmit)}>
                 <input
@@ -351,6 +353,10 @@ const Chat = ({ params }) => {
           )}
         </div>
       </section>
+      {/* 彈出視窗 */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <FileUpload />
+      </Modal>
     </ChatContainer>
   );
 };

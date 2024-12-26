@@ -151,48 +151,6 @@ const Container = styled.div`
   }
 `;
 
-// const studentList = `
-// | 學號/姓名       | 角色                  | 分組      |
-// |----------------|-----------------------|----------|
-// | 60315017e Pei | 學生                  | 沒有群組 |
-// | stu01 stu01    | 學生                  | 沒有群組 |
-// | stu02 stu02    | 學生                  | A        |
-// | stu03 stu03    | 學生                  | A        |
-// | stu04 stu04    | 學生                  | B        |
-// | stu05 stu05    | 學生                  | B        |
-// | stu06 stu06    | 學生                  | 沒有群組 |
-// | stu06 stu06    | 學生                  | 沒有群組 |
-// | stu06 stu06    | 學生                  | 沒有群組 |
-// | stu06 stu06    | 學生                  | 沒有群組 |
-// | stu06 stu06    | 學生                  | 沒有群組 |
-// | stu06 stu06    | 學生                  | 沒有群組 |
-// | stu07 stu07    | 學生                  | 沒有群組 |
-// | stu08 stu08    | 教學助理 (權限同教師) | 沒有群組 |
-// | tea01_ac tea01_name | 教師               | 沒有群組 |
-// | tea02 tea02    | 教師                  | 沒有群組 |
-// | wenwyltw WYL   | 教師                  | 沒有群組 |
-// `;
-
-// const students = [
-//   { id: '60315017e', name: 'Pei', role: '學生', group: '沒有群組' },
-//   { id: 'stu01', name: 'stu01', role: '學生', group: '沒有群組' },
-//   { id: 'stu02', name: 'stu02', role: '學生', group: 'A' },
-//   { id: 'stu03', name: 'stu03', role: '學生', group: 'A' },
-//   { id: 'stu04', name: 'stu04', role: '學生', group: 'B' },
-//   { id: 'stu05', name: 'stu05', role: '學生', group: 'B' },
-//   { id: 'stu06', name: 'stu06', role: '學生', group: '沒有群組' },
-//   { id: 'stu07', name: 'stu07', role: '學生', group: '沒有群組' },
-//   {
-//     id: 'stu08',
-//     name: 'stu08',
-//     role: '教學助理 (權限同教師)',
-//     group: '沒有群組',
-//   },
-//   { id: 'tea01_ac', name: 'tea01_name', role: '教師', group: '沒有群組' },
-//   { id: 'tea02', name: 'tea02', role: '教師', group: '沒有群組' },
-//   { id: 'wenwyltw', name: 'WYL', role: '教師', group: '沒有群組' },
-// ];
-
 const mygroupList = ['1', '2', '3', '4', 'None'];
 
 const StudentList = () => {
@@ -231,6 +189,7 @@ const StudentList = () => {
       [index]: value,
     }));
   };
+  const handleInputBlur = (studentId, index) => {};
   const handleAddGroup = (e) => {
     e.preventDefault();
     if (newGroup && !groupList.includes(newGroup)) {
@@ -338,17 +297,13 @@ const StudentList = () => {
                 </td>
                 <td className="px-4 py-2 border-b">學生</td>
                 <td className="px-4 py-2 border-b">
-                  <form onSubmit={handleSubmit(onSubmit, index)}>
+                  <form>
                     {editIndex === index ? (
                       <input
                         type="text"
-                        value={student.group}
+                        value={group[index] || ''}
                         onChange={(e) => handleInputChange(e, index)}
-                        onBlur={() => seteditIndex(null)}
-                        autoFocus
-                        {...register('inputText', {
-                          required: '這是必填欄位',
-                        })}
+                        onBlur={() => handleInputBlur(student.id, index)}
                         list="group"
                         id={`ice-cream-choice-${index}`}
                         name={`ice-cream-choice-${index}`}

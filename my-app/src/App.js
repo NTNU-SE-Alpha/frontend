@@ -5,7 +5,7 @@ import ForgetPassword from './Pages/ForgetPassword';
 import Register from './Pages/Register';
 import Nav from './Components/Nav';
 import Home from './Pages/Home';
-import FileUpload from './Pages/FileUpload';
+import FileUpload from './Components/FileUpload';
 import Course from './Pages/Course';
 import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';

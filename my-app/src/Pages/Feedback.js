@@ -383,7 +383,7 @@ const FeedBackDialog = styled.div`
   border-radius: 20px;
   padding: 1rem;
   font-size: 1.3rem;
-  width: ${(props) => (props.isSingle ? "42vw" : "25vw")};
+  width: ${(props) => (props.isSingle ? '42vw' : '25vw')};
   & > div {
     margin-top: 1rem;
     margin-bottom: 2rem;
@@ -444,38 +444,33 @@ const Th = styled.th`
   position: sticky;
   top: 0;
   height: 5rem;
-  & > div{
+  & > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     font-size: 1.3rem;
     height: 3rem;
     border-radius: 20px;
-    background-color: ${(props) => (props.isHead ? "inherit" : "#ffffff")};
-    width: ${(props) => (props.isHead ? "6vw" : "auto")};
-  };
+    background-color: ${(props) => (props.isHead ? 'inherit' : '#ffffff')};
+    width: ${(props) => (props.isHead ? '6vw' : 'auto')};
+  }
 `;
 
 const Td = styled.td`
   padding: 1rem 1.3rem;
-  text-align: ${(props) => (props.isHead ? "center" : "left")};
+  text-align: ${(props) => (props.isHead ? 'center' : 'left')};
   border: 1px solid #ccc;
   white-space: nowrap; /* Prevent text wrapping */
 `;
 
-const RowPlatte = [
-  "#99babe",
-  "#bee3db",
-  "#faf9f9",
-  "#ffd6ba",
-]
+const RowPlatte = ['#99babe', '#bee3db', '#faf9f9', '#ffd6ba'];
 const TableRow = styled.tr`
   & > td:first-child {
     // group
-    background-color: #007D87;
+    background-color: #007d87;
     font-weight: bold;
     color: #fff;
-  };
+  }
   &:nth-child(4n + 2) {
     background-color: ${RowPlatte[0]};
   }
@@ -575,9 +570,13 @@ const Feedback = ({ params }) => {
             <ScrollableInnerTable>
               <thead>
                 <tr>
-                  <Th isHead><div></div></Th>
+                  <Th isHead>
+                    <div></div>
+                  </Th>
                   {groupfeedbackdata[0].feedbacklist.map((feed, index) => (
-                    <Th key={index}><div>{feed.section}</div></Th>
+                    <Th key={index}>
+                      <div>{feed.section}</div>
+                    </Th>
                   ))}
                 </tr>
               </thead>
