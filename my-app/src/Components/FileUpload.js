@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { set, useForm } from 'react-hook-form';
 import Button from '../Components/Button';
+import ButtonIcon from '../Components/ButtonIcon';
 import styled from 'styled-components';
 import Modal from './Modal';
 import axios from 'axios';
@@ -75,32 +76,41 @@ const FileUpload = styled.div`
           cursor: not-allowed;
         }
       }
+    }
+    .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      width: 100%;
 
-      .result {
-        margin-top: 1rem;
-        padding: 1rem;
-        border-radius: 0.375rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+      &.success {
+        background-color: #d1fae5;
+        color: #065f46;
+      }
 
-        &.success {
-          background-color: #d1fae5;
-          color: #065f46;
-        }
-
-        &.error {
-          background-color: #fee2e2;
-          color: #b91c1c;
-        }
-
-        a {
-          color: #1d4ed8;
-          text-decoration: underline;
-        }
+      &.error {
+        background-color: #fee2e2;
+        color: #b91c1c;
+      }
+      button {
+        width: fit-content;
+        padding: 0.5rem 1rem;
+      }
+      a {
+        color: #1d4ed8;
+        text-decoration: underline;
       }
     }
   }
 `;
 
 const UploadFile = () => {
+  const token = localStorage.getItem('token');
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [uploadStatus, setUploadStatus] = useState('');
@@ -119,20 +129,30 @@ const UploadFile = () => {
   const selectedFile = watch('file');
   //////////////////////////
   const onSubmit = async (data) => {
-    if (!selectedFile) return;
-    setUploading(true);
-    console.log(selectedFile);
-    // 只接受PDF檔案
-    // if (file.type !== 'application/pdf') {
-    //   alert('目前只支援 PDF 檔案');
-    //   return;
-    // }
+    const file = selectedFile?.[0]; // 確保 selectedFile 存在並獲取檔案
+    if (!file) {
+      alert('請選擇一個檔案');
+      return;
+    }
+
+    // 檢查檔案類型
+    if (file.type !== 'application/pdf') {
+      alert('目前只支援 PDF 檔案');
+      return;
+    }
+
+    // 檢查檔案大小
+    if (file.size > 5 * 1024 * 1024) {
+      // 5MB 限制
+      alert('檔案大小超過限制 (最大 5MB)');
+      return;
+    }
 
     // api
     const url = '';
     const formData = new FormData();
     formData.append('file', selectedFile[0]);
-    formData.append('courseId', 1);
+    formData.append('course_id', 1);
     console.log(formData);
     setIsUploading(true);
     try {
@@ -141,6 +161,7 @@ const UploadFile = () => {
         formData,
         {
           headers: {
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
           onUploadProgress: (progressEvent) => {
@@ -153,9 +174,13 @@ const UploadFile = () => {
       );
       const { filename } = response.data;
       const { message } = response.data;
+      const { file_id } = response.data;
       setUploadStatus('檔案上傳成功！');
       setUploadedFileName(filename);
-      setResult({ success: true, url: `http://se.bitx.tw:5000/${filename}` });
+      setResult({
+        success: true,
+        url: `http://se.bitx.tw:5000/api/download/${file_id}`,
+      });
     } catch (error) {
       alert('檔案上傳失敗');
       console.error(error);
@@ -188,9 +213,9 @@ const UploadFile = () => {
           <div className={`result ${result.success ? 'success' : 'error'}`}>
             {result.success ? (
               <>
-                <p>上傳成功！</p>
+                <ButtonIcon className="">上傳成功！</ButtonIcon>
                 <a href={result.url} target="_blank" rel="noopener noreferrer">
-                  查看文件
+                  <Button>下載檔案</Button>
                 </a>
               </>
             ) : (
