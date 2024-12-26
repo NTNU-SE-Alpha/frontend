@@ -205,10 +205,7 @@ const Chat = ({ params }) => {
     try {
       const response = await axios.get(
         'http://se.bitx.tw:5000/start_conversation',
-        // {
-        //   course_id: '1',
-        //   course_section_id: '1',
-        // },
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -298,6 +295,8 @@ const Chat = ({ params }) => {
         {
           file_id: currentFileId,
           user_input: userInput,
+          course_id: '1',
+          course_section_id: '1',
         },
         {
           headers: {

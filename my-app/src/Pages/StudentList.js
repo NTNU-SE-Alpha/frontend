@@ -307,20 +307,15 @@ const StudentList = () => {
   useEffect(() => {
     getCourseData();
   }, []);
-  useEffect(() => {
-    // 當選擇的課程 (currentCourseId) 改變時，獲取對應的主題資料
-    if (currentCourseId) {
-      getTopic();
-    }
-  }, [currentCourseId]);
 
   useEffect(() => {
+    getTopic();
     getStudentData(currentCourseId);
   }, [currentCourseId]);
 
   return (
     <Container>
-      <p className="title">小組互動</p>
+      <p className="title">學生LLM</p>
       <div className="bar">
         {/* 選擇課程 */}
         <DropdownWrapper

@@ -4,31 +4,29 @@ import { Link, useParams } from 'react-router-dom';
 // import Card from '../Components/Card';
 import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
-import { Pencil, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Pencil, ArrowLeft, ArrowRight, Pen } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 import axios from 'axios';
 import { marked } from 'marked';
 import Modal from '../Components/Modal';
 import Textarea from '../Components/Textarea';
-const SoftwareContainer = styled.div`
+const SoftwareContainer = styled.main`
   display: flex;
   height: 100vh;
-  background: #ffffff;
   .right-box {
-    flex: 9;
     display: flex;
+    flex: 1;
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
     border: dashed 2px teal;
-    margin: 30px 30px 1.5rem 130px;
+    margin: 30px 0;
     border-radius: 30px;
 
     .top-area {
       display: flex;
       flex-direction: column;
       width: clamp(60%, 18rem, 100%);
-      background: #ffffff;
       margin: 0 1rem;
     }
 
@@ -67,6 +65,22 @@ const SoftwareContainer = styled.div`
       list-style-type: none;
       padding: 0;
       margin: 0;
+      li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        button.pen {
+          color: teal;
+        }
+      }
     }
 
     .center {
@@ -103,7 +117,7 @@ const markdownContent = marked(`## 課程公告`);
 const CourseInfo = ({ params }) => {
   const { courseId } = useParams();
   const [courseContent, setCourseContent] = useState([]);
-  const [currentContent, setCurrentContent] = useState({});
+  const [currentSessionId, setCurrentSessionId] = useState(1);
   const [tabs, setTabs] = useState([]);
 
   const [announcement, setAnnouncement] = useState('');
@@ -125,7 +139,26 @@ const CourseInfo = ({ params }) => {
       console.log(error);
     }
   };
-  const handleSubmitEditAnnouncement = async (e) => {};
+  const handleSubmitEditAnnouncement = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `http://se.bitx.tw:5000/editSection/${courseId}/${currentSessionId}`,
+        {
+          announcement,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+      console.log(response.data);
+      closeModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // 使用 Modal Component
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -162,6 +195,9 @@ const CourseInfo = ({ params }) => {
               <Button onClick={() => scrollToSection(encodeURIComponent(item))}>
                 {item}
               </Button>
+              <ButtonIcon className="pen">
+                <Pen />
+              </ButtonIcon>
               {/* </Link> */}
             </Reorder.Item>
           ))}
@@ -220,10 +256,12 @@ const CourseInfo = ({ params }) => {
               }}
             />
           </div>
-          <form onSubmit={handleSubmitEditAnnouncement}>
+          <form
+            onSubmit={(e) => handleSubmitEditAnnouncement(e, currentSessionId)}
+          >
             <div className="input-group">
               <Textarea
-                placeholder="在此輸入課程公告內容..."
+                placeholder="在此輸入課程內容..."
                 value={announcement}
                 onChange={(e) => setAnnouncement(e.target.value)}
                 className="min-h-[300px]"
