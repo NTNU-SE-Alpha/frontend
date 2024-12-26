@@ -35,33 +35,7 @@ const ChatContainer = styled.main`
     border: teal solid 2px;
     margin: 2rem 0;
     border-radius: 30px;
-    ul.tabs {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 10px;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      li {
-        position: relative;
-        button.delete {
-          display: none;
-          position: absolute;
-          top: 0;
-          right: 0;
-          background-color: rgba(255, 0, 0, 0.5);
-          padding: 0.25rem;
-        }
-        &:hover {
-          a {
-            text-decoration: none;
-          }
-          button {
-            display: block;
-          }
-        }
-      }
-    }
+
     .chat-box-container {
       display: flex;
       flex-direction: column;
@@ -113,6 +87,35 @@ const ChatContainer = styled.main`
         }
         button.上 {
           margin-right: 0.75rem;
+        }
+      }
+    }
+  }
+  .modal2 {
+    ul.tabs {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 10px;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      li {
+        position: relative;
+        button.delete {
+          display: none;
+          position: absolute;
+          top: 0;
+          right: 0;
+          background-color: rgba(255, 0, 0, 0.5);
+          padding: 0.25rem;
+        }
+        &:hover {
+          a {
+            text-decoration: none;
+          }
+          button {
+            display: block;
+          }
         }
       }
     }
@@ -397,7 +400,7 @@ const Chat = ({ params }) => {
           onFileIdUpdate={updateFileId}
         />
       </Modal>
-      <Modal isOpen={isModal2Open} onClose={closeModal2}>
+      <Modal className="modal2" isOpen={isModal2Open} onClose={closeModal2}>
         <Reorder.Group
           as="ul"
           axis="x"
