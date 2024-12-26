@@ -8,6 +8,8 @@ import { Pencil, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 import axios from 'axios';
 import { marked } from 'marked';
+import Modal from '../Components/Modal';
+import Textarea from '../Components/Textarea';
 const SoftwareContainer = styled.div`
   display: flex;
   height: 100vh;
@@ -38,27 +40,25 @@ const SoftwareContainer = styled.div`
       width: clamp(60%, 18rem, 100%);
       div.flexContainer {
         a {
-          height: 0;
           text-decoration: none;
-          button#icon {
-            display: flex;
-            justify-content: center;
-            &:hover {
-              text-decoration: underline;
-            }
-            &.up::after {
-              content: '返回';
-              margin-left: 0.3rem;
-            }
-            &.down::after {
-              content: '編輯';
-              margin-left: 0.5rem;
-            }
-            &.mid::before {
-              content: '';
-            }
+        }
+        button#icon {
+          display: flex;
+          justify-content: center;
+
+          &.up::after {
+            content: '返回';
+            margin-left: 0.3rem;
+          }
+          &.down::after {
+            content: '編輯';
+            margin-left: 0.5rem;
+          }
+          &.mid::before {
+            content: '';
           }
         }
+        /* } */
       }
     }
     ul.tabs {
@@ -88,6 +88,16 @@ const SoftwareContainer = styled.div`
     }
   }
 `;
+const EditPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  footer {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 1rem;
+  }
+`;
 const initialTabs = ['作業', '課程資訊', '考試', '聊天'];
 const markdownContent = marked(`## 課程公告`);
 const CourseInfo = ({ params }) => {
@@ -96,6 +106,7 @@ const CourseInfo = ({ params }) => {
   const [currentContent, setCurrentContent] = useState({});
   const [tabs, setTabs] = useState([]);
 
+  const [announcement, setAnnouncement] = useState('');
   const getSectionData = async (courseId) => {
     try {
       const response = await axios.get(
@@ -114,6 +125,13 @@ const CourseInfo = ({ params }) => {
       console.log(error);
     }
   };
+  const handleSubmitEditAnnouncement = async (e) => {};
+
+  // 使用 Modal Component
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  /////////////////////////////
   useEffect(() => {
     getSectionData(courseId);
   }, []);
@@ -184,14 +202,39 @@ const CourseInfo = ({ params }) => {
           </div> */}
 
           <div class="flexContainer">
-            <a href="/edit">
-              <Button id="icon" className="白 down" onClick={getSectionData}>
-                <Pencil />
-              </Button>
-            </a>
+            <Button id="icon" className="白 down" onClick={openModal}>
+              <Pencil />
+            </Button>
           </div>
         </div>
       </section>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <EditPage>
+          <div className="markdown-body">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: marked(`## 編輯課程公告 
+> 課程公告
+        `),
+              }}
+            />
+          </div>
+          <form onSubmit={handleSubmitEditAnnouncement}>
+            <div className="input-group">
+              <Textarea
+                placeholder="在此輸入課程公告內容..."
+                value={announcement}
+                onChange={(e) => setAnnouncement(e.target.value)}
+                className="min-h-[300px]"
+              />
+            </div>
+            <footer>
+              <Button type="submit">發布公告</Button>
+            </footer>
+          </form>
+        </EditPage>
+      </Modal>
     </SoftwareContainer>
   );
 };

@@ -28,7 +28,8 @@ const Container = styled.main`
     flex-wrap: nowrap;
     gap: 1rem;
     overflow-x: auto;
-
+    overflow-y: auto; /* 水平滾動 */
+    max-height: 60vh;
     table {
       margin-right: 1rem;
       /* width: 100%; */
@@ -149,6 +150,19 @@ const Container = styled.main`
     white-space: nowrap;
     z-index: 1000;
   }
+  /* 自定義滾動條樣式 */
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
 `;
 
 const mygroupList = ['1', '2', '3', '4', 'None'];
@@ -264,7 +278,7 @@ const StudentList = () => {
 
   return (
     <Container>
-      <p className="title">課程分組名單</p>
+      <p className="title">小組互動</p>
       <div className="bar">
         <DropdownWrapper
           options={roles}
