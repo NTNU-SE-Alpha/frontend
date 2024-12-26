@@ -5,7 +5,7 @@ import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
 import { Rocket } from 'lucide-react';
 
-const ProfileContainer = styled.div`
+const ProfileContainer = styled.main`
   display: flex;
   height: 100vh;
   background: #ffffff;
@@ -18,7 +18,6 @@ const ProfileContainer = styled.div`
     align-items: center;
     border: #5d5d5d solid 2px;
     margin: 2rem 0;
-    margin-left: 8rem;
     border-radius: 50px;
     h2 {
       width: 100%;
@@ -128,7 +127,7 @@ const Profile = () => {
     getUserData();
   }, []);
   return (
-    <ProfileContainer>
+    <ProfileContainer className="outer">
       <section className="left">
         <img src="images/profile.png" alt="profile" />
         <h2>{user.username}</h2>

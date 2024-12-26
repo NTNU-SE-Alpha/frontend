@@ -391,7 +391,7 @@ const FeedBackDialog = styled.div`
   & > div:last-child {
     margin-bottom: 1rem;
   }
-  
+
   h2 {
     font-size: 1.3rem;
     font-weight: normal;
@@ -409,7 +409,7 @@ const FeedBackDialog = styled.div`
 const GroupTitle = styled.div`
   display: flex;
   flex-direction: column;
-  width: 10vw; 
+  width: 10vw;
   & > div:first-child {
     font-size: 1.5rem;
   }
@@ -422,7 +422,7 @@ const NameList = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  & > div{
+  & > div {
     margin-right: 0.5rem;
     margin-top: 0.3rem;
   }
@@ -575,9 +575,11 @@ const Feedback = ({ params }) => {
             <FeedBackBox>
               <GroupTitle>
                 <div>第 {groupfeedbackdata[i].group} 組</div>
-                <NameList>{groupfeedbackdata[i].namelist.map((name)=>(
-                  <div>{name}</div>
-                ))}</NameList>
+                <NameList>
+                  {groupfeedbackdata[i].namelist.map((name) => (
+                    <div>{name}</div>
+                  ))}
+                </NameList>
               </GroupTitle>
               <FeedBackDialog isSingle>
                 <h2>回饋</h2>
@@ -592,13 +594,15 @@ const Feedback = ({ params }) => {
     } else {
       return (
         <FeedBackBox isScrolling>
-        {groupfeedbackdata.map((group, index) => (
-          <GroupRow>
+          {groupfeedbackdata.map((group, index) => (
+            <GroupRow>
               <GroupTitle>
                 <div>第 {group.group} 組</div>
-                <NameList>{group.namelist.map((name)=>(
-                  <div>{name}</div>
-                ))}</NameList>
+                <NameList>
+                  {group.namelist.map((name) => (
+                    <div>{name}</div>
+                  ))}
+                </NameList>
               </GroupTitle>
               <FeedBackDialog>
                 <h2>回饋</h2>
@@ -606,8 +610,8 @@ const Feedback = ({ params }) => {
                 <h2>重點延伸思考方式以及建議</h2>
                 <div>{group.feedbacklist[1].feedback}</div>
               </FeedBackDialog>
-          </GroupRow>
-        ))}
+            </GroupRow>
+          ))}
         </FeedBackBox>
         // Old version
         // <TableContainer>

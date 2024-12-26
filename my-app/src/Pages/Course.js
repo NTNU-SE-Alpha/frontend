@@ -49,10 +49,9 @@ const Fliter = styled.div`
     border-bottom: 1px solid #ccc;
   }
 `;
-const Section = styled.section`
+const Section = styled.main`
   display: flex;
   flex-direction: column;
-  margin-left: 120px;
   ul.tabs {
     display: flex;
     justify-content: center;
@@ -207,36 +206,17 @@ const Course = () => {
   // };
 
   return (
-    <div>
-      {/* search bar */}
-      <Section className="right">
-        {/* <Searchbar> */}
-        {/* <div class="search-bar">
-            <ButtonIcon>
-              <Search />
-            </ButtonIcon>
-            <input type="text" placeholder="搜尋課程" />
-            <div class="filter-open" onClick={handlerFilter}>
-              <motion.div>
-                <Fliter>
-                  <a>最新到舊</a>
-                  <a>星號優先</a>
-                  <a>封存</a>
-                </Fliter>
-              </motion.div>
-            </div>
-          </div> */}
-        {/* </Searchbar> */}
-        <div className="markdown-body">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: marked(
-                `## ${user.username} 的課程 \n > 身份： **${user.user_type}**`
-              ),
-            }}
-          />
-        </div>
-        {/* <Reorder.Group
+    <Section className="right">
+      <div className="markdown-body">
+        <div
+          dangerouslySetInnerHTML={{
+            __html: marked(
+              `## ${user.username} 的課程 \n > 身份： **${user.user_type}**`
+            ),
+          }}
+        />
+      </div>
+      {/* <Reorder.Group
           as="ul"
           axis="x"
           onReorder={setFilter}
@@ -250,46 +230,45 @@ const Course = () => {
             </Reorder.Item>
           ))}
         </Reorder.Group> */}
-        <ul className="tabs">
-          <li>
-            <a href="/course">
-              <Button className="白">所有課程</Button>
-            </a>
-          </li>
-          <li>
-            <Button onClick={handlerFavorite} className="白">
-              <div className="iconFlex">
-                <Star />
-                最愛
-              </div>
-            </Button>
-          </li>
-          <li>
-            <Button className="白">
-              <div className="iconFlex">
-                <Pen />
-                編輯
-              </div>
-            </Button>
-          </li>
-        </ul>
-        <FlexCard>
-          {classes.length === 0 ? (
-            <div className="noClass">目前暫無課程</div>
-          ) : (
-            classes.map(({ id, isFavorite }, index) => (
-              <CourseCard
-                key={id}
-                is_favorite={classes[index].is_favorite}
-                name={classes[index].name}
-                id={classes[index].id}
-                image={dataClasses[index].image}
-              />
-            ))
-          )}
-        </FlexCard>
-      </Section>
-    </div>
+      <ul className="tabs">
+        <li>
+          <a href="/course">
+            <Button className="白">所有課程</Button>
+          </a>
+        </li>
+        <li>
+          <Button onClick={handlerFavorite} className="白">
+            <div className="iconFlex">
+              <Star />
+              最愛
+            </div>
+          </Button>
+        </li>
+        <li>
+          <Button className="白">
+            <div className="iconFlex">
+              <Pen />
+              編輯
+            </div>
+          </Button>
+        </li>
+      </ul>
+      <FlexCard>
+        {classes.length === 0 ? (
+          <div className="noClass">目前暫無課程</div>
+        ) : (
+          classes.map(({ id, isFavorite }, index) => (
+            <CourseCard
+              key={id}
+              is_favorite={classes[index].is_favorite}
+              name={classes[index].name}
+              id={classes[index].id}
+              image={dataClasses[index].image}
+            />
+          ))
+        )}
+      </FlexCard>
+    </Section>
   );
 };
 

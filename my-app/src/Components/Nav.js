@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
+import { ChevronsRight, ChevronsLeft } from 'lucide-react';
+import ButtonIcon from './ButtonIcon';
 import {
   BotMessageSquare,
   GraduationCap,
@@ -9,6 +11,30 @@ import {
   Wrench,
   SquareActivity,
 } from 'lucide-react';
+const Hamberger = styled.div`
+  display: none;
+  @media screen and (max-width: 690px) {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+  }
+  button {
+    &.open {
+      display: block;
+    }
+    &.close {
+      display: none;
+    }
+  }
+  .open {
+    display: block;
+  }
+  .close {
+    display: none;
+  }
+`;
 const Navbar = styled.nav`
   width: min-content;
   position: fixed;
@@ -114,9 +140,12 @@ const Navbar = styled.nav`
   }
 `;
 const OutletContainer = styled.div`
+  main {
+    margin-left: 120px;
+  }
   @media screen and (max-width: 690px) {
-    div {
-      /* margin-left: 0; */
+    main {
+      margin: 0 1rem;
     }
   }
 `;
@@ -205,9 +234,26 @@ const Nav = () => {
     const flyout = document.querySelector('.flyout');
     flyout.classList.toggle('open');
   };
-
+  const handleOpen = (e) => {
+    const flyout = document.querySelector('.flyout');
+    flyout.classList.toggle('open');
+    e.target.classList.toggle('open');
+  };
+  const handleClose = (e) => {
+    const flyout = document.querySelector('.flyout');
+    flyout.classList.toggle('open');
+    e.target.classList.toggle('close');
+  };
   return (
     <>
+      <Hamberger>
+        <ButtonIcon onClick={(e) => handleOpen(e)} className="open">
+          <ChevronsRight />
+        </ButtonIcon>
+        <ButtonIcon onClick={(e) => handleClose(e)} className="close">
+          <ChevronsLeft />
+        </ButtonIcon>
+      </Hamberger>
       <Navbar>
         <ul>
           <a href="/profile" className="first_li">

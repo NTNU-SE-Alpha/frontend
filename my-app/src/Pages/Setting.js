@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import Button from '../Components/Button';
 import { ChevronDown } from 'lucide-react';
 import { set } from 'react-hook-form';
-const Container = styled.div`
-  margin-left: 120px;
+const Container = styled.main`
   margin-right: 1.5rem;
   ul {
     list-style-type: none;

@@ -13,10 +13,9 @@ import { useForm } from 'react-hook-form';
 import Modal from '../Components/Modal';
 import FileUpload from '../Components/FileUpload';
 
-const ChatContainer = styled.div`
+const ChatContainer = styled.main`
   display: flex;
   height: 100vh;
-  background: #ffffff;
 
   .chat-room {
     flex-grow: 1;
@@ -25,10 +24,8 @@ const ChatContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 1.25rem;
-    /* width: 100%; */
-    /* background: #5D5D5D; */
     border: teal solid 2px;
-    margin: 30px 30px 30px 130px;
+    margin: 2rem 0;
     border-radius: 30px;
     ul.tabs {
       display: flex;
@@ -44,7 +41,6 @@ const ChatContainer = styled.div`
       flex-direction: column;
       width: 100%;
       height: 100%;
-      background: #ffffff;
       border-radius: 30px;
       gap: 0.75rem;
       padding: 1rem;
