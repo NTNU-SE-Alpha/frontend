@@ -26,6 +26,9 @@ const Container = styled.main`
     display: flex;
     justify-content: center;
     /* align-items: center; */
+    width: 100%;
+    margin: 1rem;
+
     gap: 1.5rem;
     @media (max-width: 690px) {
       flex-direction: column;
@@ -78,6 +81,7 @@ const Container = styled.main`
               border-radius: 0.5rem;
             }
           }
+          white-space: nowrap; /* 不允許內容自動換行 */
         }
         form {
           button.blank {
@@ -112,6 +116,7 @@ const Container = styled.main`
         flex-direction: column;
         gap: 1rem;
         align-items: center;
+
         form {
           div {
             display: flex;
@@ -323,15 +328,19 @@ const StudentList = () => {
                       <td className="px-4 py-2 border-b">
                         <form>
                           {editIndex === index ? (
-                            <input
-                              type="text"
+                            <select
                               value={group[index] || ''}
                               onChange={(e) => handleInputChange(e, index)}
                               onBlur={() => handleInputBlur(student.id, index)}
-                              list="group"
-                              id={`ice-cream-choice-${index}`}
-                              name={`ice-cream-choice-${index}`}
-                            />
+                              id={`group-choice-${index}`}
+                              name={`group-choice-${index}`}
+                            >
+                              {groupList.map((group, idx) => (
+                                <option key={idx} value={group}>
+                                  {group}
+                                </option>
+                              ))}
+                            </select>
                           ) : (
                             <button
                               className="白 blank"
@@ -345,11 +354,11 @@ const StudentList = () => {
                             </button>
                           )}
 
-                          <datalist id="group">
+                          {/* <datalist id="group">
                             {groupList.map((group, index) => (
                               <option key={index} value={group} />
                             ))}
-                          </datalist>
+                          </datalist> */}
                         </form>
                       </td>
                     </tr>
