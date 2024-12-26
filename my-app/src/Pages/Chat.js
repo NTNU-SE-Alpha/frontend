@@ -6,12 +6,20 @@ import Button from '../Components/Button';
 import ButtonIcon from '../Components/ButtonIcon';
 import MediaRecord from '../Components/MediaRecord';
 import { Reorder, motion } from 'framer-motion';
-import { ArrowUp, Loader, Mic, CloudUpload, X } from 'lucide-react';
+import {
+  ArrowUp,
+  Loader,
+  Mic,
+  CloudUpload,
+  X,
+  AlignJustify,
+} from 'lucide-react';
 import { marked } from 'marked';
 import Loading from '../Components/Loading';
 import { useForm } from 'react-hook-form';
 import Modal from '../Components/Modal';
 import FileUpload from '../Components/FileUpload';
+import Dialog from '../Components/Dialog';
 
 const ChatContainer = styled.main`
   display: flex;
@@ -227,7 +235,11 @@ const Chat = ({ params }) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   /////////////////////////////
-
+  // 使用 Modal2 Component
+  const [isModal2Open, setIsModal2Open] = useState(false);
+  const openModal2 = () => setIsModal2Open(true);
+  const closeModal2 = () => setIsModal2Open(false);
+  /////////////////////////////
   // delete conversation
   const deleteConversation = async (uuid) => {
     try {
@@ -297,36 +309,9 @@ const Chat = ({ params }) => {
   return (
     <ChatContainer>
       <section className="chat-room">
-        <Reorder.Group
-          as="ul"
-          axis="x"
-          onReorder={setTabs}
-          className="tabs"
-          values={conversations}
-        >
-          {conversations.length > 0 ? (
-            conversations.map((item) => (
-              <Reorder.Item key={item.uuid} value={item}>
-                <a href={`/chat/${item.uuid}`}>
-                  <Button className="🎨">{item.summary}</Button>
-                </a>
-                <ButtonIcon
-                  className="delete"
-                  title="刪除"
-                  onClick={() => {
-                    deleteConversation(item.uuid);
-                  }}
-                >
-                  <X color="white" />
-                </ButtonIcon>
-              </Reorder.Item>
-            ))
-          ) : (
-            <Button className="🎨">
-              <Loader />
-            </Button>
-          )}
-        </Reorder.Group>
+        <ButtonIcon onClick={openModal2}>
+          <AlignJustify />
+        </ButtonIcon>
         <motion.div className="chat-box-container">
           {messages.map((message, index) => (
             <>
@@ -411,6 +396,38 @@ const Chat = ({ params }) => {
           currentFileId={currentFileId}
           onFileIdUpdate={updateFileId}
         />
+      </Modal>
+      <Modal isOpen={isModal2Open} onClose={closeModal2}>
+        <Reorder.Group
+          as="ul"
+          axis="x"
+          onReorder={setTabs}
+          className="tabs"
+          values={conversations}
+        >
+          {conversations.length > 0 ? (
+            conversations.map((item) => (
+              <Reorder.Item key={item.uuid} value={item}>
+                <a href={`/chat/${item.uuid}`}>
+                  <Dialog className="">{item.summary}</Dialog>
+                </a>
+                <ButtonIcon
+                  className="delete"
+                  title="刪除"
+                  onClick={() => {
+                    deleteConversation(item.uuid);
+                  }}
+                >
+                  <X color="white" />
+                </ButtonIcon>
+              </Reorder.Item>
+            ))
+          ) : (
+            <Button className="🎨">
+              <Loader />
+            </Button>
+          )}
+        </Reorder.Group>
       </Modal>
     </ChatContainer>
   );
