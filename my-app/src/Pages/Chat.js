@@ -125,6 +125,7 @@ const Chat = ({ params }) => {
   const [chatSummary, setChatSummary] = useState([]);
 
   const [mediaRecording, setMediaRecording] = useState(false);
+  const [currentFileId, setCurrentFileId] = useState(1);
   // react hook form
   const {
     register,
@@ -243,6 +244,9 @@ const Chat = ({ params }) => {
       alert('無法刪除此對話，請稍後再試。');
     }
   };
+  const updateFileId = (newFileId) => {
+    setCurrentFileId(newFileId);
+  };
   useEffect(() => {
     if (!uuid) {
       getUUID();
@@ -254,10 +258,11 @@ const Chat = ({ params }) => {
 
   const AIChating = async (uuid, userInput) => {
     try {
+      console.log(currentFileId);
       const response = await axios.post(
         `http://se.bitx.tw:5000/chat/${uuid}`,
         {
-          file_id: '1',
+          file_id: currentFileId,
           user_input: userInput,
         },
         {
@@ -337,7 +342,14 @@ const Chat = ({ params }) => {
                   transition={{ type: 'spring', duration: 0.5 }}
                 >
                   <Button key={index} className="chat 👀">
-                    {message.text}
+                    <div className="markdown-body">
+                      <div
+                        style={{ color: 'white' }}
+                        dangerouslySetInnerHTML={{
+                          __html: marked(message.text || ''),
+                        }}
+                      />
+                    </div>
                   </Button>
                 </motion.div>
               ) : (
@@ -395,7 +407,10 @@ const Chat = ({ params }) => {
       </section>
       {/* 彈出視窗 */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <FileUpload />
+        <FileUpload
+          currentFileId={currentFileId}
+          onFileIdUpdate={updateFileId}
+        />
       </Modal>
     </ChatContainer>
   );

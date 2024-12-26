@@ -108,7 +108,7 @@ const FileUpload = styled.div`
   }
 `;
 
-const UploadFile = () => {
+const UploadFile = ({ currentFileId, onFileIdUpdate }) => {
   const token = localStorage.getItem('token');
 
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -119,6 +119,8 @@ const UploadFile = () => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [result, setResult] = useState(null);
+
+  const [currentFile, setCurrentFile] = useState(currentFileId);
   // react hook from
   const {
     register,
@@ -177,6 +179,8 @@ const UploadFile = () => {
       const { file_id } = response.data;
       setUploadStatus('檔案上傳成功！');
       setUploadedFileName(filename);
+      setCurrentFile(file_id);
+      onFileIdUpdate(file_id);
       setResult({
         success: true,
         url: `http://se.bitx.tw:5000/api/download/${file_id}`,
